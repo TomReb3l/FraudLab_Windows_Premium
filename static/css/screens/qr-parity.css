@@ -1,0 +1,4503 @@
+:root {
+  --navy-950: #081726;
+  --navy-900: #0f2742;
+  --navy-800: #173b61;
+  --paper: #ffffff;
+  --mist: #eef3f7;
+  --ink: #102235;
+  --muted: #5c6b79;
+  --amber: #f1b84b;
+  --danger: #b42318;
+  --success: #1f6f4a;
+  --focus: #ffd166;
+  --radius: 24px;
+  --shadow: 0 18px 45px rgba(5, 24, 41, .16);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; background: var(--mist); color: var(--ink); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+body { min-height: 100vh; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+button:focus-visible { outline: 4px solid var(--focus); outline-offset: 4px; }
+
+.app-shell { min-height: 100vh; display: grid; grid-template-rows: auto 1fr auto; }
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 20px 28px; background: var(--navy-950); color: white; }
+.brand-kicker { font-size: 1rem; font-weight: 800; letter-spacing: .18em; opacity: .78; }
+.brand-title { margin-top: 4px; font-size: clamp(1.15rem, 2vw, 1.6rem); font-weight: 760; }
+.top-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: flex-end; }
+.ghost-button { min-height: 50px; padding: 0 18px; border: 2px solid rgba(255,255,255,.48); border-radius: 14px; background: transparent; color: white; font-weight: 760; }
+.ghost-button[aria-pressed="true"] { background: white; color: var(--navy-950); }
+.screen { width: min(1200px, calc(100% - 36px)); margin: 0 auto; padding: 34px 0 40px; display: flex; align-items: center; justify-content: center; }
+.footer-strip { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 14px; padding: 18px 24px; background: white; border-top: 1px solid #d9e2ea; font-size: clamp(1rem, 2.3vw, 1.4rem); font-weight: 850; letter-spacing: .05em; }
+.footer-strip .arrow { color: var(--amber); font-size: 1.25em; }
+.primary-button, .choice-button { border: 0; border-radius: 18px; background: var(--navy-900); color: white; font-weight: 820; min-height: 68px; padding: 16px 24px; box-shadow: 0 8px 20px rgba(15,39,66,.18); }
+.primary-button:hover, .choice-button:hover { background: var(--navy-800); }
+.timeout-modal { position: fixed; inset: 0; display: grid; place-items: center; background: rgba(8, 23, 38, .78); z-index: 50; padding: 24px; }
+.timeout-modal[hidden] { display: none; }
+.timeout-card { width: min(560px, 100%); background: white; border-radius: var(--radius); padding: 30px; box-shadow: var(--shadow); }
+.timeout-card h2 { margin-top: 0; font-size: 2rem; }
+.timeout-card p { font-size: 1.25rem; line-height: 1.5; }
+.assisted .helper-text, .assisted .transcript { display: block; }
+
+@media (max-width: 760px) {
+  .topbar { align-items: flex-start; padding: 16px; }
+  .top-actions { flex-direction: column; align-items: stretch; }
+  .ghost-button { min-height: 46px; font-size: .84rem; }
+  .screen { width: min(100% - 22px, 1200px); padding-top: 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
+
+.assisted .dialogue-text { font-size: clamp(1.85rem, 3.7vw, 2.75rem); }
+.assisted .choice-button { min-height: 84px; font-size: clamp(1.2rem, 2.4vw, 1.45rem); }
+.assisted .transcript { font-size: 1.2rem; }
+
+
+/* FraudLab victim failure banner */
+.victim-alert {
+  margin: 12px auto;
+  padding: 14px 22px;
+  border-left: 6px solid #ff7b7b;
+  border-radius: 14px;
+  background: rgba(140,32,32,.25);
+  color: white;
+  font-weight: 900;
+  font-size: 1.6rem;
+  text-align: center;
+  line-height: 1.2;
+}
+
+
+:root {
+  --bg: #071624;
+  --panel: #10273b;
+  --panel2: #142f47;
+  --text: #f4f7fa;
+  --muted: #9fb0bf;
+  --accent: #f4b942;
+  --safe: #47c98b;
+  --risk: #ef6b6b;
+  --line: rgba(255,255,255,.11);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(circle at 10% 0%, #173955 0%, transparent 35%),
+    var(--bg);
+  color: var(--text);
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+}
+
+button { font: inherit; }
+
+.qr-app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.qr-topbar {
+  padding: 22px 4vw;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand-kicker,
+.eyebrow,
+.poster-kicker {
+  color: var(--accent);
+  font-weight: 900;
+  letter-spacing: .13em;
+}
+
+.station-name {
+  margin-top: 6px;
+  font-weight: 700;
+}
+
+.top-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.qr-screen {
+  width: min(1500px, 95vw);
+  margin: auto;
+  padding: 40px 0;
+}
+
+.intro-card,
+.result-card,
+.fatal-card {
+  width: min(950px,100%);
+  margin: auto;
+  padding: clamp(32px,5vw,70px);
+  background: linear-gradient(145deg,var(--panel2),var(--panel));
+  border: 1px solid var(--line);
+  border-radius: 26px;
+}
+
+.intro-card h1,
+.result-card h1 {
+  font-size: clamp(2.5rem,5vw,5rem);
+  line-height: 1;
+}
+
+.intro-card p,
+.result-lead {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.primary-btn,
+.secondary-btn {
+  border: 0;
+  border-radius: 13px;
+  min-height: 54px;
+  padding: 14px 22px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.primary-btn {
+  background: var(--accent);
+  color: #141414;
+}
+
+.secondary-btn {
+  background: rgba(255,255,255,.07);
+  color: white;
+  border: 1px solid var(--line);
+}
+
+.challenge-layout {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(360px,.85fr);
+  gap: 48px;
+}
+
+.progress {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.poster-card {
+  margin-top: 25px;
+  padding: 28px;
+  background: white;
+  color: #15202b;
+  border-radius: 18px;
+}
+
+.poster-card h2 {
+  font-size: 2rem;
+}
+
+.poster-card p {
+  font-size: 1.1rem;
+}
+
+.qr-placeholder {
+  width: 170px;
+  height: 190px;
+  margin-top: 25px;
+  padding: 14px;
+  background: #fff;
+  border: 3px solid #111;
+  display: grid;
+  place-items: center;
+}
+
+.qr-grid {
+  width: 130px;
+  height: 130px;
+  background:
+    repeating-linear-gradient(0deg,#000 0 9px,#fff 9px 16px),
+    repeating-linear-gradient(90deg,transparent 0 11px,#000 11px 18px);
+  mix-blend-mode: multiply;
+}
+
+.qr-placeholder small {
+  font-weight: 900;
+}
+
+.choice-area {
+  margin-top: 30px;
+}
+
+.choice-area h1 {
+  font-size: 2.5rem;
+}
+
+.choice-grid {
+  display: grid;
+  gap: 13px;
+}
+
+.choice-btn {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  min-height: 72px;
+  padding: 16px 18px;
+  text-align: left;
+  color: white;
+  background: rgba(255,255,255,.05);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.choice-btn span {
+  min-width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.08);
+  color: var(--accent);
+  display: grid;
+  place-items: center;
+}
+
+.choice-btn.safe {
+  border-color: var(--safe);
+  background: rgba(71,201,139,.10);
+}
+
+.choice-btn.risk {
+  border-color: var(--risk);
+  background: rgba(239,107,107,.10);
+}
+
+.browser-card {
+  overflow: hidden;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: #e9eef2;
+  color: #18212a;
+  box-shadow: 0 25px 70px rgba(0,0,0,.35);
+}
+
+.browser-top {
+  padding: 14px;
+  background: #243442;
+}
+
+.browser-dots {
+  color: #9eaab5;
+  margin-bottom: 10px;
+}
+
+.address-bar {
+  padding: 11px 14px;
+  background: white;
+  border-radius: 9px;
+  font-family: monospace;
+  overflow-wrap: anywhere;
+}
+
+.fake-site {
+  padding: 35px;
+}
+
+.site-brand {
+  font-weight: 900;
+  font-size: 1.3rem;
+}
+
+.fake-site h2 {
+  font-size: 2rem;
+}
+
+.fake-site p {
+  line-height: 1.55;
+}
+
+.fake-form {
+  margin-top: 28px;
+}
+
+.fake-form label {
+  display: block;
+  margin-top: 15px;
+  font-weight: 700;
+}
+
+.fake-input {
+  margin-top: 6px;
+  padding: 13px;
+  background: white;
+  border: 1px solid #c8d0d7;
+  border-radius: 8px;
+}
+
+.fake-form button {
+  width: 100%;
+  margin-top: 20px;
+  padding: 14px;
+  border: 0;
+  border-radius: 8px;
+  background: #1b75d0;
+  color: white;
+  font-weight: 900;
+}
+
+.fake-input-control {
+  width: 100%;
+  font: inherit;
+  color: #18212a;
+}
+
+.fake-input-control::placeholder {
+  color: #7b8791;
+}
+
+.fake-input-control:focus-visible {
+  outline: 3px solid #1b75d0;
+  outline-offset: 2px;
+}
+
+.fake-form-error {
+  margin: 10px 0 0;
+  color: #9f2424;
+  font-weight: 800;
+  font-size: .9rem;
+}
+
+.vehicle-lookup-result {
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px solid #c8d0d7;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.vehicle-lookup-status {
+  margin-bottom: 14px;
+  font-weight: 900;
+  color: #9f2424;
+}
+
+.vehicle-lookup-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 10px 0;
+  border-top: 1px solid #e2e7eb;
+}
+
+.vehicle-lookup-row span {
+  color: #52606c;
+}
+
+.vehicle-lookup-row strong {
+  text-align: right;
+  color: #18212a;
+}
+
+.vehicle-pay-button:disabled {
+  opacity: 1;
+  cursor: default;
+}
+
+.simulation-warning {
+  margin-top: 24px;
+  padding: 12px;
+  background: #fff4d4;
+  color: #6d5312;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.feedback {
+  margin-top: 25px;
+  padding: 22px;
+  background: rgba(0,0,0,.18);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+
+.feedback p,
+.feedback li {
+  line-height: 1.55;
+}
+
+.safe-text { color: var(--safe); }
+.risk-text { color: var(--risk); }
+
+.result-label {
+  font-weight: 900;
+  letter-spacing: .07em;
+}
+
+.safe-action {
+  margin: 20px 0;
+  padding: 15px;
+  border-left: 4px solid var(--accent);
+  background: rgba(244,185,66,.07);
+}
+
+.lesson-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.lesson-grid section {
+  padding: 20px;
+  border: 1px solid rgba(255,255,255,.22);
+  background: rgba(255,255,255,.03);
+  border-radius: 15px;
+}
+
+.lesson-grid p {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.result-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.safety-strip {
+  margin-top: auto;
+  min-height: 58px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px solid var(--line);
+  font-weight: 900;
+}
+
+.safety-strip span:nth-child(even) {
+  color: var(--accent);
+}
+
+body.assisted {
+  font-size: 118%;
+}
+
+@media (max-width: 900px) {
+  .challenge-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .browser-card {
+    order: -1;
+  }
+
+  .lesson-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* QR v8.4.1 contrast fix */
+.vehicle-lookup-result {
+  color: #18212a !important;
+}
+
+.vehicle-lookup-result .vehicle-lookup-row span {
+  color: #18212a !important;
+  font-weight: 700;
+}
+
+.vehicle-lookup-result .vehicle-lookup-row strong {
+  color: #18212a !important;
+  font-weight: 900;
+  letter-spacing: 0.01em;
+}
+
+.vehicle-lookup-result .vehicle-lookup-row {
+  color: #18212a !important;
+}
+
+
+/* QR v8.4.2 vehicle result forced dark labels
+   Higher specificity than:
+   #screen span { color: var(--fl-premium-soft) !important; }
+*/
+#screen .vehicle-lookup-result .vehicle-lookup-row span {
+  color: #18212a !important;
+  -webkit-text-fill-color: #18212a !important;
+  opacity: 1 !important;
+  font-weight: 900 !important;
+}
+
+#screen .vehicle-lookup-result .vehicle-lookup-row strong {
+  color: #18212a !important;
+  -webkit-text-fill-color: #18212a !important;
+  opacity: 1 !important;
+  font-weight: 900 !important;
+}
+
+
+/* FRAUD LAB v8.5 – QR kiosk timeout only; locked QR surfaces unchanged */
+body .qr-timeout-modal {
+  background: rgba(2, 10, 16, .84);
+  backdrop-filter: blur(4px);
+}
+
+body .qr-timeout-modal .timeout-card {
+  width: min(560px, 100%);
+  padding: 32px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--panel);
+  color: var(--text);
+  box-shadow: 0 25px 70px rgba(0,0,0,.35);
+}
+
+body .qr-timeout-modal .timeout-card h2 {
+  margin-top: 0;
+  color: var(--text);
+}
+
+body .qr-timeout-modal .timeout-card p {
+  color: var(--muted);
+}
+
+
+
+/* QR FINAL EXHIBITION FLOW FIX */
+.intro-card {
+  text-align: center;
+}
+
+.intro-card .primary-btn {
+  display: block;
+  margin: 28px auto 0;
+}
+
+.qr-feedback-card {
+  width: min(1250px, 92vw);
+  margin: auto;
+  padding: 42px;
+  background: linear-gradient(145deg,var(--panel2),var(--panel));
+  border: 1px solid var(--line);
+  border-radius: 26px;
+}
+
+.qr-feedback-card h1 {
+  font-size: clamp(2.4rem,4vw,4rem);
+  margin: 15px 0 30px;
+}
+
+.feedback-panel,
+.feedback-grid section {
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 24px;
+}
+
+.feedback-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  margin-top: 22px;
+}
+
+.feedback-grid h2 {
+  font-size: 1.4rem;
+}
+
+.feedback-next {
+  margin-top: 24px;
+  display: block;
+  margin-left: auto;
+}
+
+@media(max-width:900px){
+ .feedback-grid{grid-template-columns:1fr;}
+}
+
+
+/* QR FINAL KIOSK LAYOUT FIX v3
+   Only presentation layer.
+   Keeps feedback flow untouched.
+*/
+
+html,
+body {
+    overflow-x: hidden;
+}
+
+.qr-app {
+    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.qr-screen {
+    width: min(1500px, 94vw);
+    height: calc(100vh - 150px);
+    margin: auto;
+    padding: 20px 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+/* Intro - centered like SMS */
+.intro-card {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Scenario fit */
+.challenge-layout {
+    height: 100%;
+    gap: 28px;
+    align-items: stretch;
+}
+
+.challenge-layout > * {
+    min-height: 0;
+}
+
+.poster-card {
+    margin-top: 12px;
+    padding: 20px;
+}
+
+.poster-card h2 {
+    font-size: 1.55rem;
+    margin: 8px 0;
+}
+
+.poster-card p {
+    font-size: 0.95rem;
+    line-height: 1.35;
+}
+
+.qr-placeholder {
+    width: 135px;
+    height: 150px;
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.qr-grid {
+    width: 105px;
+    height: 105px;
+}
+
+.choice-area {
+    margin-top: 14px;
+}
+
+.choice-area h1 {
+    font-size: 2rem;
+    margin: 0 0 12px;
+}
+
+.choice-grid {
+    gap: 9px;
+}
+
+.choice-btn {
+    min-height: 54px;
+    padding: 10px 14px;
+}
+
+.browser-card {
+    height: 100%;
+    max-height: 100%;
+}
+
+.fake-site {
+    padding: 22px;
+}
+
+.fake-site h2 {
+    font-size: 1.5rem;
+}
+
+.fake-site p {
+    line-height: 1.35;
+}
+
+.fake-form {
+    margin-top: 16px;
+}
+
+@media (max-height: 900px) {
+    .qr-screen {
+        height: calc(100vh - 125px);
+        padding: 10px 0;
+    }
+
+    .choice-btn {
+        min-height: 48px;
+    }
+}
+
+/* Keep feedback page unchanged */
+.qr-feedback-card {
+    overflow: hidden;
+}
+
+
+.choice-area{margin-top:-12px!important}.choice-area h1{font-size:38px!important;line-height:1.05!important;margin:0 0 10px!important}.choice-grid{gap:6px!important}.choice-btn{min-height:46px!important;height:46px!important;padding:6px 14px!important;font-size:16px!important;line-height:1.1!important}.choice-btn span{height:32px!important;width:32px!important}
+/* QR LAYOUT CONSOLIDATION v3 - no scroll */
+
+.qr-app {
+    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.qr-screen {
+    width: min(1500px, 94vw);
+    height: calc(100vh - 170px);
+    min-height: 0;
+    margin: auto;
+    padding: 10px 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.challenge-layout {
+    height: 100%;
+    min-height: 0;
+    align-items: stretch;
+}
+
+.challenge-layout > * {
+    min-height: 0;
+}
+
+.choice-area {
+    margin-top: 10px;
+    min-height: 0;
+}
+
+.choice-grid {
+    display: grid;
+    gap: 6px;
+}
+
+.choice-btn {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    min-height: 48px;
+    height: auto;
+    padding: 8px 14px;
+    box-sizing: border-box;
+    text-align: left;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    line-height: 1.15;
+}
+
+.choice-btn span {
+    flex: 0 0 28px;
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+}
+
+
+/* QR FINAL CHOICE TITLE SCALE */
+.qr-app .choice-area h1 { font-size: 24px !important; line-height: 1.15 !important; margin: 0 0 8px !important; }
+
+
+/* QR choice title visual adjustment only */
+.qr-app .choice-area h1 { transform: scale(0.68); transform-origin: left center; }
+/* REAL QR IMAGE SIZE */
+.scenario-qr-image {
+  width: 115px !important;
+  height: 115px !important;
+  max-width: 115px !important;
+  max-height: 115px !important;
+  object-fit: contain;
+  display: block;
+  margin: 0;
+}
+
+/* QR FINAL STATUS CENTER */
+.qr-app .result-card h1 {
+  width: 100%;
+  max-width: 100%;
+  text-align: center;
+  white-space: nowrap;
+  align-self: center;
+}
+
+/* QR FINAL STATUS CENTER V2 */
+.qr-app .result-card {
+  text-align: center;
+}
+
+.qr-app .result-card h1 {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  white-space: nowrap;
+}
+
+
+/*
+============================================================
+ FRAUD LAB — PREMIUM EXHIBITION DESIGN SYSTEM
+ v7.11
+
+ Goals:
+ - dark throughout
+ - WCAG-friendly contrast
+ - readable from distance
+ - older-user friendly
+ - consistent Call / SMS / QR presentation
+============================================================
+*/
+
+:root {
+  color-scheme: dark;
+
+  --bg-0: #04111c;
+  --bg-1: #071a2a;
+  --bg-2: #0b2235;
+
+  --surface-1: #0e2639;
+  --surface-2: #132f45;
+  --surface-3: #183a53;
+
+  --border: rgba(208, 224, 235, .19);
+  --border-strong: rgba(208, 224, 235, .34);
+
+  --text: #f7fafc;
+  --text-soft: #d6e0e8;
+  --muted: #afc0cd;
+
+  --accent: #f3b844;
+  --safe: #58d49a;
+  --risk: #ff8585;
+
+  --radius: 20px;
+
+  --shadow:
+    0 24px 60px rgba(0, 0, 0, .28);
+}
+
+
+/* =========================================================
+   BASE
+   ========================================================= */
+
+html {
+  background: var(--bg-0);
+}
+
+body {
+  margin: 0;
+
+  background:
+    radial-gradient(
+      circle at 10% 0%,
+      #153b59 0%,
+      var(--bg-1) 34%,
+      var(--bg-0) 100%
+    ) !important;
+
+  color: var(--text) !important;
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Arial,
+    sans-serif;
+
+  font-size: 18px;
+  line-height: 1.5;
+
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+
+main,
+.call-app,
+.sms-app,
+.qr-app,
+.home-app {
+  background: transparent !important;
+  color: var(--text) !important;
+}
+
+
+/* =========================================================
+   CRITICAL SCREEN CONTRAST FIX
+   Fixes the near-black headings seen in screenshots.
+   ========================================================= */
+
+#screen,
+.screen,
+.call-screen,
+.sms-screen,
+.qr-screen {
+  background: transparent !important;
+  color: var(--text) !important;
+}
+
+
+#screen h1,
+#screen h2,
+#screen h3,
+#screen h4,
+.screen h1,
+.screen h2,
+.screen h3,
+.call-screen h1,
+.call-screen h2 {
+  color: var(--text) !important;
+
+  line-height: 1.08;
+
+  text-wrap: balance;
+}
+
+
+#screen h1 {
+  font-size: clamp(
+    2.15rem,
+    4vw,
+    3.65rem
+  ) !important;
+
+  max-width: 19ch;
+}
+
+
+#screen h2 {
+  font-size: clamp(
+    1.65rem,
+    2.6vw,
+    2.7rem
+  ) !important;
+}
+
+
+#screen h3 {
+  font-size: clamp(
+    1.25rem,
+    1.8vw,
+    1.7rem
+  ) !important;
+}
+
+
+#screen p,
+#screen li {
+  color: var(--text-soft) !important;
+
+  font-size: clamp(
+    1.05rem,
+    1.3vw,
+    1.28rem
+  );
+
+  line-height: 1.55;
+}
+
+
+/* =========================================================
+   PANELS
+   ========================================================= */
+
+[class*="card"],
+[class*="panel"] {
+  border-color: var(--border) !important;
+}
+
+
+.intro-card,
+.result-card,
+.fatal-card,
+.call-card,
+.scenario-card,
+.call-stage,
+.call-content,
+.call-panel,
+.left-panel {
+  background:
+    linear-gradient(
+      145deg,
+      var(--surface-2),
+      var(--surface-1)
+    ) !important;
+
+  color: var(--text) !important;
+
+  border: 1px solid var(--border) !important;
+
+  box-shadow: var(--shadow);
+}
+
+
+/* =========================================================
+   CALL — DARK THROUGHOUT
+   ========================================================= */
+
+.phone-shell,
+.phone-panel,
+.phone-frame,
+.phone-screen,
+.incoming-call,
+.caller-panel {
+  background: #06131e !important;
+
+  color: var(--text) !important;
+
+  border-color: #294257 !important;
+}
+
+
+.caller-name {
+  color: var(--text) !important;
+
+  font-size: clamp(
+    1.55rem,
+    2.5vw,
+    2.4rem
+  ) !important;
+
+  line-height: 1.1;
+}
+
+
+.caller-number,
+.caller-role,
+.call-subtitle {
+  color: var(--muted) !important;
+}
+
+
+/*
+ Common dialogue/content class patterns.
+ This deliberately loads LAST.
+*/
+
+#screen [class*="dialog"],
+#screen [class*="message"],
+#screen [class*="script"],
+#screen [class*="transcript"],
+#screen [class*="copy"] {
+  background: var(--surface-2) !important;
+
+  color: var(--text) !important;
+
+  border-color: var(--border) !important;
+}
+
+
+#screen [class*="dialog"] p,
+#screen [class*="message"] p,
+#screen [class*="script"] p,
+#screen [class*="transcript"] p,
+#screen [class*="copy"] p {
+  color: var(--text) !important;
+}
+
+
+/* =========================================================
+   SMS
+   ========================================================= */
+
+.sms-phone,
+.phone-body,
+.message-area,
+.message-thread {
+  background: #06121c !important;
+
+  color: var(--text) !important;
+}
+
+
+.message-bubble,
+.sms-bubble {
+  background: #19374e !important;
+
+  color: var(--text) !important;
+
+  border: 1px solid var(--border) !important;
+}
+
+
+.message-bubble p,
+.sms-bubble p {
+  color: var(--text) !important;
+}
+
+
+/* =========================================================
+   QR / WEBSITE
+   ========================================================= */
+
+.poster-card {
+  background:
+    linear-gradient(
+      145deg,
+      #15344a,
+      #0d2436
+    ) !important;
+
+  color: var(--text) !important;
+
+  border: 1px solid var(--border) !important;
+}
+
+
+.poster-card h2 {
+  color: var(--text) !important;
+}
+
+
+.poster-card p {
+  color: var(--text-soft) !important;
+}
+
+
+.browser-card {
+  background: #081722 !important;
+
+  color: var(--text) !important;
+
+  border: 1px solid var(--border) !important;
+
+  box-shadow: var(--shadow);
+}
+
+
+.browser-top {
+  background: #142b3d !important;
+}
+
+
+.address-bar {
+  background: #06131d !important;
+
+  color: #e5edf3 !important;
+
+  border: 1px solid #405b70 !important;
+
+  font-size: 1rem;
+}
+
+
+.fake-site {
+  background: #0f2638 !important;
+
+  color: var(--text) !important;
+}
+
+
+.fake-site h2,
+.fake-site h3,
+.site-brand {
+  color: var(--text) !important;
+}
+
+
+.fake-site p {
+  color: var(--text-soft) !important;
+}
+
+
+.fake-site label {
+  color: var(--text) !important;
+}
+
+
+.fake-input,
+input,
+textarea,
+select {
+  background: #071722 !important;
+
+  color: var(--text) !important;
+
+  border: 1px solid #49657a !important;
+}
+
+
+/* =========================================================
+   CHOICE BUTTONS
+   ========================================================= */
+
+.choice-grid {
+  gap: 14px !important;
+}
+
+
+.choice-btn {
+  min-height: 76px !important;
+
+  padding: 18px 22px !important;
+
+  background: #122d43 !important;
+
+  color: var(--text) !important;
+
+  border: 1px solid var(--border) !important;
+
+  border-radius: 16px !important;
+
+  font-size: clamp(
+    1.05rem,
+    1.25vw,
+    1.22rem
+  ) !important;
+
+  font-weight: 750 !important;
+
+  line-height: 1.35 !important;
+
+  cursor: pointer;
+}
+
+
+.choice-btn:hover:not(:disabled) {
+  background: #193b55 !important;
+
+  border-color: var(--border-strong) !important;
+}
+
+
+.choice-btn.safe {
+  background: rgba(88, 212, 154, .13) !important;
+
+  border-color: var(--safe) !important;
+}
+
+
+.choice-btn.risk {
+  background: rgba(255, 133, 133, .13) !important;
+
+  border-color: var(--risk) !important;
+}
+
+
+.safe-text {
+  color: var(--safe) !important;
+}
+
+
+.risk-text {
+  color: var(--risk) !important;
+}
+
+
+/* =========================================================
+   PRIMARY / SECONDARY BUTTONS
+   ========================================================= */
+
+.primary-btn {
+  min-height: 60px;
+
+  padding: 15px 24px !important;
+
+  background: var(--accent) !important;
+
+  color: #101820 !important;
+
+  border-radius: 14px !important;
+
+  font-size: 1.05rem !important;
+
+  font-weight: 850 !important;
+}
+
+
+.secondary-btn {
+  min-height: 58px;
+
+  padding: 14px 21px !important;
+
+  background: #10283a !important;
+
+  color: var(--text) !important;
+
+  border: 2px solid #708697 !important;
+
+  border-radius: 14px !important;
+
+  font-weight: 800 !important;
+}
+
+
+button:focus-visible,
+a:focus-visible {
+  outline: 4px solid var(--accent) !important;
+
+  outline-offset: 4px;
+}
+
+
+/* =========================================================
+   FEEDBACK
+   ========================================================= */
+
+.feedback,
+.safe-action {
+  background: #0b2031 !important;
+
+  color: var(--text) !important;
+
+  border: 1px solid var(--border) !important;
+
+  border-radius: 16px !important;
+}
+
+
+.feedback p,
+.feedback li,
+.safe-action p {
+  color: var(--text-soft) !important;
+}
+
+
+/* =========================================================
+   HEADER / FOOTER
+   ========================================================= */
+
+.topbar,
+.call-topbar,
+.sms-topbar,
+.qr-topbar,
+.safety-strip {
+  background: rgba(4, 16, 26, .97) !important;
+
+  color: var(--text) !important;
+
+  border-color: var(--border) !important;
+}
+
+
+.safety-strip {
+  min-height: 64px;
+}
+
+
+/* =========================================================
+   SIMULATION LABEL
+   ========================================================= */
+
+.simulation-warning {
+  background: #332a13 !important;
+
+  color: #f5d98d !important;
+
+  border: 1px solid rgba(243, 184, 68, .36) !important;
+}
+
+
+/* =========================================================
+   ASSISTED MODE
+   ========================================================= */
+
+body.assisted {
+  font-size: 125%;
+}
+
+
+body.assisted .choice-btn {
+  min-height: 88px !important;
+
+  font-size: 1.15em !important;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  #screen h1 {
+    font-size: clamp(
+      2rem,
+      8vw,
+      3rem
+    ) !important;
+  }
+
+  .choice-btn {
+    min-height: 72px !important;
+  }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+}
+
+/* ============================================================
+   FRAUD LAB — FINAL PREMIUM VISUAL OVERRIDES
+   v7.12
+   Purpose:
+   - fix unreadable text
+   - remove white / washed-out panels
+   - increase internal spacing
+   - improve accessibility
+   - enforce premium dark look
+   ============================================================ */
+
+:root {
+  --fl-premium-bg-1: #0d2538;
+  --fl-premium-bg-2: #14324a;
+  --fl-premium-bg-3: #0a1d2c;
+
+  --fl-premium-text: #f8fbfd;
+  --fl-premium-soft: #d9e4ec;
+  --fl-premium-muted: #b7c7d4;
+
+  --fl-premium-border: rgba(214, 228, 237, .18);
+  --fl-premium-border-strong: rgba(214, 228, 237, .30);
+
+  --fl-premium-shadow:
+    0 22px 50px rgba(0, 0, 0, .24);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* ------------------------------------------------------------
+   MAIN SCREEN TEXT SAFETY
+   ------------------------------------------------------------ */
+
+#screen,
+#screen * {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+#screen h1,
+#screen h2,
+#screen h3,
+#screen h4,
+#screen h5,
+#screen h6 {
+  color: var(--fl-premium-text) !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1.12 !important;
+  margin-top: 0 !important;
+  text-wrap: balance;
+}
+
+#screen p,
+#screen li,
+#screen span,
+#screen label,
+#screen small {
+  color: var(--fl-premium-soft) !important;
+  line-height: 1.55 !important;
+}
+
+#screen p:last-child,
+#screen li:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* ------------------------------------------------------------
+   INTRO / RESULT / GENERIC CONTENT CARDS
+   This fixes the white washed-out panels from screenshots.
+   ------------------------------------------------------------ */
+
+#screen .intro-card,
+#screen .result-card,
+#screen .fatal-card,
+#screen .feedback,
+#screen .safe-action,
+#screen .scenario-card,
+#screen .content-card,
+#screen .text-card,
+#screen .question-panel,
+#screen .copy-panel,
+#screen .content-panel,
+#screen .right-panel,
+#screen .left-panel,
+#screen .call-copy,
+#screen .scenario-copy,
+#screen .scenario-panel,
+#screen .call-panel,
+#screen .call-content,
+#screen .call-dialog,
+#screen .call-transcript,
+#screen .speech-bubble,
+#screen .message-card,
+#screen .browser-card,
+#screen .fake-site,
+#screen .poster-card {
+  background:
+    linear-gradient(
+      145deg,
+      var(--fl-premium-bg-2),
+      var(--fl-premium-bg-1)
+    ) !important;
+
+  color: var(--fl-premium-text) !important;
+
+  border: 1px solid var(--fl-premium-border) !important;
+  border-radius: 24px !important;
+  box-shadow: var(--fl-premium-shadow) !important;
+}
+
+/* ------------------------------------------------------------
+   SPACING FIX
+   Text was glued to edges in the screenshots.
+   ------------------------------------------------------------ */
+
+#screen .intro-card,
+#screen .result-card,
+#screen .fatal-card,
+#screen .feedback,
+#screen .safe-action,
+#screen .scenario-card,
+#screen .content-card,
+#screen .text-card,
+#screen .question-panel,
+#screen .copy-panel,
+#screen .content-panel,
+#screen .right-panel,
+#screen .left-panel,
+#screen .call-copy,
+#screen .scenario-copy,
+#screen .scenario-panel,
+#screen .call-panel,
+#screen .call-content,
+#screen .call-dialog,
+#screen .call-transcript,
+#screen .browser-card,
+#screen .fake-site,
+#screen .poster-card {
+  padding: clamp(24px, 2.2vw, 38px) !important;
+}
+
+/* ------------------------------------------------------------
+   CALL SCREEN SPECIFIC FIXES
+   ------------------------------------------------------------ */
+
+#screen .phone-shell,
+#screen .phone-frame,
+#screen .phone-panel,
+#screen .phone-screen,
+#screen .incoming-call,
+#screen .caller-panel {
+  background: #05131d !important;
+  color: var(--fl-premium-text) !important;
+  border: 1px solid #29465b !important;
+  border-radius: 30px !important;
+}
+
+#screen .caller-name {
+  color: var(--fl-premium-text) !important;
+  font-size: clamp(1.55rem, 2.2vw, 2.35rem) !important;
+  line-height: 1.08 !important;
+  margin-bottom: 10px !important;
+}
+
+#screen .caller-number,
+#screen .caller-role,
+#screen .call-subtitle {
+  color: var(--fl-premium-muted) !important;
+  font-size: clamp(1rem, 1.15vw, 1.14rem) !important;
+}
+
+/* ------------------------------------------------------------
+   CALL CONTENT TYPOGRAPHY
+   Fixes giant and unreadable titles seen in screenshots.
+   ------------------------------------------------------------ */
+
+#screen .call-copy h1,
+#screen .call-copy h2,
+#screen .scenario-copy h1,
+#screen .scenario-copy h2,
+#screen .scenario-panel h1,
+#screen .scenario-panel h2,
+#screen .content-panel h1,
+#screen .content-panel h2,
+#screen .right-panel h1,
+#screen .right-panel h2,
+#screen .question-panel h1,
+#screen .question-panel h2 {
+  font-size: clamp(1.9rem, 2.6vw, 3.15rem) !important;
+  max-width: 15ch !important;
+  margin-bottom: 18px !important;
+}
+
+#screen .call-copy h3,
+#screen .scenario-copy h3,
+#screen .scenario-panel h3,
+#screen .content-panel h3,
+#screen .right-panel h3,
+#screen .question-panel h3 {
+  font-size: clamp(1rem, 1.2vw, 1.18rem) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  color: var(--fl-premium-muted) !important;
+  margin-bottom: 14px !important;
+}
+
+#screen .call-copy p,
+#screen .scenario-copy p,
+#screen .scenario-panel p,
+#screen .content-panel p,
+#screen .right-panel p,
+#screen .question-panel p,
+#screen .feedback p,
+#screen .safe-action p {
+  font-size: clamp(1.02rem, 1.22vw, 1.28rem) !important;
+  max-width: 62ch !important;
+  overflow-wrap: anywhere !important;
+}
+
+/* ------------------------------------------------------------
+   BUBBLE / SCRIPT / QUOTE FIX
+   Prevent white speech bubble issue.
+   ------------------------------------------------------------ */
+
+#screen .speech-bubble,
+#screen .dialog-bubble,
+#screen .quote-box,
+#screen .message-box,
+#screen .script-box,
+#screen .call-script,
+#screen .transcript-box {
+  background: #10293d !important;
+  color: var(--fl-premium-text) !important;
+  border: 1px solid var(--fl-premium-border-strong) !important;
+  border-radius: 20px !important;
+  padding: 22px 24px !important;
+}
+
+#screen .speech-bubble p,
+#screen .dialog-bubble p,
+#screen .quote-box p,
+#screen .message-box p,
+#screen .script-box p,
+#screen .call-script p,
+#screen .transcript-box p {
+  color: var(--fl-premium-text) !important;
+}
+
+/* ------------------------------------------------------------
+   BUTTONS
+   ------------------------------------------------------------ */
+
+.choice-grid {
+  gap: 14px !important;
+}
+
+.choice-btn {
+  min-height: 78px !important;
+  padding: 18px 22px !important;
+  border-radius: 16px !important;
+  background: #14324a !important;
+  color: var(--fl-premium-text) !important;
+  border: 1px solid var(--fl-premium-border) !important;
+  font-size: clamp(1.04rem, 1.18vw, 1.18rem) !important;
+  font-weight: 800 !important;
+  line-height: 1.34 !important;
+  text-align: left !important;
+  white-space: normal !important;
+}
+
+.choice-btn:hover:not(:disabled) {
+  background: #1a3b56 !important;
+  border-color: var(--fl-premium-border-strong) !important;
+}
+
+.primary-btn {
+  min-height: 60px !important;
+  padding: 15px 26px !important;
+  border-radius: 14px !important;
+  font-size: 1.04rem !important;
+  font-weight: 850 !important;
+}
+
+.secondary-btn {
+  min-height: 58px !important;
+  padding: 14px 22px !important;
+  border-radius: 14px !important;
+  font-size: 1rem !important;
+  font-weight: 800 !important;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 4px solid #f3b844 !important;
+  outline-offset: 4px !important;
+}
+
+/* ------------------------------------------------------------
+   INTRO SCREEN HERO
+   ------------------------------------------------------------ */
+
+#screen .intro-card h1 {
+  font-size: clamp(2rem, 3vw, 3.45rem) !important;
+  max-width: 16ch !important;
+  margin-bottom: 16px !important;
+}
+
+#screen .intro-card p {
+  font-size: clamp(1.05rem, 1.22vw, 1.25rem) !important;
+  max-width: 58ch !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* ------------------------------------------------------------
+   QR / WEB FORMS
+   ------------------------------------------------------------ */
+
+#screen .address-bar,
+#screen .fake-input,
+#screen input,
+#screen textarea,
+#screen select {
+  background: #081722 !important;
+  color: var(--fl-premium-text) !important;
+  border: 1px solid #496579 !important;
+}
+
+#screen .fake-site h2,
+#screen .fake-site h3,
+#screen .poster-card h2 {
+  color: var(--fl-premium-text) !important;
+}
+
+#screen .fake-site p,
+#screen .poster-card p {
+  color: var(--fl-premium-soft) !important;
+}
+
+/* ------------------------------------------------------------
+   ASSISTED MODE / OLDER AUDIENCE
+   ------------------------------------------------------------ */
+
+body.assisted #screen h1 {
+  font-size: clamp(2.2rem, 3.4vw, 3.8rem) !important;
+}
+
+body.assisted .choice-btn {
+  min-height: 88px !important;
+  font-size: 1.16rem !important;
+}
+
+body.assisted #screen p,
+body.assisted #screen li {
+  font-size: 1.18rem !important;
+}
+
+/* ------------------------------------------------------------
+   RESPONSIVE
+   ------------------------------------------------------------ */
+
+@media (max-width: 1100px) {
+  #screen .call-copy h1,
+  #screen .call-copy h2,
+  #screen .scenario-copy h1,
+  #screen .scenario-copy h2,
+  #screen .scenario-panel h1,
+  #screen .scenario-panel h2,
+  #screen .content-panel h1,
+  #screen .content-panel h2,
+  #screen .right-panel h1,
+  #screen .right-panel h2,
+  #screen .question-panel h1,
+  #screen .question-panel h2 {
+    max-width: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/*
+ FRAUD LAB — QR / Website Station Mobile Overrides
+ Phase 1 · QR station only
+
+ Loaded last. Rules are scoped to qr-page and cover phones plus touch
+ tablets while desktop/exhibition and other stations remain unchanged.
+*/
+
+@media (max-width: 768px), (orientation: landscape) and (max-width: 1024px) and (max-height: 600px), (min-width: 769px) and (max-width: 1024px) and (any-pointer: coarse), (orientation: landscape) and (min-width: 1025px) and (max-width: 1366px) and (max-height: 1024px) and (any-pointer: coarse) {
+  html.qr-page,
+  body.qr-page {
+    width: 100%;
+    min-height: 100%;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+
+  body.qr-page {
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  body.qr-page .qr-app {
+    width: 100%;
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  body.qr-page .qr-topbar {
+    padding: max(16px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) 16px max(14px, env(safe-area-inset-left));
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  body.qr-page .station-name {
+    overflow-wrap: anywhere;
+  }
+
+  body.qr-page .top-actions {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  body.qr-page .top-actions .secondary-btn {
+    flex: 1 1 220px;
+    min-width: 0;
+    min-height: 52px !important;
+    white-space: normal;
+  }
+
+  body.qr-page .qr-screen {
+    width: calc(100% - 24px) !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 auto !important;
+    padding: 20px 0 28px !important;
+    overflow: visible !important;
+    display: block !important;
+  }
+
+  body.qr-page #screen .intro-card,
+  body.qr-page #screen .result-card,
+  body.qr-page #screen .fatal-card,
+  body.qr-page .qr-feedback-card {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 24px !important;
+    margin: 0 auto !important;
+  }
+
+  body.qr-page #screen .intro-card h1,
+  body.qr-page #screen .result-card h1,
+  body.qr-page .qr-feedback-card h1 {
+    max-width: none !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere;
+  }
+
+  body.qr-page .challenge-layout {
+    width: 100%;
+    height: auto !important;
+    min-height: 0 !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 20px !important;
+    align-items: start !important;
+  }
+
+  body.qr-page .challenge-layout > * {
+    min-width: 0;
+    min-height: 0;
+  }
+
+  body.qr-page #screen .left-panel,
+  body.qr-page #screen .browser-card,
+  body.qr-page #screen .fake-site,
+  body.qr-page #screen .poster-card {
+    max-width: 100%;
+  }
+
+  body.qr-page #screen .left-panel {
+    padding: 20px !important;
+  }
+
+  body.qr-page .progress {
+    gap: 8px 14px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  body.qr-page .progress span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  body.qr-page #screen .poster-card {
+    margin-top: 16px !important;
+    padding: 20px !important;
+  }
+
+  body.qr-page .qr-placeholder {
+    max-width: 100%;
+  }
+
+  body.qr-page .scenario-qr-image {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  body.qr-page .choice-area {
+    margin-top: 18px !important;
+  }
+
+  body.qr-page .choice-area h1,
+  body.qr-page .qr-app .choice-area h1 {
+    margin: 0 0 12px !important;
+    font-size: clamp(1.6rem, 8vw, 2rem) !important;
+    line-height: 1.15 !important;
+    transform: none !important;
+    transform-origin: initial !important;
+  }
+
+  body.qr-page .choice-grid {
+    gap: 10px !important;
+  }
+
+  body.qr-page .choice-btn {
+    width: 100%;
+    height: auto !important;
+    min-height: 60px !important;
+    padding: 13px 15px !important;
+    gap: 12px !important;
+    align-items: flex-start !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  body.qr-page .choice-btn span {
+    flex: 0 0 32px;
+    min-width: 32px;
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  body.qr-page .browser-card {
+    order: -1;
+    width: 100%;
+    height: auto !important;
+    max-height: none !important;
+    overflow: hidden !important;
+  }
+
+  body.qr-page #screen .browser-card {
+    padding: 18px !important;
+  }
+
+  body.qr-page .browser-top,
+  body.qr-page #screen .fake-site {
+    min-width: 0;
+  }
+
+  body.qr-page .address-bar {
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  body.qr-page #screen .fake-site {
+    padding: 20px !important;
+  }
+
+  body.qr-page .fake-form,
+  body.qr-page .fake-input,
+  body.qr-page .fake-input-control,
+  body.qr-page .vehicle-lookup-result {
+    max-width: 100%;
+  }
+
+  body.qr-page .vehicle-lookup-row {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+  }
+
+  body.qr-page .vehicle-lookup-row strong {
+    max-width: 100%;
+    text-align: left;
+    overflow-wrap: anywhere;
+  }
+
+  body.qr-page .qr-feedback-card {
+    overflow: visible !important;
+  }
+
+  body.qr-page .feedback-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 16px !important;
+  }
+
+  body.qr-page .feedback-panel,
+  body.qr-page .feedback-grid section {
+    min-width: 0;
+    padding: 20px;
+  }
+
+  body.qr-page .feedback-next {
+    width: 100%;
+    margin: 20px 0 0 !important;
+  }
+
+  body.qr-page .lesson-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  body.qr-page .result-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  body.qr-page .result-actions .primary-btn,
+  body.qr-page .result-actions .secondary-btn {
+    width: 100%;
+    white-space: normal;
+  }
+
+  body.qr-page .safety-strip {
+    margin-top: auto;
+    min-height: 0;
+    padding: 14px 12px max(14px, env(safe-area-inset-bottom));
+    flex-wrap: wrap;
+    gap: 8px 10px;
+    text-align: center;
+    font-size: clamp(.9rem, 4vw, 1rem);
+  }
+
+  body.qr-page .qr-timeout-modal {
+    padding: 14px;
+  }
+
+  body.qr-page .qr-timeout-modal .timeout-card {
+    width: 100%;
+    max-height: calc(100vh - 28px);
+    max-height: calc(100dvh - 28px);
+    padding: 24px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  body.qr-page .qr-timeout-modal .timeout-card h2 {
+    font-size: clamp(1.55rem, 8vw, 2rem);
+  }
+
+  body.qr-page .qr-timeout-modal .timeout-card p {
+    font-size: 1.05rem;
+  }
+}
+
+@media (max-width: 480px) {
+  body.qr-page .qr-topbar {
+    padding: max(14px, env(safe-area-inset-top)) 12px 14px;
+  }
+
+  body.qr-page .top-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  body.qr-page .top-actions .secondary-btn {
+    width: 100%;
+  }
+
+  body.qr-page .qr-screen {
+    width: calc(100% - 20px) !important;
+    padding-top: 14px !important;
+  }
+
+  body.qr-page #screen .intro-card,
+  body.qr-page #screen .result-card,
+  body.qr-page #screen .fatal-card,
+  body.qr-page .qr-feedback-card {
+    padding: 20px !important;
+    border-radius: 20px;
+  }
+
+  body.qr-page #screen .left-panel,
+  body.qr-page #screen .browser-card,
+  body.qr-page #screen .fake-site,
+  body.qr-page #screen .poster-card {
+    padding: 16px !important;
+  }
+
+  body.qr-page .feedback-panel,
+  body.qr-page .feedback-grid section {
+    padding: 16px;
+  }
+
+  body.qr-page .safety-strip {
+    font-size: .86rem;
+  }
+}
+
+/* QR ANDROID MOBILE SCROLL v1.2
+   Android/mobile touch contract:
+   keep the exhibition shell fixed and make #screen/.qr-screen
+   the single deterministic vertical touch scroller.
+*/
+@media (max-width: 1100px) and (pointer: coarse),
+       (max-width: 1100px) and (hover: none) {
+
+  html {
+    height: 100%;
+    overflow: hidden !important;
+    overscroll-behavior: none;
+  }
+
+  body.qr-page {
+    height: 100%;
+    min-height: 100%;
+    overflow: hidden !important;
+    overscroll-behavior: none;
+  }
+
+  body.qr-page .qr-app {
+    height: 100dvh !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  body.qr-page .qr-topbar,
+  body.qr-page .safety-strip {
+    flex: 0 0 auto;
+  }
+
+  body.qr-page .qr-screen {
+    flex: 1 1 auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-bottom: max(28px, env(safe-area-inset-bottom)) !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+    touch-action: pan-y !important;
+    scroll-behavior: auto !important;
+  }
+
+  body.qr-page .qr-screen .challenge-layout,
+  body.qr-page .qr-screen .challenge-layout--mail,
+  body.qr-page .qr-screen .left-panel--mail {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+  }
+
+  body.qr-page .browser-card,
+  body.qr-page .mail-card,
+  body.qr-page .mail-preview,
+  body.qr-page .fake-site,
+  body.qr-page .poster-card,
+  body.qr-page .choice-area,
+  body.qr-page .feedback-card,
+  body.qr-page .result-card {
+    touch-action: pan-y !important;
+  }
+}
+
+/*
+ FRAUD LAB — QR / Email Fake-Site Simulation Overlay
+ Station 3 only. Loaded after qr-mobile.css.
+*/
+
+body.qr-page.qr-simulation-open {
+  overflow: hidden !important;
+}
+
+.qr-sim-trigger {
+  width: 100%;
+  min-height: 50px;
+  margin-top: 14px;
+  padding: 12px 14px;
+  border: 1px solid rgba(119, 181, 255, .52);
+  border-radius: 11px;
+  background: linear-gradient(180deg, rgba(79,157,255,.22), rgba(79,157,255,.11));
+  color: #e2f1ff;
+  font: inherit;
+  font-weight: 900;
+  letter-spacing: .04em;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.qr-sim-trigger:hover,
+.qr-sim-trigger:focus-visible {
+  border-color: #8cc5ff;
+  background: rgba(79,157,255,.26);
+  outline: none;
+}
+
+.qr-sim-trigger:focus-visible {
+  box-shadow: 0 0 0 3px rgba(119,181,255,.24);
+}
+
+.qr-sim-note {
+  margin: 8px 0 0;
+  color: #9fb7ca;
+  text-align: center;
+  font-size: .72rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.qr-simulation-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(2, 10, 19, .94);
+  backdrop-filter: blur(8px);
+}
+
+.qr-simulation-overlay[hidden] { display: none; }
+
+.qr-simulation-shell {
+  width: min(1100px, 100%);
+  height: min(920px, calc(100dvh - 36px));
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid #30465a;
+  border-radius: 20px;
+  background: #07121e;
+  box-shadow: 0 28px 90px rgba(0,0,0,.55);
+}
+
+.qr-simulation-toolbar {
+  flex: 0 0 auto;
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 12px 14px 12px 18px;
+  border-bottom: 1px solid #26394a;
+  background: linear-gradient(180deg, #0f2234, #0a1826);
+}
+
+.qr-simulation-heading { min-width: 0; }
+.qr-simulation-kicker {
+  color: #72b8ff;
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .10em;
+}
+.qr-simulation-title {
+  margin-top: 4px;
+  color: #f2f7fb;
+  font-size: .95rem;
+  font-weight: 800;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.qr-simulation-close {
+  flex: 0 0 auto;
+  min-height: 46px;
+  padding: 10px 15px;
+  border: 1px solid #54718b;
+  border-radius: 10px;
+  background: #13283a;
+  color: #fff;
+  font: inherit;
+  font-size: .82rem;
+  font-weight: 900;
+  letter-spacing: .04em;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.qr-simulation-close:hover,
+.qr-simulation-close:focus-visible {
+  border-color: #8fc5fa;
+  background: #19344b;
+  outline: none;
+}
+
+.qr-simulation-viewport {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  background: #fff;
+}
+
+.qr-simulation-frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  border: 0;
+  background: #fff;
+  overflow: hidden;
+}
+
+.qr-simulation-footnote {
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 9px 14px max(9px, env(safe-area-inset-bottom));
+  border-top: 1px solid #26394a;
+  background: #081522;
+  color: #9fb1bf;
+  text-align: center;
+  font-size: .72rem;
+  line-height: 1.35;
+}
+
+@media (max-width: 768px),
+       (orientation: landscape) and (max-width: 1024px) and (max-height: 600px),
+       (min-width: 769px) and (max-width: 1024px) and (any-pointer: coarse),
+       (orientation: landscape) and (min-width: 1025px) and (max-width: 1366px) and (max-height: 1024px) and (any-pointer: coarse) {
+  .qr-simulation-overlay { padding: 0; }
+  .qr-simulation-shell {
+    width: 100%;
+    height: 100dvh;
+    border: 0;
+    border-radius: 0;
+  }
+  .qr-simulation-toolbar {
+    min-height: 64px;
+    padding-top: max(10px, env(safe-area-inset-top));
+  }
+}
+
+@media (max-width: 560px) {
+  .qr-simulation-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 8px;
+    padding: max(10px, env(safe-area-inset-top)) 12px 10px;
+  }
+  .qr-simulation-close { width: 100%; }
+  .qr-simulation-footnote { font-size: .68rem; }
+}
+
+/* QR EMAIL SINGLE-PANEL LAYOUT FIX START */
+body.qr-page .qr-screen {
+  align-items: flex-start !important;
+}
+
+body.qr-page .challenge-layout--mail {
+  width: min(1120px, 100%);
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 auto;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 18px !important;
+  align-items: start !important;
+}
+
+body.qr-page .challenge-layout--mail .left-panel--mail {
+  min-width: 0;
+}
+
+body.qr-page .challenge-layout--mail .poster-card--mail {
+  margin-top: 14px !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+body.qr-page .mail-preview-shell {
+  overflow: hidden;
+  border: 1px solid rgba(79, 111, 140, .75);
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(17, 45, 72, .98), rgba(10, 28, 44, .98));
+  box-shadow: 0 26px 70px rgba(0, 0, 0, .24);
+}
+
+body.qr-page .mail-preview-toolbar {
+  display: grid;
+  gap: 12px;
+  padding: 18px 22px;
+  border-bottom: 1px solid rgba(115, 150, 180, .28);
+  background: rgba(255, 255, 255, .04);
+}
+
+body.qr-page .mail-preview-dots {
+  color: #c3d1db;
+  font-size: 1rem;
+  letter-spacing: .35em;
+}
+
+body.qr-page .mail-preview-address {
+  padding: 14px 16px;
+  border: 1px solid rgba(123, 170, 214, .45);
+  border-radius: 14px;
+  background: rgba(3, 14, 25, .72);
+  color: #f3f9ff;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 1rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+body.qr-page .mail-preview-body {
+  padding: 24px 26px 26px;
+  color: #f0f6fa;
+}
+
+body.qr-page .mail-preview-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+body.qr-page .mail-preview-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255, 196, 64, .12);
+  color: #ffc95a;
+  font-size: .82rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+}
+
+body.qr-page .mail-preview-site {
+  color: #cdddea;
+  font-size: .95rem;
+  font-weight: 800;
+}
+
+body.qr-page .challenge-layout--mail .poster-card--mail h2 {
+  margin: 8px 0 14px !important;
+  color: #ffffff !important;
+  font-size: clamp(2.1rem, 4vw, 3.2rem) !important;
+  line-height: 1.05 !important;
+}
+
+body.qr-page .mail-preview-copy {
+  margin: 0;
+  color: #d6e5f0 !important;
+  font-size: 1.18rem !important;
+  line-height: 1.6 !important;
+}
+
+body.qr-page .mail-preview-content-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 20px;
+  align-items: end;
+  margin-top: 22px;
+}
+
+body.qr-page .mail-preview-content-row.no-visual {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+body.qr-page .mail-preview-visual {
+  width: 148px;
+  min-width: 148px;
+  padding: 12px;
+  border: 2px solid rgba(255, 255, 255, .24);
+  border-radius: 14px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body.qr-page .mail-preview-visual .scenario-qr-image {
+  width: 118px !important;
+  height: 118px !important;
+  max-width: 118px !important;
+  max-height: 118px !important;
+}
+
+body.qr-page .mail-preview-cta-zone {
+  min-width: 0;
+}
+
+body.qr-page .challenge-layout--mail .choice-area--mail {
+  margin-top: 2px !important;
+  padding: 0 !important;
+}
+
+body.qr-page .challenge-layout--mail .choice-area--mail h1,
+body.qr-page .challenge-layout--mail .qr-app .choice-area--mail h1 {
+  margin: 0 0 12px !important;
+  transform: none !important;
+  font-size: clamp(2rem, 3vw, 2.45rem) !important;
+  line-height: 1.08 !important;
+}
+
+body.qr-page .challenge-layout--mail .choice-grid {
+  gap: 10px !important;
+}
+
+body.qr-page .challenge-layout--mail .choice-btn {
+  min-height: 68px !important;
+  height: auto !important;
+  padding: 14px 18px !important;
+  align-items: center !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  line-height: 1.25 !important;
+}
+
+body.qr-page .challenge-layout--mail .choice-btn span {
+  flex: 0 0 34px;
+  width: 34px !important;
+  height: 34px !important;
+}
+
+body.qr-page .challenge-layout--mail .browser-card {
+  display: none !important;
+}
+
+@media (max-width: 900px) {
+  body.qr-page .mail-preview-body {
+    padding: 20px 20px 22px;
+  }
+
+  body.qr-page .challenge-layout--mail .poster-card--mail h2 {
+    font-size: clamp(1.8rem, 8vw, 2.45rem) !important;
+  }
+
+  body.qr-page .mail-preview-copy {
+    font-size: 1.02rem !important;
+  }
+
+  body.qr-page .mail-preview-content-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  body.qr-page .mail-preview-visual {
+    width: 138px;
+    min-width: 138px;
+  }
+}
+/* QR EMAIL SINGLE-PANEL LAYOUT FIX END */
+
+/* QR EMAIL DESKTOP SIDE-BY-SIDE CHOICES v2 START */
+@media (min-width: 1101px) {
+  body.qr-page .qr-screen {
+    width: min(1500px, 94vw) !important;
+    height: calc(100vh - 150px) !important;
+    min-height: 0 !important;
+    padding: 16px 0 !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    align-items: flex-start !important;
+  }
+
+  body.qr-page .challenge-layout--mail {
+    width: 100% !important;
+    max-width: 1500px !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 auto !important;
+    display: block !important;
+  }
+
+  body.qr-page .challenge-layout--mail .left-panel--mail {
+    min-width: 0 !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1.12fr) minmax(390px, .88fr) !important;
+    grid-template-areas:
+      "progress progress"
+      "mail choices" !important;
+    gap: 18px 28px !important;
+    align-items: start !important;
+  }
+
+  body.qr-page .challenge-layout--mail .left-panel--mail > .progress {
+    grid-area: progress !important;
+    margin: 0 !important;
+  }
+
+  body.qr-page .challenge-layout--mail .poster-card--mail {
+    grid-area: mail !important;
+    margin: 0 !important;
+    min-width: 0 !important;
+  }
+
+  body.qr-page .challenge-layout--mail .choice-area--mail {
+    grid-area: choices !important;
+    margin: 0 !important;
+    min-width: 0 !important;
+    padding: 24px !important;
+    border: 1px solid rgba(92, 132, 166, .42) !important;
+    border-radius: 22px !important;
+    background: linear-gradient(180deg, rgba(18, 51, 78, .96), rgba(10, 31, 49, .98)) !important;
+    box-shadow: 0 22px 60px rgba(0, 0, 0, .26) !important;
+  }
+
+  body.qr-page .challenge-layout--mail .choice-area--mail::before {
+    content: "ΔΙΑΛΕΞΕ ΑΝΤΙΔΡΑΣΗ";
+    display: block !important;
+    margin: 0 0 10px !important;
+    color: #ffc24d !important;
+    font-size: .82rem !important;
+    font-weight: 900 !important;
+    letter-spacing: .09em !important;
+  }
+
+  body.qr-page .challenge-layout--mail .choice-area--mail h1,
+  body.qr-page .challenge-layout--mail .qr-app .choice-area--mail h1 {
+    margin: 0 0 16px !important;
+    transform: none !important;
+    transform-origin: initial !important;
+    font-size: clamp(2.15rem, 3vw, 3.15rem) !important;
+    line-height: 1.02 !important;
+  }
+
+  body.qr-page .challenge-layout--mail .choice-grid {
+    display: grid !important;
+    gap: 12px !important;
+    margin: 0 !important;
+    overflow: visible !important;
+  }
+
+  body.qr-page .challenge-layout--mail .choice-btn {
+    width: 100% !important;
+    min-height: 66px !important;
+    height: auto !important;
+    padding: 14px 16px !important;
+    gap: 12px !important;
+    align-items: flex-start !important;
+    font-size: 1rem !important;
+    line-height: 1.24 !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+  }
+
+  body.qr-page .challenge-layout--mail .choice-btn span {
+    flex: 0 0 34px !important;
+    min-width: 34px !important;
+    width: 34px !important;
+    height: 34px !important;
+  }
+
+  body.qr-page .challenge-layout--mail .mail-preview-shell {
+    height: auto !important;
+  }
+
+  body.qr-page .challenge-layout--mail .mail-preview-toolbar {
+    padding: 15px 18px !important;
+    gap: 9px !important;
+  }
+
+  body.qr-page .challenge-layout--mail .mail-preview-address {
+    padding: 12px 14px !important;
+  }
+
+  body.qr-page .challenge-layout--mail .mail-preview-body {
+    padding: 20px 22px 22px !important;
+  }
+
+  body.qr-page .challenge-layout--mail .poster-card--mail h2 {
+    margin: 6px 0 10px !important;
+    font-size: clamp(2rem, 3vw, 2.8rem) !important;
+  }
+
+  body.qr-page .challenge-layout--mail .mail-preview-copy {
+    font-size: 1.04rem !important;
+    line-height: 1.48 !important;
+  }
+
+  body.qr-page .challenge-layout--mail .mail-preview-content-row {
+    margin-top: 16px !important;
+    gap: 16px !important;
+    align-items: center !important;
+  }
+
+  body.qr-page .challenge-layout--mail .mail-preview-visual {
+    width: 138px !important;
+    min-width: 138px !important;
+    padding: 10px !important;
+  }
+
+  body.qr-page .challenge-layout--mail .mail-preview-visual .scenario-qr-image {
+    width: 112px !important;
+    height: 112px !important;
+    max-width: 112px !important;
+    max-height: 112px !important;
+  }
+
+  body.qr-page .challenge-layout--mail .qr-sim-trigger {
+    min-height: 54px !important;
+    margin-top: 0 !important;
+  }
+
+  body.qr-page .challenge-layout--mail .qr-sim-note {
+    margin-top: 8px !important;
+  }
+}
+/* QR EMAIL DESKTOP SIDE-BY-SIDE CHOICES v2 END */
+
+
+/* QR EMAIL BUTTON + HELPER TEXT PATCH v1 */
+body.qr-page .mail-preview-cta-zone .qr-sim-helper {
+  margin: 10px 0 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #d9e6ee;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+@media (max-width: 900px) {
+  body.qr-page .mail-preview-cta-zone .qr-sim-helper {
+    font-size: 0.85rem;
+  }
+}
+
+/* QR EMAIL RICH MAIL PREVIEW v1 START */
+body.qr-page .mail-client-toolbar {
+  grid-template-columns: minmax(0, 1fr) auto auto !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+
+body.qr-page .mail-client-folder {
+  min-width: 0;
+  color: #f4f8fb;
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: .02em;
+}
+
+body.qr-page .mail-client-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  padding: 5px 10px;
+  border: 1px solid rgba(255, 194, 77, .38);
+  border-radius: 999px;
+  background: rgba(255, 194, 77, .10);
+  color: #ffc24d;
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .07em;
+  white-space: nowrap;
+}
+
+body.qr-page .mail-client-time {
+  color: #aebfcd;
+  font-size: .86rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+body.qr-page .mail-message-header {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(115, 150, 180, .20);
+}
+
+body.qr-page .mail-sender-avatar {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #214d70, #12344f);
+  border: 1px solid rgba(142, 187, 224, .32);
+  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 950;
+}
+
+body.qr-page .mail-sender-details {
+  min-width: 0;
+}
+
+body.qr-page .mail-sender-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  align-items: baseline;
+  min-width: 0;
+  color: #f7fbff;
+  line-height: 1.28;
+}
+
+body.qr-page .mail-sender-line strong {
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+body.qr-page .mail-sender-address {
+  min-width: 0;
+  color: #a9bdcc;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .82rem;
+  overflow-wrap: anywhere;
+}
+
+body.qr-page .mail-recipient-line {
+  margin-top: 3px;
+  color: #95aaba;
+  font-size: .82rem;
+  font-weight: 700;
+}
+
+body.qr-page .mail-subject-label {
+  margin-top: 14px;
+  color: #ffc24d;
+  font-size: .69rem;
+  font-weight: 950;
+  letter-spacing: .11em;
+}
+
+body.qr-page .challenge-layout--mail .poster-card--mail h2.mail-message-subject {
+  margin: 4px 0 12px !important;
+  color: #ffffff !important;
+  font-size: clamp(1.45rem, 2.25vw, 2rem) !important;
+  line-height: 1.15 !important;
+}
+
+body.qr-page .mail-message-body {
+  display: grid;
+  gap: 7px;
+  padding: 14px 0 2px;
+  border-top: 1px solid rgba(115, 150, 180, .14);
+}
+
+body.qr-page .mail-message-body p {
+  margin: 0 !important;
+  color: #d8e5ee !important;
+  font-size: .97rem !important;
+  line-height: 1.42 !important;
+}
+
+body.qr-page .mail-message-body p:first-child {
+  color: #eef6fb !important;
+  font-weight: 800;
+}
+
+body.qr-page .challenge-layout--mail .mail-preview-content-row {
+  margin-top: 15px !important;
+}
+
+@media (min-width: 1101px) {
+  body.qr-page .challenge-layout--mail .mail-preview-body {
+    padding: 18px 20px 20px !important;
+  }
+
+  body.qr-page .challenge-layout--mail .mail-message-header {
+    padding-bottom: 11px;
+  }
+
+  body.qr-page .challenge-layout--mail .mail-subject-label {
+    margin-top: 11px;
+  }
+
+  body.qr-page .challenge-layout--mail .poster-card--mail h2.mail-message-subject {
+    margin-bottom: 9px !important;
+    font-size: clamp(1.3rem, 1.8vw, 1.75rem) !important;
+  }
+
+  body.qr-page .challenge-layout--mail .mail-message-body {
+    gap: 5px;
+    padding-top: 11px;
+  }
+
+  body.qr-page .challenge-layout--mail .mail-message-body p {
+    font-size: .91rem !important;
+    line-height: 1.34 !important;
+  }
+
+  body.qr-page .challenge-layout--mail .mail-preview-content-row {
+    margin-top: 12px !important;
+  }
+}
+
+@media (max-width: 900px) {
+  body.qr-page .mail-client-toolbar {
+    grid-template-columns: minmax(0, 1fr) auto !important;
+  }
+
+  body.qr-page .mail-client-time {
+    grid-column: 1 / -1;
+  }
+
+  body.qr-page .mail-message-header {
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  body.qr-page .mail-sender-avatar {
+    width: 40px;
+    height: 40px;
+  }
+
+  body.qr-page .challenge-layout--mail .poster-card--mail h2.mail-message-subject {
+    font-size: clamp(1.3rem, 6vw, 1.75rem) !important;
+  }
+
+  body.qr-page .mail-message-body p {
+    font-size: .93rem !important;
+  }
+}
+/* QR EMAIL RICH MAIL PREVIEW v1 END */
+
+
+/* QR EXHIBITION FEEDBACK SINGLE-SCREEN v1 */
+@media (min-width: 901px) {
+  body.qr-page .qr-screen.feedback-screen {
+    height: calc(100vh - 150px) !important;
+    min-height: 0 !important;
+    padding: 10px 0 !important;
+    overflow: hidden !important;
+    align-items: center !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .qr-feedback-card {
+    width: min(1250px, 92vw) !important;
+    max-height: 100% !important;
+    margin: auto !important;
+    padding: 24px 34px 22px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    overflow: hidden !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .qr-feedback-card .eyebrow {
+    margin: 0 !important;
+    font-size: .88rem !important;
+    line-height: 1.1 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .qr-feedback-card h1 {
+    margin: 2px 0 8px !important;
+    font-size: clamp(2.65rem, 3.45vw, 3.55rem) !important;
+    line-height: .98 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .victim-alert {
+    margin: 0 0 2px !important;
+    padding: 10px 18px !important;
+    min-height: 50px !important;
+    font-size: 1.28rem !important;
+    line-height: 1.15 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-panel {
+    padding: 14px 20px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-panel .result-label {
+    font-size: .94rem !important;
+    line-height: 1.15 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-panel p {
+    margin: 7px 0 0 !important;
+    font-size: 1rem !important;
+    line-height: 1.34 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 16px !important;
+    margin-top: 0 !important;
+    min-height: 0 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid section {
+    padding: 15px 20px !important;
+    min-height: 0 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid h2 {
+    margin: 0 0 8px !important;
+    font-size: 1.18rem !important;
+    line-height: 1.08 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid ul {
+    margin: 0 !important;
+    padding-left: 20px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid li {
+    margin: 3px 0 !important;
+    font-size: .96rem !important;
+    line-height: 1.31 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid p {
+    margin: 0 !important;
+    font-size: .96rem !important;
+    line-height: 1.36 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-next {
+    min-height: 48px !important;
+    margin: 0 0 0 auto !important;
+    padding: 11px 20px !important;
+  }
+}
+
+@media (min-width: 901px) and (max-height: 900px) {
+  body.qr-page .qr-screen.feedback-screen {
+    height: calc(100vh - 132px) !important;
+    padding: 7px 0 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .qr-feedback-card {
+    padding: 18px 28px 16px !important;
+    gap: 7px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .qr-feedback-card .eyebrow {
+    font-size: .78rem !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .qr-feedback-card h1 {
+    margin: 0 0 5px !important;
+    font-size: clamp(2.25rem, 3vw, 3rem) !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .victim-alert {
+    min-height: 42px !important;
+    padding: 8px 15px !important;
+    font-size: 1.12rem !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-panel,
+  body.qr-page .qr-screen.feedback-screen .feedback-grid section {
+    padding: 11px 16px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-panel p {
+    font-size: .92rem !important;
+    line-height: 1.28 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid {
+    gap: 12px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid h2 {
+    margin-bottom: 6px !important;
+    font-size: 1.05rem !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid li,
+  body.qr-page .qr-screen.feedback-screen .feedback-grid p {
+    font-size: .88rem !important;
+    line-height: 1.25 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-next {
+    min-height: 44px !important;
+    padding: 9px 18px !important;
+  }
+}
+
+
+/* QR EXHIBITION FEEDBACK SCALE-UP v2 */
+@media (min-width: 901px) {
+  body.qr-page .qr-screen.feedback-screen .qr-feedback-card {
+    width: min(1320px, 94vw) !important;
+    padding: 28px 38px 24px !important;
+    gap: 12px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .qr-feedback-card .eyebrow {
+    font-size: .94rem !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .qr-feedback-card h1 {
+    margin: 2px 0 9px !important;
+    font-size: clamp(2.9rem, 3.65vw, 3.8rem) !important;
+    line-height: .99 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .victim-alert {
+    min-height: 54px !important;
+    padding: 11px 20px !important;
+    font-size: 1.34rem !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-panel {
+    padding: 16px 22px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-panel .result-label {
+    font-size: 1rem !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-panel p {
+    margin-top: 8px !important;
+    font-size: 1.06rem !important;
+    line-height: 1.35 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid {
+    gap: 18px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid section {
+    padding: 17px 22px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid h2 {
+    margin-bottom: 9px !important;
+    font-size: 1.28rem !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid li,
+  body.qr-page .qr-screen.feedback-screen .feedback-grid p {
+    font-size: 1.02rem !important;
+    line-height: 1.34 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-next {
+    min-height: 50px !important;
+    padding: 12px 22px !important;
+    font-size: 1rem !important;
+  }
+}
+
+@media (min-width: 901px) and (max-height: 900px) {
+  body.qr-page .qr-screen.feedback-screen .qr-feedback-card {
+    width: min(1300px, 94vw) !important;
+    padding: 21px 31px 18px !important;
+    gap: 8px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .qr-feedback-card .eyebrow {
+    font-size: .84rem !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .qr-feedback-card h1 {
+    margin: 0 0 6px !important;
+    font-size: clamp(2.48rem, 3.15vw, 3.18rem) !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .victim-alert {
+    min-height: 45px !important;
+    padding: 9px 17px !important;
+    font-size: 1.19rem !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-panel,
+  body.qr-page .qr-screen.feedback-screen .feedback-grid section {
+    padding: 13px 18px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-panel .result-label {
+    font-size: .96rem !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-panel p {
+    margin-top: 6px !important;
+    font-size: .98rem !important;
+    line-height: 1.29 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid {
+    gap: 14px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid h2 {
+    margin-bottom: 6px !important;
+    font-size: 1.14rem !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid li,
+  body.qr-page .qr-screen.feedback-screen .feedback-grid p {
+    font-size: .95rem !important;
+    line-height: 1.27 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-next {
+    min-height: 46px !important;
+    padding: 10px 20px !important;
+    font-size: .96rem !important;
+  }
+}
+
+
+/* QR EXHIBITION FEEDBACK SCALE-UP LARGE v3 */
+@media (min-width: 901px) {
+  body.qr-page .qr-screen.feedback-screen .qr-feedback-card {
+    width: min(1450px, 96vw) !important;
+    max-width: none !important;
+    max-height: 100% !important;
+    padding: 32px 44px 28px !important;
+    gap: 13px !important;
+    overflow: hidden !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .qr-feedback-card .eyebrow {
+    font-size: 1rem !important;
+    line-height: 1.1 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .qr-feedback-card h1 {
+    margin: 2px 0 10px !important;
+    font-size: clamp(3.15rem, 4vw, 4.15rem) !important;
+    line-height: .98 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .victim-alert {
+    min-height: 58px !important;
+    padding: 12px 22px !important;
+    font-size: 1.42rem !important;
+    line-height: 1.12 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-panel {
+    padding: 18px 24px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-panel .result-label {
+    font-size: 1.08rem !important;
+    line-height: 1.12 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-panel p {
+    margin-top: 8px !important;
+    font-size: 1.13rem !important;
+    line-height: 1.34 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid {
+    gap: 20px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid section {
+    padding: 19px 24px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid h2 {
+    margin-bottom: 10px !important;
+    font-size: 1.38rem !important;
+    line-height: 1.05 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid li,
+  body.qr-page .qr-screen.feedback-screen .feedback-grid p {
+    font-size: 1.09rem !important;
+    line-height: 1.32 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid li {
+    margin: 4px 0 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-next {
+    min-height: 54px !important;
+    padding: 13px 24px !important;
+    font-size: 1.06rem !important;
+  }
+}
+
+@media (min-width: 901px) and (max-height: 900px) {
+  body.qr-page .qr-screen.feedback-screen .qr-feedback-card {
+    width: min(1420px, 96vw) !important;
+    padding: 24px 36px 20px !important;
+    gap: 9px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .qr-feedback-card .eyebrow {
+    font-size: .9rem !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .qr-feedback-card h1 {
+    margin: 0 0 7px !important;
+    font-size: clamp(2.85rem, 3.55vw, 3.55rem) !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .victim-alert {
+    min-height: 49px !important;
+    padding: 10px 18px !important;
+    font-size: 1.27rem !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-panel {
+    padding: 14px 20px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-panel .result-label {
+    font-size: 1rem !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-panel p {
+    margin-top: 6px !important;
+    font-size: 1.04rem !important;
+    line-height: 1.29 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid {
+    gap: 15px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid section {
+    padding: 14px 20px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid h2 {
+    margin-bottom: 7px !important;
+    font-size: 1.24rem !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid li,
+  body.qr-page .qr-screen.feedback-screen .feedback-grid p {
+    font-size: 1rem !important;
+    line-height: 1.27 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid li {
+    margin: 3px 0 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-next {
+    min-height: 49px !important;
+    padding: 11px 22px !important;
+    font-size: 1rem !important;
+  }
+}
+
+
+/* QR EXHIBITION FEEDBACK EXHIBITION-MAX v4 */
+@media (min-width: 1200px) and (min-height: 901px) {
+  body.qr-page .qr-screen.feedback-screen .qr-feedback-card {
+    width: min(1580px, 97vw) !important;
+    max-width: none !important;
+    max-height: 100% !important;
+    padding: 38px 50px 32px !important;
+    gap: 15px !important;
+    overflow: hidden !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .qr-feedback-card .eyebrow {
+    font-size: 1.08rem !important;
+    line-height: 1.1 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .qr-feedback-card h1 {
+    margin: 2px 0 12px !important;
+    font-size: clamp(3.8rem, 4.35vw, 4.65rem) !important;
+    line-height: .98 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .victim-alert {
+    min-height: 64px !important;
+    padding: 14px 24px !important;
+    font-size: 1.55rem !important;
+    line-height: 1.1 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-panel {
+    padding: 20px 26px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-panel .result-label {
+    font-size: 1.16rem !important;
+    line-height: 1.1 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-panel p {
+    margin-top: 9px !important;
+    font-size: 1.22rem !important;
+    line-height: 1.34 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid {
+    gap: 22px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid section {
+    padding: 21px 26px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid h2 {
+    margin-bottom: 11px !important;
+    font-size: 1.55rem !important;
+    line-height: 1.05 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid li,
+  body.qr-page .qr-screen.feedback-screen .feedback-grid p {
+    font-size: 1.17rem !important;
+    line-height: 1.33 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid li {
+    margin: 5px 0 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-next {
+    min-height: 58px !important;
+    padding: 14px 26px !important;
+    font-size: 1.12rem !important;
+  }
+}
+
+@media (min-width: 901px) and (max-height: 900px) {
+  body.qr-page .qr-screen.feedback-screen .qr-feedback-card {
+    width: min(1490px, 97vw) !important;
+    max-width: none !important;
+    padding: 25px 38px 21px !important;
+    gap: 9px !important;
+    overflow: hidden !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .qr-feedback-card h1 {
+    margin: 0 0 7px !important;
+    font-size: clamp(3rem, 3.7vw, 3.7rem) !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .victim-alert {
+    min-height: 50px !important;
+    padding: 10px 18px !important;
+    font-size: 1.3rem !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-panel {
+    padding: 14px 20px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-panel p {
+    margin-top: 6px !important;
+    font-size: 1.06rem !important;
+    line-height: 1.28 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid {
+    gap: 15px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid section {
+    padding: 14px 20px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid h2 {
+    margin-bottom: 7px !important;
+    font-size: 1.28rem !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid li,
+  body.qr-page .qr-screen.feedback-screen .feedback-grid p {
+    font-size: 1.02rem !important;
+    line-height: 1.26 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-grid li {
+    margin: 3px 0 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen .feedback-next {
+    min-height: 50px !important;
+    padding: 11px 22px !important;
+    font-size: 1.02rem !important;
+  }
+}
+
+
+/* QR EXHIBITION FEEDBACK SAFE-UNSAFE SCALE v5 */
+@media (min-width: 1200px) and (min-height: 901px) {
+  body.qr-page .qr-screen.feedback-screen.feedback-unsafe .qr-feedback-card {
+    width: min(1640px, 98vw) !important;
+    padding: 40px 52px 34px !important;
+    gap: 15px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen.feedback-unsafe .qr-feedback-card h1 {
+    font-size: clamp(4rem, 4.55vw, 4.85rem) !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen.feedback-unsafe .victim-alert {
+    min-height: 66px !important;
+    font-size: 1.62rem !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen.feedback-unsafe .feedback-panel p {
+    font-size: 1.26rem !important;
+    line-height: 1.34 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen.feedback-unsafe .feedback-grid h2 {
+    font-size: 1.62rem !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen.feedback-unsafe .feedback-grid li,
+  body.qr-page .qr-screen.feedback-screen.feedback-unsafe .feedback-grid p {
+    font-size: 1.21rem !important;
+    line-height: 1.31 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen.feedback-safe .qr-feedback-card {
+    width: min(1700px, 98vw) !important;
+    padding: 46px 58px 38px !important;
+    gap: 18px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen.feedback-safe .qr-feedback-card .eyebrow {
+    font-size: 1.18rem !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen.feedback-safe .qr-feedback-card h1 {
+    margin: 4px 0 16px !important;
+    font-size: clamp(4.35rem, 4.95vw, 5.25rem) !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen.feedback-safe .feedback-panel {
+    padding: 24px 30px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen.feedback-safe .feedback-panel .result-label {
+    font-size: 1.3rem !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen.feedback-safe .feedback-panel p {
+    margin-top: 10px !important;
+    font-size: 1.36rem !important;
+    line-height: 1.34 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen.feedback-safe .feedback-grid {
+    gap: 26px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen.feedback-safe .feedback-grid section {
+    padding: 25px 30px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen.feedback-safe .feedback-grid h2 {
+    margin-bottom: 13px !important;
+    font-size: 1.78rem !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen.feedback-safe .feedback-grid li,
+  body.qr-page .qr-screen.feedback-screen.feedback-safe .feedback-grid p {
+    font-size: 1.32rem !important;
+    line-height: 1.34 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen.feedback-safe .feedback-grid li {
+    margin: 6px 0 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen.feedback-safe .feedback-next {
+    min-height: 62px !important;
+    padding: 15px 30px !important;
+    font-size: 1.2rem !important;
+  }
+}
+
+@media (min-width: 901px) and (max-height: 900px) {
+  body.qr-page .qr-screen.feedback-screen.feedback-unsafe .qr-feedback-card {
+    width: min(1530px, 98vw) !important;
+    padding: 26px 40px 22px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen.feedback-unsafe .feedback-panel p {
+    font-size: 1.08rem !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen.feedback-unsafe .feedback-grid li,
+  body.qr-page .qr-screen.feedback-screen.feedback-unsafe .feedback-grid p {
+    font-size: 1.04rem !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen.feedback-safe .qr-feedback-card {
+    width: min(1600px, 98vw) !important;
+    padding: 30px 44px 25px !important;
+    gap: 10px !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen.feedback-safe .qr-feedback-card h1 {
+    font-size: clamp(3.25rem, 3.95vw, 4rem) !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen.feedback-safe .feedback-panel p {
+    font-size: 1.12rem !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen.feedback-safe .feedback-grid h2 {
+    font-size: 1.36rem !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen.feedback-safe .feedback-grid li,
+  body.qr-page .qr-screen.feedback-screen.feedback-safe .feedback-grid p {
+    font-size: 1.08rem !important;
+    line-height: 1.28 !important;
+  }
+
+  body.qr-page .qr-screen.feedback-screen.feedback-safe .feedback-next {
+    min-height: 52px !important;
+    font-size: 1.05rem !important;
+  }
+}
+
+
+/* QR ANDROID TABLET TOUCH SCROLL v1 */
+/*
+   Touch tablets in landscape can report a desktop-like viewport width while
+   having much less usable vertical space because of the mobile browser chrome.
+   The desktop exhibition layout intentionally uses overflow:hidden, so on
+   Android/Chrome that can leave the lower content unreachable.
+
+   Keep the Windows desktop exhibition behaviour unchanged and enable a
+   dedicated vertical scroll container only on touch/coarse-pointer tablet
+   viewports.
+*/
+@media (max-width: 1400px) and (pointer: coarse),
+       (max-width: 1400px) and (hover: none),
+       (max-height: 950px) and (pointer: coarse),
+       (max-height: 950px) and (hover: none) {
+
+  body.qr-page .qr-screen {
+    min-height: 0 !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+    overscroll-behavior-y: contain;
+    align-items: flex-start !important;
+  }
+
+  body.qr-page .challenge-layout--mail {
+    height: auto !important;
+    min-height: 100% !important;
+    flex: 0 0 auto !important;
+    padding-bottom: 28px !important;
+  }
+
+  body.qr-page .left-panel--mail {
+    height: auto !important;
+    min-height: 0 !important;
+    align-content: start !important;
+  }
+
+  body.qr-page .poster-card--mail,
+  body.qr-page .choice-area--mail {
+    min-height: 0 !important;
+  }
+}
+
+/* On narrower touch tablets/phones, let the stacked layout grow naturally. */
+@media (max-width: 1100px) and (pointer: coarse),
+       (max-width: 1100px) and (hover: none) {
+
+  body.qr-page .challenge-layout--mail,
+  body.qr-page .left-panel--mail {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  body.qr-page .qr-screen {
+    scroll-behavior: smooth;
+    padding-bottom: 24px !important;
+  }
+}
+
+/* QR FINAL STATUS SHIELD v1 */
+/* Final Station 3 result only:
+   red danger, yellow caution, green safe.
+   The shield pulses; the result text/card remain stable.
+*/
+body.qr-page .result-card .final-status {
+  --status-color: #4ade80;
+  --status-glow: rgba(74, 222, 128, .42);
+  display: flex;
+  width: 100%;
+  max-width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 1.35vw, 20px);
+  margin-left: auto;
+  margin-right: auto;
+  color: var(--status-color);
+  text-align: center;
+  white-space: nowrap;
+}
+
+body.qr-page .result-card .final-status--danger {
+  --status-color: #ff4d5a;
+  --status-glow: rgba(255, 77, 90, .56);
+}
+
+body.qr-page .result-card .final-status--caution {
+  --status-color: #ffd54a;
+  --status-glow: rgba(255, 213, 74, .48);
+}
+
+body.qr-page .result-card .final-status--safe {
+  --status-color: #4ade80;
+  --status-glow: rgba(74, 222, 128, .42);
+}
+
+body.qr-page .result-card .final-status-shield {
+  position: relative;
+  z-index: 0;
+  flex: 0 0 auto;
+  width: clamp(48px, 4.6vw, 74px);
+  height: clamp(54px, 5.15vw, 83px);
+  display: inline-grid;
+  place-items: center;
+  color: var(--status-color);
+  transform-origin: 50% 54%;
+  filter: drop-shadow(0 0 9px var(--status-glow));
+  animation: qrFinalShieldPulse 1.75s ease-in-out infinite;
+}
+
+body.qr-page .result-card .final-status--danger .final-status-shield {
+  animation-duration: 1.28s;
+}
+
+body.qr-page .result-card .final-status--caution .final-status-shield {
+  animation-duration: 1.58s;
+}
+
+body.qr-page .result-card .final-status--safe .final-status-shield {
+  animation-duration: 1.95s;
+}
+
+body.qr-page .result-card .final-status-shield svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+
+body.qr-page .result-card .final-status-shield-shape {
+  fill: currentColor;
+}
+
+body.qr-page .result-card .final-status-shield-mark {
+  fill: #07111b;
+}
+
+body.qr-page .result-card .final-status-label {
+  display: inline-block;
+  color: inherit;
+}
+
+@keyframes qrFinalShieldPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: .90;
+  }
+  50% {
+    transform: scale(1.095);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 700px) {
+  body.qr-page .result-card .final-status {
+    gap: 10px;
+  }
+
+  body.qr-page .result-card .final-status-shield {
+    width: 44px;
+    height: 50px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.qr-page .result-card .final-status-shield {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+/* QR FINAL STATUS SHIELD COLOR FIX v1 */
+/*
+   Existing final-card styles can override SVG/currentColor.
+   Force only the shield body to follow the result tone while keeping
+   the current card typography unchanged.
+*/
+body.qr-page .result-card .final-status--danger .final-status-shield-shape {
+  fill: #ff4d5a !important;
+}
+
+body.qr-page .result-card .final-status--caution .final-status-shield-shape {
+  fill: #ffd54a !important;
+}
+
+body.qr-page .result-card .final-status--safe .final-status-shield-shape {
+  fill: #4ade80 !important;
+}
+
+body.qr-page .result-card .final-status .final-status-shield-mark {
+  fill: #07111b !important;
+}
+/* QR SAFE SHIELD CHECKMARK ALIGNMENT v1 */
+body.qr-page .result-card .final-status--safe .final-status-shield-mark {
+  transform: translateY(-3px);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* QR DESKTOP WINDOWED SCROLL v1
+   Fine-pointer desktop browsers between 901px and 1100px can fall into the
+   kiosk no-scroll cascade while the QR/Email challenge is taller than the
+   available window. Keep the outer exhibition shell fixed and make #screen
+   the vertical wheel/trackpad scroller only in this narrow desktop window.
+*/
+@media (min-width: 901px) and (max-width: 1100px) and (max-height: 900px) and (pointer: fine) {
+  body.qr-page .qr-screen {
+    min-height: 0 !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior-y: contain;
+    align-items: flex-start !important;
+  }
+
+  body.qr-page .challenge-layout--mail {
+    height: auto !important;
+    min-height: 100% !important;
+    padding-bottom: 28px !important;
+  }
+
+  body.qr-page .left-panel--mail {
+    height: auto !important;
+    min-height: 0 !important;
+    align-content: start !important;
+  }
+
+  body.qr-page .poster-card--mail,
+  body.qr-page .choice-area--mail {
+    min-height: 0 !important;
+  }
+}
+
+/* FRAUD LAB — Exhibition typography and one-screen card fit v3.
+   Scoped per station. Never alter dialogue, choices, grading or event handling.
+   Laptop/mobile fallback scrolls when content cannot be displayed without clipping. */
+
+/* HOME — larger card copy without enlarging the existing oversized hero. */
+@media (min-width:1100px) and (min-height:680px) {
+  body.home-page.station04-enabled .station-card .station-type {
+    font-size: clamp(.82rem, .95vw, 1.04rem);letter-spacing:.055em;
+  }
+  body.home-page.station04-enabled .station-card h2 {
+    font-size: clamp(1.6rem, 2vw, 2.45rem);line-height:1.12;
+  }
+  body.home-page.station04-enabled .station-card.featured h2 {
+    font-size: clamp(1.95rem, 2.4vw, 2.85rem);
+  }
+  body.home-page.station04-enabled .station-card p {
+    font-size: clamp(.98rem, 1.12vw, 1.27rem);line-height:1.32;
+  }
+  body.home-page.station04-enabled .station-footer,
+  body.home-page.station04-enabled .station-card.featured .station-footer {
+    font-size: clamp(.92rem, 1vw, 1.16rem);
+  }
+  body.home-page.station04-enabled .station-card:not(.featured) .station-number {
+    font-size: clamp(2.8rem, 4.25vw, 5.1rem);
+  }
+}
+
+/* QR / E-MAIL — tighten overly large mail preview and choices in wide kiosk.
+   The existing two-panel design is kept; all scenario text remains in the DOM. */
+@media (min-width:1100px) and (min-height:680px) {
+  body.qr-page .qr-screen:has(.challenge-layout--mail) {
+    display:flex!important;align-items:flex-start!important;
+    padding:9px 0!important;
+    overflow-y:auto!important;overflow-x:hidden!important;
+  }
+  body.qr-page .challenge-layout--mail .left-panel--mail {
+    gap:8px 18px!important;
+    grid-template-columns:minmax(0,1.2fr) minmax(350px,.8fr)!important;
+  }
+  body.qr-page .challenge-layout--mail .progress {
+    padding-bottom:7px!important;font-size:.87rem;
+  }
+  body.qr-page .challenge-layout--mail .mail-preview-toolbar {
+    padding:7px 12px!important;gap:4px!important;
+  }
+  body.qr-page .challenge-layout--mail .mail-preview-dots {font-size:.8rem;line-height:1.05;}
+  body.qr-page .challenge-layout--mail .mail-preview-address {
+    padding:7px 11px!important;font-size:.86rem!important;line-height:1.2!important;
+  }
+  body.qr-page .challenge-layout--mail .mail-preview-body {
+    padding:12px 16px 13px!important;
+  }
+  body.qr-page .challenge-layout--mail .mail-preview-meta {margin-bottom:5px!important;gap:5px 9px!important;}
+  body.qr-page .challenge-layout--mail .mail-preview-badge {min-height:25px;padding:3px 9px;font-size:.73rem;}
+  body.qr-page .challenge-layout--mail .mail-message-header {margin-bottom:7px!important;}
+  body.qr-page .challenge-layout--mail .mail-subject-label {margin-top:2px!important;}
+  body.qr-page .challenge-layout--mail .mail-message-subject {
+    margin:4px 0 9px!important;font-size:clamp(1.45rem,1.7vw,2rem)!important;line-height:1.13!important;
+  }
+  body.qr-page .challenge-layout--mail .mail-message-body p {
+    margin:0 0 7px!important;font-size:clamp(.9rem,.93vw,1.04rem)!important;line-height:1.32!important;
+  }
+  body.qr-page .challenge-layout--mail .mail-preview-content-row {
+    margin-top:8px!important;gap:10px!important;
+  }
+  body.qr-page .challenge-layout--mail .mail-preview-visual {
+    width:102px!important;min-width:102px!important;padding:6px!important;
+  }
+  body.qr-page .challenge-layout--mail .mail-preview-visual .scenario-qr-image {
+    width:85px!important;height:85px!important;max-width:85px!important;max-height:85px!important;
+  }
+  body.qr-page .challenge-layout--mail .qr-sim-trigger {
+    min-height:43px!important;padding:8px 11px!important;margin-top:0!important;
+  }
+  body.qr-page .challenge-layout--mail .qr-sim-helper {
+    font-size:.78rem!important;line-height:1.25!important;margin-top:5px!important;
+  }
+  body.qr-page .challenge-layout--mail .choice-area--mail {
+    padding:14px!important;
+  }
+  body.qr-page .challenge-layout--mail .choice-area--mail::before {margin-bottom:4px!important;font-size:.72rem!important;}
+  body.qr-page .challenge-layout--mail .choice-area--mail h1 {
+    margin:0 0 12px!important;font-size:clamp(1.7rem,2.15vw,2.4rem)!important;
+  }
+  body.qr-page .challenge-layout--mail .choice-grid {gap:8px!important;}
+  body.qr-page .challenge-layout--mail .choice-btn {
+    min-height:54px!important;padding:9px 12px!important;
+    font-size:clamp(.92rem,.98vw,1.05rem)!important;line-height:1.26!important;
+  }
+  body.qr-page .challenge-layout--mail .choice-btn span {
+    flex:0 0 29px!important;min-width:29px!important;width:29px!important;height:29px!important;
+  }
+
+  /* The QR final panel's optional double risk badge and large margins previously
+     forced a scrollbar at 1536x960 and 1366x768. Keep one visible badge by CSS. */
+  body.qr-page #screen .result-card .result-badge.victim-alert + .result-badge.victim-alert {
+    display:none!important;
+  }
+  body.qr-page #screen:has(.result-card) {align-items:center!important;padding:6px 0!important;}
+  body.qr-page #screen .result-card {
+    width:min(1300px,100%)!important;padding:clamp(12px,1.4vh,22px) clamp(17px,2vw,30px)!important;
+    margin:auto!important;
+  }
+  body.qr-page #screen .result-card .eyebrow {font-size:.75rem!important;}
+  body.qr-page #screen .result-card .result-badge {margin:0 auto 5px!important;padding:5px 12px!important;}
+  body.qr-page #screen .result-card h1 {
+    margin:4px auto 7px!important;font-size:clamp(1.85rem,2.5vw,2.9rem)!important;line-height:1!important;
+  }
+  body.qr-page #screen .result-card .final-status-shield {width:clamp(37px,4vh,55px)!important;height:clamp(44px,4.5vh,64px)!important;}
+  body.qr-page #screen .result-card .result-lead {
+    font-size:clamp(.96rem,1.05vw,1.16rem)!important;line-height:1.32!important;margin:6px auto 10px!important;
+  }
+  body.qr-page #screen .result-card .lesson-grid {
+    display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:10px!important;margin:10px 0!important;
+  }
+  body.qr-page #screen .result-card .lesson-grid section {
+    min-width:0!important;padding:12px 14px!important;
+  }
+  body.qr-page #screen .result-card .lesson-grid h2 {
+    font-size:clamp(1.15rem,1.35vw,1.45rem)!important;margin:0 0 6px!important;
+  }
+  body.qr-page #screen .result-card .lesson-grid p {
+    font-size:clamp(.9rem,.98vw,1.05rem)!important;line-height:1.35!important;margin:0!important;
+  }
+  body.qr-page #screen .result-card .result-actions {margin:10px 0 0!important;gap:10px!important;}
+  body.qr-page #screen .result-card .result-actions button {min-height:48px!important;padding:9px 17px!important;}
+}
+
+/* SMS and CALL final results — only spacing/height adjustments, no logic. */
+@media (min-width:1100px) and (min-height:680px) {
+  body.sms-page #screen:has(.sms-final-card) {padding:5px 0!important;}
+  body.sms-page .sms-final-card {padding:13px 22px!important;gap:8px!important;}
+  body.sms-page .sms-final-card .result-copy {font-size:.99rem!important;line-height:1.33!important;}
+  body.sms-page .sms-final-card .lesson-grid {display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important;}
+  body.sms-page .sms-final-card .lesson-grid section {padding:10px 13px!important;}
+  body.sms-page .sms-final-card .lesson-grid h2 {font-size:1.4rem!important;margin:4px 0 6px!important;}
+  body.sms-page .sms-final-card .lesson-grid p {font-size:.95rem!important;line-height:1.32!important;}
+  body.sms-page .sms-final-card .result-actions {margin-top:6px!important;}
+
+  body.call-page #screen[data-call-mode="result"] {padding:8px 0!important;}
+  body.call-page #screen[data-call-mode="result"] .result-card {padding:16px 25px!important;gap:8px!important;}
+  body.call-page #screen[data-call-mode="result"] .result-card h1 {margin:3px 0!important;}
+  body.call-page #screen[data-call-mode="result"] .result-card > p {font-size:.97rem!important;line-height:1.3!important;margin:3px 0!important;}
+  body.call-page #screen[data-call-mode="result"] .score-panel {margin:5px 0!important;padding:7px 12px!important;}
+  body.call-page #screen[data-call-mode="result"] .red-flags {margin:5px 0!important;padding:9px 13px!important;}
+  body.call-page #screen[data-call-mode="result"] .red-flags h2 {font-size:1.15rem!important;margin:0 0 5px!important;}
+  body.call-page #screen[data-call-mode="result"] .red-flags li {font-size:.89rem!important;line-height:1.22!important;margin:2px 0!important;}
+  body.call-page #screen[data-call-mode="result"] .lesson-grid {grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;margin:7px 0!important;}
+  body.call-page #screen[data-call-mode="result"] .lesson {padding:10px 12px!important;}
+  body.call-page #screen[data-call-mode="result"] .lesson h2 {font-size:1rem!important;margin:0 0 5px!important;}
+  body.call-page #screen[data-call-mode="result"] .lesson p {font-size:.89rem!important;line-height:1.25!important;}
+  body.call-page #screen[data-call-mode="result"] .result-actions {margin:8px 0 0!important;}
+}
+
+/* On small/portrait devices do not suppress legitimate scrolling. */
+
+/* Short laptop/window feedback: never silently clip a lesson or action button.
+   Large kiosk screens fit without a scrollbar; shorter ones may scroll. */
+@media (min-width:1100px) and (max-height:800px) {
+  body.qr-page .qr-screen.feedback-screen {overflow-y:auto!important;}
+  body.qr-page .qr-screen.feedback-screen .qr-feedback-card {
+    overflow:visible!important;max-height:none!important;
+  }
+}
+
+/* FRAUD LAB — Exhibition readability polish v4.
+   Scope: Home cards, QR/E-mail visual layout and Viber results only.
+   This is loaded after v3. Never alter data, interactions or scoring. */
+
+/* Home: visually anchor 02–04 at the top center, then use the full card width
+   for larger, centered educational copy. Keep the footer at the bottom. */
+@media (min-width:1100px) and (min-height:680px) {
+  body.home-page.station04-enabled .station-card:not(.featured) {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    text-align:center;
+    padding:clamp(12px,1.45vh,22px) clamp(16px,1.7vw,30px);
+  }
+  body.home-page.station04-enabled .station-card:not(.featured) .station-number {
+    display:block;
+    margin:0 0 clamp(7px,1vh,13px)!important;
+    font-size:clamp(2.6rem,3.7vw,4.25rem)!important;
+    line-height:.85;
+    flex:0 0 auto;
+  }
+  body.home-page.station04-enabled .station-card:not(.featured) .station-content {
+    width:100%;min-width:0;display:flex;flex-direction:column;
+    align-items:center;flex:1;
+  }
+  body.home-page.station04-enabled .station-card:not(.featured) .station-type {
+    font-size:clamp(.89rem,1.02vw,1.15rem)!important;
+    line-height:1.15;
+    letter-spacing:.045em;
+  }
+  body.home-page.station04-enabled .station-card:not(.featured) h2 {
+    font-size:clamp(1.7rem,2.22vw,2.6rem)!important;
+    line-height:1.08!important;
+    margin:clamp(5px,.9vh,12px) 0!important;
+  }
+  body.home-page.station04-enabled .station-card:not(.featured) p {
+    font-size:clamp(1.02rem,1.22vw,1.33rem)!important;
+    line-height:1.33!important;
+    max-width:95%;
+    margin:clamp(4px,.6vh,8px) auto!important;
+    text-wrap:pretty;
+  }
+  body.home-page.station04-enabled .station-card:not(.featured) .station-footer {
+    width:100%;margin-top:auto;align-self:stretch;
+    padding-top:clamp(7px,1.2vh,16px)!important;
+    font-size:clamp(.9rem,1vw,1.1rem)!important;
+    text-align:left;
+  }
+}
+/* 720p kiosk: preserve the one-screen layout and do not crop large text. */
+@media (min-width:1100px) and (min-height:680px) and (max-height:790px) {
+  body.home-page.station04-enabled .station-card:not(.featured) .station-number {
+    font-size:clamp(2.25rem,4.7vh,3.2rem)!important;margin-bottom:5px!important;
+  }
+  body.home-page.station04-enabled .station-card:not(.featured) h2 {
+    font-size:clamp(1.55rem,1.95vw,2.05rem)!important;margin:4px 0!important;
+  }
+  body.home-page.station04-enabled .station-card:not(.featured) p {
+    font-size:clamp(.91rem,1.06vw,1.05rem)!important;line-height:1.22!important;
+  }
+  body.home-page.station04-enabled .station-card:not(.featured) .station-type {
+    font-size:clamp(.76rem,.85vw,.96rem)!important;
+  }
+}
+
+/* QR — intentionally release v3's aggressive font reductions ONLY where the
+   view has enough height. At shorter sizes leave existing scroll fallback. */
+@media (min-width:1100px) and (min-height:840px) {
+  body.qr-page .qr-screen:has(.challenge-layout--mail) {padding:10px 0!important;}
+  body.qr-page .challenge-layout--mail .left-panel--mail {gap:11px 18px!important;}
+  body.qr-page .challenge-layout--mail .mail-preview-body {padding:15px 19px 16px!important;}
+  body.qr-page .challenge-layout--mail .mail-preview-address {padding:9px 13px!important;font-size:.97rem!important;}
+  body.qr-page .challenge-layout--mail .mail-preview-meta {margin-bottom:9px!important;}
+  body.qr-page .challenge-layout--mail .mail-message-header {margin-bottom:10px!important;}
+  body.qr-page .challenge-layout--mail .mail-message-subject {
+    font-size:clamp(1.65rem,1.85vw,2.25rem)!important;
+    margin:6px 0 10px!important;line-height:1.13!important;
+  }
+  body.qr-page .challenge-layout--mail .mail-message-body p {
+    font-size:clamp(1.01rem,1.1vw,1.19rem)!important;
+    line-height:1.42!important;margin:0 0 10px!important;
+  }
+  body.qr-page .challenge-layout--mail .mail-preview-content-row {gap:14px!important;margin-top:10px!important;}
+  body.qr-page .challenge-layout--mail .mail-preview-visual {width:118px!important;min-width:118px!important;padding:7px!important;}
+  body.qr-page .challenge-layout--mail .mail-preview-visual .scenario-qr-image {
+    width:100px!important;height:100px!important;max-width:100px!important;max-height:100px!important;
+  }
+  body.qr-page .challenge-layout--mail .qr-sim-trigger {
+    min-height:47px!important;padding:10px 13px!important;font-size:1.05rem!important;
+  }
+  body.qr-page .challenge-layout--mail .qr-sim-helper {font-size:.87rem!important;line-height:1.35!important;}
+  body.qr-page .challenge-layout--mail .choice-area--mail {padding:19px!important;}
+  body.qr-page .challenge-layout--mail .choice-area--mail h1 {
+    font-size:clamp(2rem,2.4vw,2.7rem)!important;margin:0 0 17px!important;
+  }
+  body.qr-page .challenge-layout--mail .choice-grid {gap:11px!important;}
+  body.qr-page .challenge-layout--mail .choice-btn {
+    min-height:62px!important;padding:13px 15px!important;
+    font-size:clamp(1.06rem,1.12vw,1.18rem)!important;line-height:1.33!important;
+  }
+  body.qr-page .challenge-layout--mail .choice-btn span {
+    flex:0 0 33px!important;width:33px!important;min-width:33px!important;height:33px!important;
+  }
+
+  body.qr-page #screen .result-card {
+    width:min(1370px,100%)!important;
+    padding:clamp(19px,2vh,30px) clamp(22px,2.1vw,36px)!important;
+  }
+  body.qr-page #screen .result-card .result-badge {padding:8px 16px!important;margin:0 auto 10px!important;font-size:1.08rem!important;}
+  body.qr-page #screen .result-card .eyebrow {font-size:.88rem!important;}
+  body.qr-page #screen .result-card h1 {
+    font-size:clamp(2.35rem,3vw,3.5rem)!important;margin:8px auto 11px!important;
+  }
+  body.qr-page #screen .result-card .final-status-shield {
+    width:clamp(56px,6.2vh,76px)!important;height:clamp(66px,7vh,85px)!important;
+  }
+  body.qr-page #screen .result-card .result-lead {
+    font-size:clamp(1.06rem,1.17vw,1.24rem)!important;
+    line-height:1.43!important;margin:8px auto 14px!important;
+  }
+  body.qr-page #screen .result-card .lesson-grid {
+    gap:13px!important;margin:15px 0!important;
+  }
+  body.qr-page #screen .result-card .lesson-grid section {padding:18px 19px!important;}
+  body.qr-page #screen .result-card .lesson-grid h2 {
+    font-size:clamp(1.33rem,1.56vw,1.65rem)!important;margin-bottom:10px!important;
+  }
+  body.qr-page #screen .result-card .lesson-grid p {
+    font-size:clamp(1.01rem,1.1vw,1.18rem)!important;line-height:1.44!important;
+  }
+  body.qr-page #screen .result-card .result-actions {margin:15px 0 0!important;}
+  body.qr-page #screen .result-card .result-actions button {min-height:52px!important;padding:12px 21px!important;font-size:1.03rem!important;}
+}
+
+/* Viber — match the established fully filled FraudLab safety shields.
+   The SVG check/exclamation remains visually contrasting and unobstructed. */
+.viber-page .viber-result-shield svg {fill:none;}
+.viber-page .viber-result-shield .viber-shield-shape {
+  fill:#39c68f;stroke:#2ba776;stroke-width:2;
+}
+.viber-page .viber-result-shield--danger .viber-shield-shape {
+  fill:#f26969;stroke:#e15353;stroke-width:2;
+}
+.viber-page .viber-result-shield--best_safe .viber-shield-shape {
+  fill:#48d9a0;stroke:#25b987;stroke-width:2;
+}
+.viber-page .viber-result-shield svg > path:not(.viber-shield-shape) {
+  fill:#082033;
+}
+
+/* Viber kiosk result: one-screen exhibition card with THREE readable lessons
+   instead of a very long vertical result. Tablet/mobile stay stacked. */
+@media (min-width:1100px) and (min-height:680px) {
+  .viber-page .viber-screen:has(.viber-result) {
+    display:flex;align-items:center;justify-content:center;
+    overflow-y:auto;overflow-x:hidden;
+  }
+  .viber-page .viber-result {
+    width:min(1280px,100%);max-width:none;margin:auto;
+    padding:7px 4px 3px;
+  }
+  .viber-page .viber-result-header {padding:10px 20px 13px;}
+  .viber-page .viber-result-shield {width:60px;height:70px;margin:0 auto 2px;}
+  .viber-page .viber-result-header h1 {
+    font-size:clamp(1.85rem,2.4vw,2.55rem);line-height:1.08;margin:4px 0;
+  }
+  .viber-page .viber-result-header p {font-size:clamp(1.02rem,1.15vw,1.18rem);margin:5px 0;}
+  .viber-page .viber-result-sections {
+    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:12px;padding:13px 15px;align-items:stretch;
+  }
+  .viber-page .viber-result-section {
+    min-width:0;padding:15px 16px;border:1px solid rgba(255,255,255,.11);
+    border-radius:15px;background:rgba(255,255,255,.025);
+  }
+  .viber-page .viber-result-section h2 {
+    font-size:clamp(1.07rem,1.3vw,1.37rem);line-height:1.2;
+    margin:0 0 9px;
+  }
+  .viber-page .viber-result-section p {
+    font-size:clamp(.97rem,1.08vw,1.13rem);line-height:1.4;
+  }
+  .viber-page .viber-result-motto {
+    padding:12px 16px;font-size:clamp(.94rem,1.04vw,1.12rem);
+    line-height:1.25;
+  }
+  .viber-page .viber-result-actions {margin:12px 0 9px;gap:10px;}
+  .viber-page .viber-result-actions button {min-height:46px;padding:10px 14px;font-size:.92rem;}
+  .viber-page .viber-result-footnote {font-size:.79rem;line-height:1.3;margin:0;}
+}
+/* Compact desktop kiosks: retain readability without pushing actions below. */
+@media (min-width:1100px) and (min-height:680px) and (max-height:800px) {
+  .viber-page .viber-result-header {padding:6px 14px 9px;}
+  .viber-page .viber-result-shield {width:49px;height:57px;}
+  .viber-page .viber-result-header h1 {font-size:1.75rem;}
+  .viber-page .viber-result-sections {gap:9px;padding:9px 10px;}
+  .viber-page .viber-result-section {padding:10px 11px;}
+  .viber-page .viber-result-section h2 {font-size:1.02rem;margin:0 0 6px;}
+  .viber-page .viber-result-section p {font-size:.93rem;line-height:1.27;}
+  .viber-page .viber-result-motto {padding:9px 12px;}
+  .viber-page .viber-result-actions {margin:7px 0;}
+  .viber-page .viber-result-actions button {min-height:40px;padding:8px 11px;font-size:.83rem;}
+  .viber-page .viber-result-footnote {font-size:.72rem;}
+}
+/* When height/width is constrained, keep the existing natural scroll fallback. */
+
+/* Exhibition Fit v5: kiosk full-view typography + adaptive content; layered over v4. */
+@media (min-width:1450px) and (min-height:900px) {
+  body.qr-page #screen:has(.challenge-layout--mail) {
+    width:min(1760px,96vw)!important;
+    padding:8px 0!important;
+    overflow-x:hidden!important;overflow-y:auto!important;
+  }
+  body.qr-page .challenge-layout--mail .left-panel--mail {
+    grid-template-columns:minmax(0,1.42fr) minmax(450px,.88fr)!important;
+    gap:10px 22px!important;
+  }
+  body.qr-page .challenge-layout--mail .progress {padding-bottom:10px!important;font-size:1rem!important;}
+  body.qr-page .challenge-layout--mail .poster-card--mail {margin-top:8px!important;}
+  body.qr-page .challenge-layout--mail .mail-preview-toolbar {padding:12px 15px!important;}
+  body.qr-page .challenge-layout--mail .mail-preview-address {font-size:1.04rem!important;padding:11px 13px!important;}
+  body.qr-page .challenge-layout--mail .mail-preview-body {padding:17px 21px 18px!important;}
+  body.qr-page .challenge-layout--mail .mail-message-header {margin-bottom:9px!important;}
+  body.qr-page .challenge-layout--mail .mail-message-subject {font-size:clamp(2rem,2.05vw,2.55rem)!important;line-height:1.13!important;margin:8px 0 10px!important;}
+  body.qr-page .challenge-layout--mail .mail-message-body p {font-size:clamp(1.15rem,1.18vw,1.38rem)!important;line-height:1.4!important;margin:0 0 9px!important;}
+  body.qr-page .challenge-layout--mail .mail-preview-content-row {gap:17px!important;margin-top:13px!important;}
+  body.qr-page .challenge-layout--mail .mail-preview-visual {width:132px!important;min-width:132px!important;}
+  body.qr-page .challenge-layout--mail .mail-preview-visual .scenario-qr-image {width:112px!important;height:112px!important;max-width:112px!important;max-height:112px!important;}
+  body.qr-page .challenge-layout--mail .qr-sim-trigger {min-height:57px!important;font-size:1.18rem!important;}
+  body.qr-page .challenge-layout--mail .qr-sim-helper {font-size:.98rem!important;}
+  body.qr-page .challenge-layout--mail .choice-area--mail {padding:20px 20px 24px!important;}
+  body.qr-page .challenge-layout--mail .choice-area--mail h1 {font-size:clamp(2.3rem,2.6vw,3.05rem)!important;margin:0 0 18px!important;}
+  body.qr-page .challenge-layout--mail .choice-grid {gap:14px!important;}
+  body.qr-page .challenge-layout--mail .choice-btn {font-size:clamp(1.17rem,1.23vw,1.36rem)!important;line-height:1.32!important;min-height:74px!important;padding:15px 17px!important;}
+  body.qr-page .challenge-layout--mail .choice-btn span {height:40px!important;width:40px!important;min-width:40px!important;flex:0 0 40px!important;}
+
+  body.qr-page #screen:has(.result-card) {width:min(1720px,95vw)!important;padding:9px 0!important;overflow-y:auto!important;}
+  body.qr-page #screen .result-card {width:min(1600px,100%)!important;padding:clamp(24px,2.7vh,35px) clamp(34px,3vw,58px)!important;}
+  body.qr-page #screen .result-card .result-badge {font-size:1.35rem!important;padding:12px 22px!important;margin:0 auto 14px!important;}
+  body.qr-page #screen .result-card .eyebrow {font-size:1.1rem!important;}
+  body.qr-page #screen .result-card h1 {font-size:clamp(3.1rem,3.5vw,4.2rem)!important;margin:13px auto 16px!important;line-height:1.1!important;}
+  body.qr-page #screen .result-card .final-status-shield {width:clamp(82px,8vh,104px)!important;height:clamp(92px,9vh,120px)!important;}
+  body.qr-page #screen .result-card .result-lead {font-size:clamp(1.23rem,1.29vw,1.47rem)!important;line-height:1.52!important;margin:16px auto 21px!important;max-width:1400px!important;}
+  body.qr-page #screen .result-card .lesson-grid {gap:20px!important;margin:20px 0!important;}
+  body.qr-page #screen .result-card .lesson-grid section {padding:24px 25px!important;}
+  body.qr-page #screen .result-card .lesson-grid h2 {font-size:clamp(1.62rem,1.85vw,2rem)!important;margin-bottom:12px!important;line-height:1.16!important;}
+  body.qr-page #screen .result-card .lesson-grid p {font-size:clamp(1.15rem,1.19vw,1.36rem)!important;line-height:1.5!important;}
+  body.qr-page #screen .result-card .result-actions {margin:24px 0 0!important;gap:15px!important;}
+  body.qr-page #screen .result-card .result-actions button {min-height:65px!important;font-size:1.18rem!important;padding:16px 28px!important;}
+
+  .viber-page .viber-result {width:min(1640px,100%)!important;max-width:none!important;padding:12px 5px 6px!important;}
+  .viber-page .viber-result-header {padding:29px 36px 32px!important;}
+  .viber-page .viber-result-shield {width:88px!important;height:102px!important;margin-bottom:8px!important;}
+  .viber-page .viber-result-header h1 {font-size:clamp(2.8rem,3.05vw,3.65rem)!important;line-height:1.12!important;margin:10px 0!important;}
+  .viber-page .viber-result-header p {font-size:clamp(1.21rem,1.27vw,1.5rem)!important;line-height:1.34!important;}
+  .viber-page .viber-result-sections {gap:20px!important;padding:25px 28px!important;}
+  .viber-page .viber-result-section {padding:24px 25px!important;}
+  .viber-page .viber-result-section h2 {font-size:clamp(1.42rem,1.57vw,1.85rem)!important;margin:0 0 16px!important;}
+  .viber-page .viber-result-section p {font-size:clamp(1.13rem,1.21vw,1.44rem)!important;line-height:1.5!important;}
+  .viber-page .viber-result-motto {font-size:clamp(1.17rem,1.25vw,1.49rem)!important;padding:18px 24px!important;line-height:1.38!important;}
+  .viber-page .viber-result-actions {margin:22px 0 18px!important;gap:16px!important;}
+  .viber-page .viber-result-actions button {min-height:60px!important;padding:14px 22px!important;font-size:1.1rem!important;}
+  .viber-page .viber-result-footnote {font-size:.93rem!important;line-height:1.38!important;}
+}
+/* Narrower/shorter screens: retain original native scroll; never hide lesson text. */
+@media (max-width:1449px), (max-height:899px) {
+  body.qr-page #screen:has(.challenge-layout--mail),
+  body.qr-page #screen:has(.result-card) {overflow-y:auto!important;overflow-x:hidden!important;}
+}
+@media (min-width:1450px) and (min-height:900px) {
+  /* Long-form official-look mail: bring QR/action alongside the text. All copy remains visible. */
+  body.qr-page .challenge-layout--mail .mail-preview-body:has(.mail-message-body p:nth-child(4)) {
+    display:grid!important;grid-template-columns:minmax(0,1fr) minmax(200px,245px);column-gap:22px;align-items:start;
+  }
+  body.qr-page .challenge-layout--mail .mail-preview-body:has(.mail-message-body p:nth-child(4)) > .mail-message-header,
+  body.qr-page .challenge-layout--mail .mail-preview-body:has(.mail-message-body p:nth-child(4)) > .mail-subject-label,
+  body.qr-page .challenge-layout--mail .mail-preview-body:has(.mail-message-body p:nth-child(4)) > .mail-message-subject {
+    grid-column:1/-1;
+  }
+  body.qr-page .challenge-layout--mail .mail-preview-body:has(.mail-message-body p:nth-child(4)) > .mail-message-body {
+    grid-column:1;grid-row:4;min-width:0;
+  }
+  body.qr-page .challenge-layout--mail .mail-preview-body:has(.mail-message-body p:nth-child(4)) > .mail-preview-content-row {
+    grid-column:2;grid-row:4;grid-template-columns:minmax(0,1fr)!important;
+    gap:10px!important;margin:0!important;align-self:stretch;align-content:center;
+  }
+  body.qr-page .challenge-layout--mail .mail-preview-body:has(.mail-message-body p:nth-child(4)) .mail-preview-visual {
+    margin:0 auto;max-width:100%;
+  }
+}
+@media (min-width:1450px) and (min-height:900px) {
+  body.qr-page .challenge-layout--mail .mail-preview-body:has(.mail-message-body p:nth-child(4)) {
+    padding:13px 19px 12px!important;
+  }
+  body.qr-page .challenge-layout--mail .mail-preview-body:has(.mail-message-body p:nth-child(4)) .mail-message-body p {
+    line-height:1.34!important;margin-bottom:6px!important;
+  }
+  body.qr-page .challenge-layout--mail .mail-preview-body:has(.mail-message-body p:nth-child(4)) .mail-message-subject {
+    margin:5px 0 8px!important;
+  }
+}
+@media (min-width:1450px) and (min-height:900px) {
+  body.qr-page #screen:has(.challenge-layout--mail) {padding:3px 0!important;}
+  body.qr-page .challenge-layout--mail .left-panel--mail {gap:6px 22px!important;}
+  body.qr-page .challenge-layout--mail .progress {padding-bottom:6px!important;}
+}
+/* Windowed laptops, tablets, and phones: document scroll rather than clipped panels. */
+@media (max-width:1449px), (max-height:899px) {
+  html.qr-page,body.qr-page,body.viber-page {height:auto!important;min-height:100%!important;overflow-x:hidden!important;overflow-y:auto!important;}
+  body.qr-page .qr-app,.viber-page .viber-app {height:auto!important;min-height:100dvh!important;overflow:visible!important;}
+  body.qr-page #screen.qr-screen {height:auto!important;max-height:none!important;min-height:0!important;overflow:visible!important;flex:1 0 auto!important;}
+  body.qr-page #screen:has(.challenge-layout--mail),body.qr-page #screen:has(.result-card),body.qr-page #screen.feedback-screen {overflow:visible!important;}
+  .viber-page .viber-screen {height:auto!important;min-height:0!important;overflow:visible!important;flex:1 0 auto!important;}
+}
+@media (min-width:1450px) and (min-height:900px) {
+ body.qr-page .challenge-layout--mail .left-panel--mail {grid-template-columns:minmax(0,1.5fr) minmax(430px,.85fr)!important;}
+ body.qr-page .challenge-layout--mail .mail-preview-body:has(.mail-message-body p:nth-child(4)) {grid-template-columns:minmax(0,1fr) 210px!important;column-gap:14px!important;}
+}
+@media (min-width:1450px) and (min-height:900px) {
+ .viber-page .viber-result-header {padding:22px 36px 25px!important;}
+ .viber-page .viber-result-sections {padding:20px 28px!important;}
+ .viber-page .viber-result-actions {margin:16px 0 14px!important;}
+}
+
+/* FraudLab Station 03: restore the dedicated Android/touch scroller.
+   Narrow touch layouts only; desktop/windowed stays on its existing CSS. */
+@media (max-width: 1366px) and (pointer: coarse),
+       (max-width: 1366px) and (hover: none) {
+  html.qr-page, html.qr-page body.qr-page {
+    width: 100%;
+    height: 100% !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    overscroll-behavior: none;
+  }
+  body.qr-page .qr-app {
+    height: 100vh !important;
+    height: 100dvh !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+  }
+  body.qr-page .qr-topbar, body.qr-page .safety-strip { flex: 0 0 auto !important; }
+  body.qr-page #screen.qr-screen {
+    flex: 1 1 auto !important;
+    height: auto !important;
+    max-height: none !important;
+    min-height: 0 !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+    touch-action: pan-y !important;
+  }
+  body.qr-page #screen:has(.challenge-layout--mail),
+  body.qr-page #screen:has(.result-card),
+  body.qr-page #screen.feedback-screen { overflow-x:hidden!important;overflow-y:auto!important; }
+  body.qr-page .qr-simulation-overlay { overscroll-behavior: none; }
+  body.qr-page .qr-simulation-viewport { overflow:hidden!important;touch-action:auto!important; }
+  body.qr-page #qrSimulationFrame {
+    display: block;
+    height: 100% !important;
+    min-height: 100% !important;
+    overflow: auto !important;
+    touch-action: auto !important;
+  }
+}
