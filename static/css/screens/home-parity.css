@@ -1,0 +1,2359 @@
+/* FRAUDLAB HOME CSS PARITY — baseline 17b53bc; original layer order preserved.
+   Only frontend/home/index.html imports this CSS. Do not apply elsewhere.
+   Sections are intentionally NOT deduplicated pending separate visual proof.
+*/
+
+/* SOURCE 1/9: static/css/base.css — unchanged declarations */
+:root {
+  --navy-950: #081726;
+  --navy-900: #0f2742;
+  --navy-800: #173b61;
+  --paper: #ffffff;
+  --mist: #eef3f7;
+  --ink: #102235;
+  --muted: #5c6b79;
+  --amber: #f1b84b;
+  --danger: #b42318;
+  --success: #1f6f4a;
+  --focus: #ffd166;
+  --radius: 24px;
+  --shadow: 0 18px 45px rgba(5, 24, 41, .16);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; background: var(--mist); color: var(--ink); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+body { min-height: 100vh; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+button:focus-visible { outline: 4px solid var(--focus); outline-offset: 4px; }
+
+.app-shell { min-height: 100vh; display: grid; grid-template-rows: auto 1fr auto; }
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 20px 28px; background: var(--navy-950); color: white; }
+.brand-kicker { font-size: 1rem; font-weight: 800; letter-spacing: .18em; opacity: .78; }
+.brand-title { margin-top: 4px; font-size: clamp(1.15rem, 2vw, 1.6rem); font-weight: 760; }
+.top-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: flex-end; }
+.ghost-button { min-height: 50px; padding: 0 18px; border: 2px solid rgba(255,255,255,.48); border-radius: 14px; background: transparent; color: white; font-weight: 760; }
+.ghost-button[aria-pressed="true"] { background: white; color: var(--navy-950); }
+.screen { width: min(1200px, calc(100% - 36px)); margin: 0 auto; padding: 34px 0 40px; display: flex; align-items: center; justify-content: center; }
+.footer-strip { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 14px; padding: 18px 24px; background: white; border-top: 1px solid #d9e2ea; font-size: clamp(1rem, 2.3vw, 1.4rem); font-weight: 850; letter-spacing: .05em; }
+.footer-strip .arrow { color: var(--amber); font-size: 1.25em; }
+.primary-button, .choice-button { border: 0; border-radius: 18px; background: var(--navy-900); color: white; font-weight: 820; min-height: 68px; padding: 16px 24px; box-shadow: 0 8px 20px rgba(15,39,66,.18); }
+.primary-button:hover, .choice-button:hover { background: var(--navy-800); }
+.timeout-modal { position: fixed; inset: 0; display: grid; place-items: center; background: rgba(8, 23, 38, .78); z-index: 50; padding: 24px; }
+.timeout-modal[hidden] { display: none; }
+.timeout-card { width: min(560px, 100%); background: white; border-radius: var(--radius); padding: 30px; box-shadow: var(--shadow); }
+.timeout-card h2 { margin-top: 0; font-size: 2rem; }
+.timeout-card p { font-size: 1.25rem; line-height: 1.5; }
+.assisted .helper-text, .assisted .transcript { display: block; }
+
+@media (max-width: 760px) {
+  .topbar { align-items: flex-start; padding: 16px; }
+  .top-actions { flex-direction: column; align-items: stretch; }
+  .ghost-button { min-height: 46px; font-size: .84rem; }
+  .screen { width: min(100% - 22px, 1200px); padding-top: 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
+
+.assisted .dialogue-text { font-size: clamp(1.85rem, 3.7vw, 2.75rem); }
+.assisted .choice-button { min-height: 84px; font-size: clamp(1.2rem, 2.4vw, 1.45rem); }
+.assisted .transcript { font-size: 1.2rem; }
+
+
+/* FraudLab victim failure banner */
+.victim-alert {
+  margin: 12px auto;
+  padding: 14px 22px;
+  border-left: 6px solid #ff7b7b;
+  border-radius: 14px;
+  background: rgba(140,32,32,.25);
+  color: white;
+  font-weight: 900;
+  font-size: 1.6rem;
+  text-align: center;
+  line-height: 1.2;
+}
+
+
+
+/* SOURCE 2/9: static/css/home.css — unchanged declarations */
+:root {
+  --bg: #071624;
+  --panel: #0d2237;
+  --panel-light: #122c46;
+  --text: #f4f7fb;
+  --muted: #a9b8c6;
+  --line: rgba(255,255,255,.10);
+  --accent: #f4b942;
+  --danger: #e45b5b;
+  --radius: 22px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background:
+    radial-gradient(circle at top left, #173653 0%, transparent 40%),
+    var(--bg);
+  color: var(--text);
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Arial,
+    sans-serif;
+}
+
+body {
+  min-height: 100vh;
+}
+
+.home-shell {
+  width: min(1400px, 94vw);
+  margin: 0 auto;
+  padding: 60px 0 40px;
+}
+
+.hero {
+  max-width: 980px;
+  margin-bottom: 50px;
+}
+
+.brand-kicker {
+  font-size: .95rem;
+  letter-spacing: .24em;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: clamp(2.8rem, 6vw, 6rem);
+  line-height: .98;
+  letter-spacing: -.04em;
+}
+
+.hero h1 span {
+  display: block;
+  color: var(--accent);
+}
+
+.hero-copy {
+  max-width: 850px;
+  font-size: clamp(1.1rem, 1.6vw, 1.45rem);
+  line-height: 1.6;
+  color: var(--muted);
+  margin: 28px 0;
+}
+
+.safety-message {
+  display: inline-flex;
+  gap: 16px;
+  align-items: center;
+  padding: 14px 20px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-weight: 800;
+  letter-spacing: .08em;
+}
+
+.safety-message span {
+  color: var(--accent);
+}
+
+.stations {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.station-card {
+  position: relative;
+  display: flex;
+  min-height: 300px;
+  padding: 30px;
+  background: linear-gradient(145deg, var(--panel-light), var(--panel));
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: var(--text);
+  overflow: hidden;
+}
+
+.station-card.active {
+  cursor: pointer;
+  transition:
+    transform .18s ease,
+    border-color .18s ease,
+    box-shadow .18s ease;
+}
+
+.station-card.active:hover,
+.station-card.active:focus-visible {
+  transform: translateY(-4px);
+  border-color: rgba(244,185,66,.8);
+  box-shadow: 0 18px 50px rgba(0,0,0,.28);
+  outline: none;
+}
+
+.station-card.upcoming {
+  opacity: .62;
+}
+
+.station-number {
+  font-size: clamp(3.4rem, 7vw, 6.5rem);
+  line-height: .85;
+  font-weight: 900;
+  color: rgba(255,255,255,.08);
+  margin-right: 24px;
+}
+
+.station-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.station-type {
+  font-size: .82rem;
+  letter-spacing: .13em;
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.station-card h2 {
+  margin: 12px 0;
+  font-size: clamp(1.7rem, 2.5vw, 2.6rem);
+}
+
+.station-card p {
+  color: var(--muted);
+  line-height: 1.55;
+  font-size: 1.05rem;
+  max-width: 600px;
+}
+
+.station-footer {
+  margin-top: auto;
+  padding-top: 28px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+  color: var(--muted);
+}
+
+.station-footer strong {
+  color: var(--accent);
+}
+
+.upcoming .station-footer strong {
+  color: var(--muted);
+}
+
+.home-footer {
+  margin-top: 34px;
+  padding: 22px 4px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: .95rem;
+}
+
+@media (max-width: 850px) {
+  .home-shell {
+    padding-top: 36px;
+  }
+
+  .stations {
+    grid-template-columns: 1fr;
+  }
+
+  .station-card {
+    min-height: 260px;
+  }
+}
+
+@media (max-width: 540px) {
+  .station-card {
+    padding: 24px;
+  }
+
+  .station-number {
+    display: none;
+  }
+
+  .safety-message {
+    width: 100%;
+    justify-content: center;
+    gap: 8px;
+    font-size: .85rem;
+  }
+}
+
+/* HOME EXHIBITION FEATURED LAYOUT */
+
+.stations {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.station-card.featured {
+  grid-column: 1 / -1;
+  min-height: 260px;
+  width: 100%;
+  align-items: center;
+}
+
+.station-card.featured .station-content {
+  justify-content: center;
+}
+
+.station-card.featured .station-number {
+  font-size: clamp(4rem, 9vw, 8rem);
+}
+
+.station-card.featured .station-footer {
+  padding-top: 12px;
+}
+
+/* HOME FEATURED PREMIUM CENTER */
+
+.station-card.featured {
+  text-align: center;
+}
+
+.station-card.featured .station-number {
+  margin-right: 0;
+  margin-bottom: 12px;
+}
+
+.station-card.featured .station-content {
+  align-items: center;
+  text-align: center;
+}
+
+.station-card.featured .station-content p {
+  max-width: 720px;
+}
+
+.station-card.featured .station-footer {
+  width: 100%;
+  justify-content: center;
+}
+
+.station-card.featured .station-type,
+.station-card.featured h2,
+.station-card.featured p {
+  text-align: center;
+}
+
+/* FRAUDLAB CREATOR FOOTER v3 */
+.home-page .home-footer {
+  text-align: center;
+}
+
+.home-page .home-footer .creator-credit {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: .32rem;
+  margin: 10px auto 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-size: clamp(.78rem, 1vw, .9rem);
+  line-height: 1.45;
+  letter-spacing: .01em;
+}
+
+.home-page .home-footer .creator-credit-link {
+  color: var(--text);
+  font-weight: 800;
+  text-decoration: none;
+  text-underline-offset: .18em;
+  transition: color .18s ease, text-decoration-color .18s ease;
+}
+
+.home-page .home-footer .creator-credit-link:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.home-page .home-footer .creator-credit-link:focus-visible {
+  color: var(--accent);
+  text-decoration: underline;
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+
+
+/* SOURCE 3/9: static/css/fraud-dark.css — unchanged declarations */
+/*
+============================================================
+ FRAUD LAB — PREMIUM EXHIBITION DESIGN SYSTEM
+ v7.11
+
+ Goals:
+ - dark throughout
+ - WCAG-friendly contrast
+ - readable from distance
+ - older-user friendly
+ - consistent Call / SMS / QR presentation
+============================================================
+*/
+
+:root {
+  color-scheme: dark;
+
+  --bg-0: #04111c;
+  --bg-1: #071a2a;
+  --bg-2: #0b2235;
+
+  --surface-1: #0e2639;
+  --surface-2: #132f45;
+  --surface-3: #183a53;
+
+  --border: rgba(208, 224, 235, .19);
+  --border-strong: rgba(208, 224, 235, .34);
+
+  --text: #f7fafc;
+  --text-soft: #d6e0e8;
+  --muted: #afc0cd;
+
+  --accent: #f3b844;
+  --safe: #58d49a;
+  --risk: #ff8585;
+
+  --radius: 20px;
+
+  --shadow:
+    0 24px 60px rgba(0, 0, 0, .28);
+}
+
+
+/* =========================================================
+   BASE
+   ========================================================= */
+
+html {
+  background: var(--bg-0);
+}
+
+body {
+  margin: 0;
+
+  background:
+    radial-gradient(
+      circle at 10% 0%,
+      #153b59 0%,
+      var(--bg-1) 34%,
+      var(--bg-0) 100%
+    ) !important;
+
+  color: var(--text) !important;
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Arial,
+    sans-serif;
+
+  font-size: 18px;
+  line-height: 1.5;
+
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+
+main,
+.call-app,
+.sms-app,
+.qr-app,
+.home-app {
+  background: transparent !important;
+  color: var(--text) !important;
+}
+
+
+/* =========================================================
+   CRITICAL SCREEN CONTRAST FIX
+   Fixes the near-black headings seen in screenshots.
+   ========================================================= */
+
+#screen,
+.screen,
+.call-screen,
+.sms-screen,
+.qr-screen {
+  background: transparent !important;
+  color: var(--text) !important;
+}
+
+
+#screen h1,
+#screen h2,
+#screen h3,
+#screen h4,
+.screen h1,
+.screen h2,
+.screen h3,
+.call-screen h1,
+.call-screen h2 {
+  color: var(--text) !important;
+
+  line-height: 1.08;
+
+  text-wrap: balance;
+}
+
+
+#screen h1 {
+  font-size: clamp(
+    2.15rem,
+    4vw,
+    3.65rem
+  ) !important;
+
+  max-width: 19ch;
+}
+
+
+#screen h2 {
+  font-size: clamp(
+    1.65rem,
+    2.6vw,
+    2.7rem
+  ) !important;
+}
+
+
+#screen h3 {
+  font-size: clamp(
+    1.25rem,
+    1.8vw,
+    1.7rem
+  ) !important;
+}
+
+
+#screen p,
+#screen li {
+  color: var(--text-soft) !important;
+
+  font-size: clamp(
+    1.05rem,
+    1.3vw,
+    1.28rem
+  );
+
+  line-height: 1.55;
+}
+
+
+/* =========================================================
+   PANELS
+   ========================================================= */
+
+[class*="card"],
+[class*="panel"] {
+  border-color: var(--border) !important;
+}
+
+
+.intro-card,
+.result-card,
+.fatal-card,
+.call-card,
+.scenario-card,
+.call-stage,
+.call-content,
+.call-panel,
+.left-panel {
+  background:
+    linear-gradient(
+      145deg,
+      var(--surface-2),
+      var(--surface-1)
+    ) !important;
+
+  color: var(--text) !important;
+
+  border: 1px solid var(--border) !important;
+
+  box-shadow: var(--shadow);
+}
+
+
+/* =========================================================
+   CALL — DARK THROUGHOUT
+   ========================================================= */
+
+.phone-shell,
+.phone-panel,
+.phone-frame,
+.phone-screen,
+.incoming-call,
+.caller-panel {
+  background: #06131e !important;
+
+  color: var(--text) !important;
+
+  border-color: #294257 !important;
+}
+
+
+.caller-name {
+  color: var(--text) !important;
+
+  font-size: clamp(
+    1.55rem,
+    2.5vw,
+    2.4rem
+  ) !important;
+
+  line-height: 1.1;
+}
+
+
+.caller-number,
+.caller-role,
+.call-subtitle {
+  color: var(--muted) !important;
+}
+
+
+/*
+ Common dialogue/content class patterns.
+ This deliberately loads LAST.
+*/
+
+#screen [class*="dialog"],
+#screen [class*="message"],
+#screen [class*="script"],
+#screen [class*="transcript"],
+#screen [class*="copy"] {
+  background: var(--surface-2) !important;
+
+  color: var(--text) !important;
+
+  border-color: var(--border) !important;
+}
+
+
+#screen [class*="dialog"] p,
+#screen [class*="message"] p,
+#screen [class*="script"] p,
+#screen [class*="transcript"] p,
+#screen [class*="copy"] p {
+  color: var(--text) !important;
+}
+
+
+/* =========================================================
+   SMS
+   ========================================================= */
+
+.sms-phone,
+.phone-body,
+.message-area,
+.message-thread {
+  background: #06121c !important;
+
+  color: var(--text) !important;
+}
+
+
+.message-bubble,
+.sms-bubble {
+  background: #19374e !important;
+
+  color: var(--text) !important;
+
+  border: 1px solid var(--border) !important;
+}
+
+
+.message-bubble p,
+.sms-bubble p {
+  color: var(--text) !important;
+}
+
+
+/* =========================================================
+   QR / WEBSITE
+   ========================================================= */
+
+.poster-card {
+  background:
+    linear-gradient(
+      145deg,
+      #15344a,
+      #0d2436
+    ) !important;
+
+  color: var(--text) !important;
+
+  border: 1px solid var(--border) !important;
+}
+
+
+.poster-card h2 {
+  color: var(--text) !important;
+}
+
+
+.poster-card p {
+  color: var(--text-soft) !important;
+}
+
+
+.browser-card {
+  background: #081722 !important;
+
+  color: var(--text) !important;
+
+  border: 1px solid var(--border) !important;
+
+  box-shadow: var(--shadow);
+}
+
+
+.browser-top {
+  background: #142b3d !important;
+}
+
+
+.address-bar {
+  background: #06131d !important;
+
+  color: #e5edf3 !important;
+
+  border: 1px solid #405b70 !important;
+
+  font-size: 1rem;
+}
+
+
+.fake-site {
+  background: #0f2638 !important;
+
+  color: var(--text) !important;
+}
+
+
+.fake-site h2,
+.fake-site h3,
+.site-brand {
+  color: var(--text) !important;
+}
+
+
+.fake-site p {
+  color: var(--text-soft) !important;
+}
+
+
+.fake-site label {
+  color: var(--text) !important;
+}
+
+
+.fake-input,
+input,
+textarea,
+select {
+  background: #071722 !important;
+
+  color: var(--text) !important;
+
+  border: 1px solid #49657a !important;
+}
+
+
+/* =========================================================
+   CHOICE BUTTONS
+   ========================================================= */
+
+.choice-grid {
+  gap: 14px !important;
+}
+
+
+.choice-btn {
+  min-height: 76px !important;
+
+  padding: 18px 22px !important;
+
+  background: #122d43 !important;
+
+  color: var(--text) !important;
+
+  border: 1px solid var(--border) !important;
+
+  border-radius: 16px !important;
+
+  font-size: clamp(
+    1.05rem,
+    1.25vw,
+    1.22rem
+  ) !important;
+
+  font-weight: 750 !important;
+
+  line-height: 1.35 !important;
+
+  cursor: pointer;
+}
+
+
+.choice-btn:hover:not(:disabled) {
+  background: #193b55 !important;
+
+  border-color: var(--border-strong) !important;
+}
+
+
+.choice-btn.safe {
+  background: rgba(88, 212, 154, .13) !important;
+
+  border-color: var(--safe) !important;
+}
+
+
+.choice-btn.risk {
+  background: rgba(255, 133, 133, .13) !important;
+
+  border-color: var(--risk) !important;
+}
+
+
+.safe-text {
+  color: var(--safe) !important;
+}
+
+
+.risk-text {
+  color: var(--risk) !important;
+}
+
+
+/* =========================================================
+   PRIMARY / SECONDARY BUTTONS
+   ========================================================= */
+
+.primary-btn {
+  min-height: 60px;
+
+  padding: 15px 24px !important;
+
+  background: var(--accent) !important;
+
+  color: #101820 !important;
+
+  border-radius: 14px !important;
+
+  font-size: 1.05rem !important;
+
+  font-weight: 850 !important;
+}
+
+
+.secondary-btn {
+  min-height: 58px;
+
+  padding: 14px 21px !important;
+
+  background: #10283a !important;
+
+  color: var(--text) !important;
+
+  border: 2px solid #708697 !important;
+
+  border-radius: 14px !important;
+
+  font-weight: 800 !important;
+}
+
+
+button:focus-visible,
+a:focus-visible {
+  outline: 4px solid var(--accent) !important;
+
+  outline-offset: 4px;
+}
+
+
+/* =========================================================
+   FEEDBACK
+   ========================================================= */
+
+.feedback,
+.safe-action {
+  background: #0b2031 !important;
+
+  color: var(--text) !important;
+
+  border: 1px solid var(--border) !important;
+
+  border-radius: 16px !important;
+}
+
+
+.feedback p,
+.feedback li,
+.safe-action p {
+  color: var(--text-soft) !important;
+}
+
+
+/* =========================================================
+   HEADER / FOOTER
+   ========================================================= */
+
+.topbar,
+.call-topbar,
+.sms-topbar,
+.qr-topbar,
+.safety-strip {
+  background: rgba(4, 16, 26, .97) !important;
+
+  color: var(--text) !important;
+
+  border-color: var(--border) !important;
+}
+
+
+.safety-strip {
+  min-height: 64px;
+}
+
+
+/* =========================================================
+   SIMULATION LABEL
+   ========================================================= */
+
+.simulation-warning {
+  background: #332a13 !important;
+
+  color: #f5d98d !important;
+
+  border: 1px solid rgba(243, 184, 68, .36) !important;
+}
+
+
+/* =========================================================
+   ASSISTED MODE
+   ========================================================= */
+
+body.assisted {
+  font-size: 125%;
+}
+
+
+body.assisted .choice-btn {
+  min-height: 88px !important;
+
+  font-size: 1.15em !important;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  #screen h1 {
+    font-size: clamp(
+      2rem,
+      8vw,
+      3rem
+    ) !important;
+  }
+
+  .choice-btn {
+    min-height: 72px !important;
+  }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+}
+
+
+/* SOURCE 4/9: static/css/fraud-premium-fixes.css — unchanged declarations */
+/* ============================================================
+   FRAUD LAB — FINAL PREMIUM VISUAL OVERRIDES
+   v7.12
+   Purpose:
+   - fix unreadable text
+   - remove white / washed-out panels
+   - increase internal spacing
+   - improve accessibility
+   - enforce premium dark look
+   ============================================================ */
+
+:root {
+  --fl-premium-bg-1: #0d2538;
+  --fl-premium-bg-2: #14324a;
+  --fl-premium-bg-3: #0a1d2c;
+
+  --fl-premium-text: #f8fbfd;
+  --fl-premium-soft: #d9e4ec;
+  --fl-premium-muted: #b7c7d4;
+
+  --fl-premium-border: rgba(214, 228, 237, .18);
+  --fl-premium-border-strong: rgba(214, 228, 237, .30);
+
+  --fl-premium-shadow:
+    0 22px 50px rgba(0, 0, 0, .24);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* ------------------------------------------------------------
+   MAIN SCREEN TEXT SAFETY
+   ------------------------------------------------------------ */
+
+#screen,
+#screen * {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+#screen h1,
+#screen h2,
+#screen h3,
+#screen h4,
+#screen h5,
+#screen h6 {
+  color: var(--fl-premium-text) !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1.12 !important;
+  margin-top: 0 !important;
+  text-wrap: balance;
+}
+
+#screen p,
+#screen li,
+#screen span,
+#screen label,
+#screen small {
+  color: var(--fl-premium-soft) !important;
+  line-height: 1.55 !important;
+}
+
+#screen p:last-child,
+#screen li:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* ------------------------------------------------------------
+   INTRO / RESULT / GENERIC CONTENT CARDS
+   This fixes the white washed-out panels from screenshots.
+   ------------------------------------------------------------ */
+
+#screen .intro-card,
+#screen .result-card,
+#screen .fatal-card,
+#screen .feedback,
+#screen .safe-action,
+#screen .scenario-card,
+#screen .content-card,
+#screen .text-card,
+#screen .question-panel,
+#screen .copy-panel,
+#screen .content-panel,
+#screen .right-panel,
+#screen .left-panel,
+#screen .call-copy,
+#screen .scenario-copy,
+#screen .scenario-panel,
+#screen .call-panel,
+#screen .call-content,
+#screen .call-dialog,
+#screen .call-transcript,
+#screen .speech-bubble,
+#screen .message-card,
+#screen .browser-card,
+#screen .fake-site,
+#screen .poster-card {
+  background:
+    linear-gradient(
+      145deg,
+      var(--fl-premium-bg-2),
+      var(--fl-premium-bg-1)
+    ) !important;
+
+  color: var(--fl-premium-text) !important;
+
+  border: 1px solid var(--fl-premium-border) !important;
+  border-radius: 24px !important;
+  box-shadow: var(--fl-premium-shadow) !important;
+}
+
+/* ------------------------------------------------------------
+   SPACING FIX
+   Text was glued to edges in the screenshots.
+   ------------------------------------------------------------ */
+
+#screen .intro-card,
+#screen .result-card,
+#screen .fatal-card,
+#screen .feedback,
+#screen .safe-action,
+#screen .scenario-card,
+#screen .content-card,
+#screen .text-card,
+#screen .question-panel,
+#screen .copy-panel,
+#screen .content-panel,
+#screen .right-panel,
+#screen .left-panel,
+#screen .call-copy,
+#screen .scenario-copy,
+#screen .scenario-panel,
+#screen .call-panel,
+#screen .call-content,
+#screen .call-dialog,
+#screen .call-transcript,
+#screen .browser-card,
+#screen .fake-site,
+#screen .poster-card {
+  padding: clamp(24px, 2.2vw, 38px) !important;
+}
+
+/* ------------------------------------------------------------
+   CALL SCREEN SPECIFIC FIXES
+   ------------------------------------------------------------ */
+
+#screen .phone-shell,
+#screen .phone-frame,
+#screen .phone-panel,
+#screen .phone-screen,
+#screen .incoming-call,
+#screen .caller-panel {
+  background: #05131d !important;
+  color: var(--fl-premium-text) !important;
+  border: 1px solid #29465b !important;
+  border-radius: 30px !important;
+}
+
+#screen .caller-name {
+  color: var(--fl-premium-text) !important;
+  font-size: clamp(1.55rem, 2.2vw, 2.35rem) !important;
+  line-height: 1.08 !important;
+  margin-bottom: 10px !important;
+}
+
+#screen .caller-number,
+#screen .caller-role,
+#screen .call-subtitle {
+  color: var(--fl-premium-muted) !important;
+  font-size: clamp(1rem, 1.15vw, 1.14rem) !important;
+}
+
+/* ------------------------------------------------------------
+   CALL CONTENT TYPOGRAPHY
+   Fixes giant and unreadable titles seen in screenshots.
+   ------------------------------------------------------------ */
+
+#screen .call-copy h1,
+#screen .call-copy h2,
+#screen .scenario-copy h1,
+#screen .scenario-copy h2,
+#screen .scenario-panel h1,
+#screen .scenario-panel h2,
+#screen .content-panel h1,
+#screen .content-panel h2,
+#screen .right-panel h1,
+#screen .right-panel h2,
+#screen .question-panel h1,
+#screen .question-panel h2 {
+  font-size: clamp(1.9rem, 2.6vw, 3.15rem) !important;
+  max-width: 15ch !important;
+  margin-bottom: 18px !important;
+}
+
+#screen .call-copy h3,
+#screen .scenario-copy h3,
+#screen .scenario-panel h3,
+#screen .content-panel h3,
+#screen .right-panel h3,
+#screen .question-panel h3 {
+  font-size: clamp(1rem, 1.2vw, 1.18rem) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  color: var(--fl-premium-muted) !important;
+  margin-bottom: 14px !important;
+}
+
+#screen .call-copy p,
+#screen .scenario-copy p,
+#screen .scenario-panel p,
+#screen .content-panel p,
+#screen .right-panel p,
+#screen .question-panel p,
+#screen .feedback p,
+#screen .safe-action p {
+  font-size: clamp(1.02rem, 1.22vw, 1.28rem) !important;
+  max-width: 62ch !important;
+  overflow-wrap: anywhere !important;
+}
+
+/* ------------------------------------------------------------
+   BUBBLE / SCRIPT / QUOTE FIX
+   Prevent white speech bubble issue.
+   ------------------------------------------------------------ */
+
+#screen .speech-bubble,
+#screen .dialog-bubble,
+#screen .quote-box,
+#screen .message-box,
+#screen .script-box,
+#screen .call-script,
+#screen .transcript-box {
+  background: #10293d !important;
+  color: var(--fl-premium-text) !important;
+  border: 1px solid var(--fl-premium-border-strong) !important;
+  border-radius: 20px !important;
+  padding: 22px 24px !important;
+}
+
+#screen .speech-bubble p,
+#screen .dialog-bubble p,
+#screen .quote-box p,
+#screen .message-box p,
+#screen .script-box p,
+#screen .call-script p,
+#screen .transcript-box p {
+  color: var(--fl-premium-text) !important;
+}
+
+/* ------------------------------------------------------------
+   BUTTONS
+   ------------------------------------------------------------ */
+
+.choice-grid {
+  gap: 14px !important;
+}
+
+.choice-btn {
+  min-height: 78px !important;
+  padding: 18px 22px !important;
+  border-radius: 16px !important;
+  background: #14324a !important;
+  color: var(--fl-premium-text) !important;
+  border: 1px solid var(--fl-premium-border) !important;
+  font-size: clamp(1.04rem, 1.18vw, 1.18rem) !important;
+  font-weight: 800 !important;
+  line-height: 1.34 !important;
+  text-align: left !important;
+  white-space: normal !important;
+}
+
+.choice-btn:hover:not(:disabled) {
+  background: #1a3b56 !important;
+  border-color: var(--fl-premium-border-strong) !important;
+}
+
+.primary-btn {
+  min-height: 60px !important;
+  padding: 15px 26px !important;
+  border-radius: 14px !important;
+  font-size: 1.04rem !important;
+  font-weight: 850 !important;
+}
+
+.secondary-btn {
+  min-height: 58px !important;
+  padding: 14px 22px !important;
+  border-radius: 14px !important;
+  font-size: 1rem !important;
+  font-weight: 800 !important;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 4px solid #f3b844 !important;
+  outline-offset: 4px !important;
+}
+
+/* ------------------------------------------------------------
+   INTRO SCREEN HERO
+   ------------------------------------------------------------ */
+
+#screen .intro-card h1 {
+  font-size: clamp(2rem, 3vw, 3.45rem) !important;
+  max-width: 16ch !important;
+  margin-bottom: 16px !important;
+}
+
+#screen .intro-card p {
+  font-size: clamp(1.05rem, 1.22vw, 1.25rem) !important;
+  max-width: 58ch !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* ------------------------------------------------------------
+   QR / WEB FORMS
+   ------------------------------------------------------------ */
+
+#screen .address-bar,
+#screen .fake-input,
+#screen input,
+#screen textarea,
+#screen select {
+  background: #081722 !important;
+  color: var(--fl-premium-text) !important;
+  border: 1px solid #496579 !important;
+}
+
+#screen .fake-site h2,
+#screen .fake-site h3,
+#screen .poster-card h2 {
+  color: var(--fl-premium-text) !important;
+}
+
+#screen .fake-site p,
+#screen .poster-card p {
+  color: var(--fl-premium-soft) !important;
+}
+
+/* ------------------------------------------------------------
+   ASSISTED MODE / OLDER AUDIENCE
+   ------------------------------------------------------------ */
+
+body.assisted #screen h1 {
+  font-size: clamp(2.2rem, 3.4vw, 3.8rem) !important;
+}
+
+body.assisted .choice-btn {
+  min-height: 88px !important;
+  font-size: 1.16rem !important;
+}
+
+body.assisted #screen p,
+body.assisted #screen li {
+  font-size: 1.18rem !important;
+}
+
+/* ------------------------------------------------------------
+   RESPONSIVE
+   ------------------------------------------------------------ */
+
+@media (max-width: 1100px) {
+  #screen .call-copy h1,
+  #screen .call-copy h2,
+  #screen .scenario-copy h1,
+  #screen .scenario-copy h2,
+  #screen .scenario-panel h1,
+  #screen .scenario-panel h2,
+  #screen .content-panel h1,
+  #screen .content-panel h2,
+  #screen .right-panel h1,
+  #screen .right-panel h2,
+  #screen .question-panel h1,
+  #screen .question-panel h2 {
+    max-width: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
+/* SOURCE 5/9: static/css/exhibition-tv.css — unchanged declarations */
+/*
+ FRAUD LAB
+ Exhibition Display Optimization v3.0
+ Phase 2 - Windows Exhibition Mode
+
+ Purpose:
+ - 1920x1080 kiosk displays
+ - 27" monitors
+ - 65" exhibition screens
+ - no vertical scrolling
+ - all stations visible
+ - touch friendly targets
+*/
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+.home-shell {
+    width: 100%;
+    max-width: none;
+    height: 100vh;
+    min-height: 100vh;
+    margin: 0;
+    padding: clamp(20px, 3vh, 42px) clamp(24px, 4vw, 72px);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.hero {
+    max-width: 100%;
+    margin-bottom: clamp(14px, 2vh, 28px);
+}
+
+.brand-kicker {
+    font-size: clamp(.8rem, 1vw, 1.1rem);
+}
+
+.hero h1 {
+    font-size: clamp(2.4rem, 5vw, 5rem);
+    line-height: .95;
+}
+
+.hero-copy {
+    max-width: 1100px;
+    margin: 12px 0;
+    font-size: clamp(1rem, 1.4vw, 1.35rem);
+    line-height: 1.35;
+}
+
+.safety-message {
+    padding: 10px 18px;
+    font-size: clamp(.8rem, 1vw, 1rem);
+}
+
+.stations {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: clamp(14px, 1.8vw, 28px);
+}
+
+.station-card {
+    min-height: 0;
+    height: 100%;
+    padding: clamp(18px, 2vw, 32px);
+    border-radius: 22px;
+    display: flex;
+    overflow: hidden;
+}
+
+.station-number {
+    font-size: clamp(3rem, 6vw, 6rem);
+    margin-right: 18px;
+}
+
+.station-content {
+    min-width: 0;
+}
+
+.station-content h2 {
+    margin: 8px 0;
+    font-size: clamp(1.5rem, 2.5vw, 2.8rem);
+}
+
+.station-content p {
+    font-size: clamp(.9rem, 1.2vw, 1.25rem);
+    line-height: 1.4;
+    margin: 8px 0;
+}
+
+.station-footer {
+    padding-top: 12px;
+}
+
+@media (max-height: 850px) {
+
+    .home-shell {
+        padding-top: 18px;
+        padding-bottom: 18px;
+    }
+
+    .hero-copy,
+    .safety-message {
+        display: none;
+    }
+
+    .hero {
+        margin-bottom: 12px;
+    }
+
+    .station-card {
+        padding: 16px;
+    }
+
+    .station-content p {
+        max-height: 48px;
+        overflow: hidden;
+    }
+
+    .station-footer {
+        display: none;
+    }
+}
+
+@media (min-width: 2500px) {
+
+    .station-card {
+        padding: 42px;
+    }
+
+    .station-content h2 {
+        font-size: 3.2rem;
+    }
+
+    .station-content p {
+        font-size: 1.5rem;
+    }
+}
+
+/* HOME DESKTOP WINDOWED LAYOUT v1
+   The exhibition stylesheet intentionally locks the 1920x1080 kiosk to one
+   screen. In a normal desktop browser with 851-950px of usable height, the
+   two fixed station rows can become shorter than their card content.
+   For fine-pointer desktop windowed layouts only, let the Home page grow and
+   use natural card heights so text stays inside each card and the page itself
+   can scroll when needed. The <=850px compact kiosk rules remain unchanged.
+*/
+@media (min-width: 901px) and (min-height: 851px) and (max-height: 950px) and (pointer: fine) {
+  html {
+    height: auto;
+    min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  body.home-page {
+    height: auto;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
+
+  body.home-page .home-shell {
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+  }
+
+  body.home-page .stations {
+    flex: 0 0 auto;
+    grid-template-rows: auto auto;
+  }
+
+  body.home-page .station-card,
+  body.home-page .station-card.featured {
+    height: auto;
+    min-height: 240px;
+    overflow: hidden;
+  }
+}
+
+
+/* SOURCE 6/9: static/css/mobile.css — unchanged declarations */
+/*
+ FRAUD LAB — Mobile Responsive Overrides
+ Home only · Phase 1
+
+ Loaded after exhibition-tv.css so mobile browsers can scroll normally
+ while the desktop/exhibition layout remains unchanged.
+*/
+
+@media (max-width: 768px), (orientation: landscape) and (max-width: 1024px) and (max-height: 600px), (min-width: 769px) and (max-width: 1024px) and (any-pointer: coarse), (orientation: landscape) and (min-width: 1025px) and (max-width: 1366px) and (max-height: 1024px) and (any-pointer: coarse) {
+  html.home-page,
+  body.home-page {
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  body.home-page {
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  body.home-page .home-shell {
+    width: min(100% - 24px, 1400px);
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+    margin: 0 auto;
+    padding: max(28px, env(safe-area-inset-top)) 0 max(28px, env(safe-area-inset-bottom));
+    display: block;
+    overflow: visible;
+  }
+
+  body.home-page .hero {
+    max-width: 100%;
+    margin-bottom: 28px;
+  }
+
+  body.home-page .hero h1 {
+    font-size: clamp(2.35rem, 11vw, 4.2rem);
+    line-height: 1;
+    overflow-wrap: anywhere;
+  }
+
+  body.home-page .hero-copy {
+    display: block !important;
+    max-width: 100%;
+    margin: 20px 0;
+    font-size: clamp(1rem, 3.8vw, 1.2rem);
+    line-height: 1.55;
+  }
+
+  body.home-page .safety-message {
+    display: flex !important;
+    width: 100%;
+    max-width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px 14px;
+    font-size: .82rem;
+    line-height: 1.25;
+    text-align: center;
+  }
+
+  body.home-page .stations {
+    min-height: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+    gap: 16px;
+  }
+
+  body.home-page .station-card,
+  body.home-page .station-card.featured {
+    grid-column: auto;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    padding: 22px;
+    align-items: flex-start;
+  }
+
+  body.home-page .station-card.featured {
+    text-align: center;
+  }
+
+  body.home-page .station-content {
+    min-width: 0;
+  }
+
+  body.home-page .station-card h2 {
+    margin: 10px 0;
+    font-size: clamp(1.55rem, 6vw, 2.15rem);
+    overflow-wrap: anywhere;
+  }
+
+  body.home-page .station-card p {
+    margin: 8px 0 0;
+    max-width: 100%;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  body.home-page .station-footer,
+  body.home-page .station-card.featured .station-footer {
+    display: flex !important;
+    width: 100%;
+    margin-top: 20px;
+    padding-top: 14px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  body.home-page .home-footer {
+    display: block !important;
+    margin-top: 24px;
+    padding: 18px 2px;
+  }
+
+  body.home-page .home-footer p {
+    margin: 0;
+    line-height: 1.5;
+  }
+}
+
+@media (max-width: 480px) {
+  body.home-page .home-shell {
+    width: calc(100% - 20px);
+    padding-top: max(22px, env(safe-area-inset-top));
+  }
+
+  body.home-page .brand-kicker {
+    margin-bottom: 10px;
+    font-size: .82rem;
+  }
+
+  body.home-page .hero h1 {
+    font-size: clamp(2.15rem, 11.5vw, 3.2rem);
+    letter-spacing: -.035em;
+  }
+
+  body.home-page .hero-copy {
+    margin: 16px 0;
+  }
+
+  body.home-page .station-number {
+    display: none;
+  }
+
+  body.home-page .station-card,
+  body.home-page .station-card.featured {
+    padding: 20px;
+  }
+
+  body.home-page .station-footer,
+  body.home-page .station-card.featured .station-footer {
+    font-size: .9rem;
+  }
+}
+
+/* HOME DESKTOP EXHIBITION GRID SAFETY
+   The featured card must respect the grid row height on shorter desktop
+   viewports instead of forcing the original 260px minimum into row 2. */
+@media (min-width: 769px) and (max-height: 950px) {
+  body.home-page .station-card.featured {
+    min-height: 0;
+  }
+}
+
+
+/* SOURCE 7/9: static/css/home-station04.css — unchanged declarations */
+/* Station 04 Home-only layout v2.
+   Scope: Home exclusively. Does not touch Call, SMS, QR, or their styles.
+   Wide displays use a true viewport-fitting 1 + 3 layout, including windowed
+   851–950px heights where legacy exhibition-tv.css forced the page to scroll.
+   Phones, portrait tablets and short windows use natural document scrolling. */
+
+/* WIDE DISPLAY / EXHIBITION: preserve the featured Call card and three cards below. */
+@media (min-width: 1100px) and (min-height: 680px) {
+  html.home-page,
+  body.home-page.station04-enabled {
+    height: 100%;
+    min-height: 100%;
+    overflow: hidden;
+  }
+  body.home-page.station04-enabled .home-shell {
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    width: 100%;
+    padding: clamp(12px, 1.8vh, 24px) clamp(18px, 3vw, 62px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  body.home-page.station04-enabled .hero {
+    flex: 0 0 auto;
+    margin: 0 0 clamp(8px, 1.3vh, 15px);
+    max-width: 100%;
+  }
+  body.home-page.station04-enabled .brand-kicker {
+    font-size: clamp(.75rem, .9vw, .98rem);
+    margin-bottom: clamp(5px, .9vh, 12px);
+  }
+  body.home-page.station04-enabled .hero h1 {
+    font-size: clamp(2.2rem, min(4vw, 6.6vh), 4.8rem);
+    line-height: .97;
+  }
+  body.home-page.station04-enabled .hero-copy {
+    max-width: 1120px;
+    margin: clamp(6px, 1.15vh, 12px) 0;
+    font-size: clamp(.86rem, 1.05vw, 1.17rem);
+    line-height: 1.35;
+  }
+  body.home-page.station04-enabled .safety-message {
+    padding: 7px 13px;
+    font-size: clamp(.72rem, .8vw, .88rem);
+    gap: 11px;
+  }
+  body.home-page.station04-enabled .stations {
+    display: grid;
+    flex: 1 1 auto;
+    min-height: 0;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: minmax(0, .92fr) minmax(0, 1.08fr);
+    gap: clamp(8px, 1.25vh, 17px);
+  }
+  body.home-page.station04-enabled .station-card,
+  body.home-page.station04-enabled .station-card.featured {
+    height: 100%;
+    min-height: 0;
+    width: 100%;
+    padding: clamp(12px, 1.5vh, 25px) clamp(13px, 1.35vw, 26px);
+    border-radius: clamp(14px, 1.25vw, 22px);
+    overflow: hidden;
+  }
+  body.home-page.station04-enabled .station-card.featured {
+    grid-column: 1 / -1;
+    align-items: center;
+  }
+  body.home-page.station04-enabled .station-card.featured .station-number {
+    font-size: clamp(2.4rem, min(6vw, 8vh), 5.6rem);
+    margin-right: 0;
+    margin-bottom: clamp(3px, .7vh, 8px);
+  }
+  body.home-page.station04-enabled .station-card:not(.featured) .station-number {
+    font-size: clamp(2rem, 3.8vw, 4.7rem);
+    margin-right: clamp(8px, .9vw, 15px);
+  }
+  body.home-page.station04-enabled .station-card .station-type {
+    font-size: clamp(.67rem, .78vw, .86rem);
+    letter-spacing: .09em;
+  }
+  body.home-page.station04-enabled .station-card h2 {
+    font-size: clamp(1.2rem, 1.65vw, 2.18rem);
+    line-height: 1.15;
+    margin: clamp(5px, .75vh, 10px) 0;
+  }
+  body.home-page.station04-enabled .station-card.featured h2 {
+    font-size: clamp(1.5rem, 2.05vw, 2.65rem);
+  }
+  body.home-page.station04-enabled .station-card p {
+    font-size: clamp(.79rem, .91vw, 1.02rem);
+    line-height: 1.32;
+    margin: clamp(4px, .6vh, 8px) 0;
+    max-height: none;
+    overflow: visible;
+  }
+  body.home-page.station04-enabled .station-card.featured p {
+    max-width: 950px;
+  }
+  body.home-page.station04-enabled .station-footer,
+  body.home-page.station04-enabled .station-card.featured .station-footer {
+    display: flex;
+    margin-top: auto;
+    padding-top: clamp(5px, .8vh, 12px);
+    gap: 8px;
+    font-size: clamp(.75rem, .8vw, .93rem);
+  }
+  body.home-page.station04-enabled .home-footer {
+    flex: 0 0 auto;
+    display: block;
+    margin: clamp(7px, 1vh, 15px) 0 0;
+    padding: clamp(7px, 1vh, 13px) 0 0;
+    line-height: 1.28;
+    font-size: clamp(.71rem, .78vw, .88rem);
+  }
+  body.home-page.station04-enabled .home-footer p {margin: 0;}
+  body.home-page.station04-enabled .home-footer .creator-credit {
+    margin: 4px auto 0;
+    font-size: clamp(.69rem, .75vw, .83rem);
+    line-height: 1.22;
+  }
+}
+
+/* Tight-height wide displays: retain all four cards in one screen. */
+@media (min-width: 1100px) and (min-height: 680px) and (max-height: 850px) {
+  body.home-page.station04-enabled .hero-copy,
+  body.home-page.station04-enabled .safety-message {display: none;}
+  body.home-page.station04-enabled .stations {grid-template-rows: minmax(0, .84fr) minmax(0, 1.16fr);}
+  body.home-page.station04-enabled .station-card.featured .station-number {font-size: clamp(2rem, 5.7vh, 3.6rem);}
+}
+
+/* Normal browser windows, tablets and phones: scroll rather than crop cards.
+   This covers desktop widths below 1100px, short viewports, and touch tablets. */
+@media (max-width: 1099px), (max-height: 679px) {
+  html.home-page,
+  body.home-page.station04-enabled {
+    height: auto;
+    min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  body.home-page.station04-enabled .home-shell {
+    width: min(100% - 24px, 1400px);
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+    margin: 0 auto;
+    padding: max(19px, env(safe-area-inset-top)) 0 max(22px, env(safe-area-inset-bottom));
+    display: block;
+    overflow: visible;
+  }
+  body.home-page.station04-enabled .hero {margin-bottom: clamp(18px, 2vw, 27px);}
+  body.home-page.station04-enabled .hero h1 {
+    font-size: clamp(2.1rem, 5.7vw, 3.6rem);
+    line-height: 1;
+  }
+  body.home-page.station04-enabled .hero-copy {display: block;max-width: 980px;}
+  body.home-page.station04-enabled .safety-message {display: inline-flex;}
+  body.home-page.station04-enabled .stations {
+    display: grid;
+    flex: none;
+    min-height: 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto;
+    grid-auto-rows: auto;
+    gap: 13px;
+  }
+  body.home-page.station04-enabled .station-card,
+  body.home-page.station04-enabled .station-card.featured {
+    width: 100%;
+    height: auto;
+    min-height: 180px;
+    padding: clamp(16px, 2vw, 25px);
+    overflow: visible;
+  }
+  body.home-page.station04-enabled .station-card.featured {grid-column: 1 / -1; min-height: 190px;}
+  body.home-page.station04-enabled .station-card .station-number {font-size: clamp(2.2rem, 5.5vw, 4.4rem);}
+  body.home-page.station04-enabled .station-card h2 {font-size: clamp(1.35rem, 2.8vw, 2rem);}
+  body.home-page.station04-enabled .station-card p {max-height: none; overflow: visible; font-size: .96rem; line-height: 1.45;}
+  body.home-page.station04-enabled .station-footer,
+  body.home-page.station04-enabled .station-card.featured .station-footer {
+    display: flex;
+    padding-top: 10px;
+    margin-top: auto;
+  }
+  body.home-page.station04-enabled .home-footer {
+    display: block;
+    margin-top: 18px;
+    padding: 16px 0 0;
+  }
+}
+
+/* Narrow phones: maintain natural vertical stack and readable touch targets. */
+@media (max-width: 699px) {
+  body.home-page.station04-enabled .home-shell {width: calc(100% - 20px);}
+  body.home-page.station04-enabled .stations {grid-template-columns: minmax(0, 1fr);}
+  body.home-page.station04-enabled .station-card.featured {grid-column: auto;}
+  body.home-page.station04-enabled .station-card,
+  body.home-page.station04-enabled .station-card.featured {min-height: 0;padding: 19px;}
+  body.home-page.station04-enabled .station-card .station-number {display: none;}
+  body.home-page.station04-enabled .hero h1 {font-size: clamp(2.1rem, 10vw, 3.25rem);}
+  body.home-page.station04-enabled .station-footer,
+  body.home-page.station04-enabled .station-card.featured .station-footer {min-height: 44px;}
+}
+
+
+/* SOURCE 8/9: static/css/exhibition-fit-v3.css — unchanged declarations */
+/* FRAUD LAB — Exhibition typography and one-screen card fit v3.
+   Scoped per station. Never alter dialogue, choices, grading or event handling.
+   Laptop/mobile fallback scrolls when content cannot be displayed without clipping. */
+
+/* HOME — larger card copy without enlarging the existing oversized hero. */
+@media (min-width:1100px) and (min-height:680px) {
+  body.home-page.station04-enabled .station-card .station-type {
+    font-size: clamp(.82rem, .95vw, 1.04rem);letter-spacing:.055em;
+  }
+  body.home-page.station04-enabled .station-card h2 {
+    font-size: clamp(1.6rem, 2vw, 2.45rem);line-height:1.12;
+  }
+  body.home-page.station04-enabled .station-card.featured h2 {
+    font-size: clamp(1.95rem, 2.4vw, 2.85rem);
+  }
+  body.home-page.station04-enabled .station-card p {
+    font-size: clamp(.98rem, 1.12vw, 1.27rem);line-height:1.32;
+  }
+  body.home-page.station04-enabled .station-footer,
+  body.home-page.station04-enabled .station-card.featured .station-footer {
+    font-size: clamp(.92rem, 1vw, 1.16rem);
+  }
+  body.home-page.station04-enabled .station-card:not(.featured) .station-number {
+    font-size: clamp(2.8rem, 4.25vw, 5.1rem);
+  }
+}
+
+/* QR / E-MAIL — tighten overly large mail preview and choices in wide kiosk.
+   The existing two-panel design is kept; all scenario text remains in the DOM. */
+@media (min-width:1100px) and (min-height:680px) {
+  body.qr-page .qr-screen:has(.challenge-layout--mail) {
+    display:flex!important;align-items:flex-start!important;
+    padding:9px 0!important;
+    overflow-y:auto!important;overflow-x:hidden!important;
+  }
+  body.qr-page .challenge-layout--mail .left-panel--mail {
+    gap:8px 18px!important;
+    grid-template-columns:minmax(0,1.2fr) minmax(350px,.8fr)!important;
+  }
+  body.qr-page .challenge-layout--mail .progress {
+    padding-bottom:7px!important;font-size:.87rem;
+  }
+  body.qr-page .challenge-layout--mail .mail-preview-toolbar {
+    padding:7px 12px!important;gap:4px!important;
+  }
+  body.qr-page .challenge-layout--mail .mail-preview-dots {font-size:.8rem;line-height:1.05;}
+  body.qr-page .challenge-layout--mail .mail-preview-address {
+    padding:7px 11px!important;font-size:.86rem!important;line-height:1.2!important;
+  }
+  body.qr-page .challenge-layout--mail .mail-preview-body {
+    padding:12px 16px 13px!important;
+  }
+  body.qr-page .challenge-layout--mail .mail-preview-meta {margin-bottom:5px!important;gap:5px 9px!important;}
+  body.qr-page .challenge-layout--mail .mail-preview-badge {min-height:25px;padding:3px 9px;font-size:.73rem;}
+  body.qr-page .challenge-layout--mail .mail-message-header {margin-bottom:7px!important;}
+  body.qr-page .challenge-layout--mail .mail-subject-label {margin-top:2px!important;}
+  body.qr-page .challenge-layout--mail .mail-message-subject {
+    margin:4px 0 9px!important;font-size:clamp(1.45rem,1.7vw,2rem)!important;line-height:1.13!important;
+  }
+  body.qr-page .challenge-layout--mail .mail-message-body p {
+    margin:0 0 7px!important;font-size:clamp(.9rem,.93vw,1.04rem)!important;line-height:1.32!important;
+  }
+  body.qr-page .challenge-layout--mail .mail-preview-content-row {
+    margin-top:8px!important;gap:10px!important;
+  }
+  body.qr-page .challenge-layout--mail .mail-preview-visual {
+    width:102px!important;min-width:102px!important;padding:6px!important;
+  }
+  body.qr-page .challenge-layout--mail .mail-preview-visual .scenario-qr-image {
+    width:85px!important;height:85px!important;max-width:85px!important;max-height:85px!important;
+  }
+  body.qr-page .challenge-layout--mail .qr-sim-trigger {
+    min-height:43px!important;padding:8px 11px!important;margin-top:0!important;
+  }
+  body.qr-page .challenge-layout--mail .qr-sim-helper {
+    font-size:.78rem!important;line-height:1.25!important;margin-top:5px!important;
+  }
+  body.qr-page .challenge-layout--mail .choice-area--mail {
+    padding:14px!important;
+  }
+  body.qr-page .challenge-layout--mail .choice-area--mail::before {margin-bottom:4px!important;font-size:.72rem!important;}
+  body.qr-page .challenge-layout--mail .choice-area--mail h1 {
+    margin:0 0 12px!important;font-size:clamp(1.7rem,2.15vw,2.4rem)!important;
+  }
+  body.qr-page .challenge-layout--mail .choice-grid {gap:8px!important;}
+  body.qr-page .challenge-layout--mail .choice-btn {
+    min-height:54px!important;padding:9px 12px!important;
+    font-size:clamp(.92rem,.98vw,1.05rem)!important;line-height:1.26!important;
+  }
+  body.qr-page .challenge-layout--mail .choice-btn span {
+    flex:0 0 29px!important;min-width:29px!important;width:29px!important;height:29px!important;
+  }
+
+  /* The QR final panel's optional double risk badge and large margins previously
+     forced a scrollbar at 1536x960 and 1366x768. Keep one visible badge by CSS. */
+  body.qr-page #screen .result-card .result-badge.victim-alert + .result-badge.victim-alert {
+    display:none!important;
+  }
+  body.qr-page #screen:has(.result-card) {align-items:center!important;padding:6px 0!important;}
+  body.qr-page #screen .result-card {
+    width:min(1300px,100%)!important;padding:clamp(12px,1.4vh,22px) clamp(17px,2vw,30px)!important;
+    margin:auto!important;
+  }
+  body.qr-page #screen .result-card .eyebrow {font-size:.75rem!important;}
+  body.qr-page #screen .result-card .result-badge {margin:0 auto 5px!important;padding:5px 12px!important;}
+  body.qr-page #screen .result-card h1 {
+    margin:4px auto 7px!important;font-size:clamp(1.85rem,2.5vw,2.9rem)!important;line-height:1!important;
+  }
+  body.qr-page #screen .result-card .final-status-shield {width:clamp(37px,4vh,55px)!important;height:clamp(44px,4.5vh,64px)!important;}
+  body.qr-page #screen .result-card .result-lead {
+    font-size:clamp(.96rem,1.05vw,1.16rem)!important;line-height:1.32!important;margin:6px auto 10px!important;
+  }
+  body.qr-page #screen .result-card .lesson-grid {
+    display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:10px!important;margin:10px 0!important;
+  }
+  body.qr-page #screen .result-card .lesson-grid section {
+    min-width:0!important;padding:12px 14px!important;
+  }
+  body.qr-page #screen .result-card .lesson-grid h2 {
+    font-size:clamp(1.15rem,1.35vw,1.45rem)!important;margin:0 0 6px!important;
+  }
+  body.qr-page #screen .result-card .lesson-grid p {
+    font-size:clamp(.9rem,.98vw,1.05rem)!important;line-height:1.35!important;margin:0!important;
+  }
+  body.qr-page #screen .result-card .result-actions {margin:10px 0 0!important;gap:10px!important;}
+  body.qr-page #screen .result-card .result-actions button {min-height:48px!important;padding:9px 17px!important;}
+}
+
+/* SMS and CALL final results — only spacing/height adjustments, no logic. */
+@media (min-width:1100px) and (min-height:680px) {
+  body.sms-page #screen:has(.sms-final-card) {padding:5px 0!important;}
+  body.sms-page .sms-final-card {padding:13px 22px!important;gap:8px!important;}
+  body.sms-page .sms-final-card .result-copy {font-size:.99rem!important;line-height:1.33!important;}
+  body.sms-page .sms-final-card .lesson-grid {display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important;}
+  body.sms-page .sms-final-card .lesson-grid section {padding:10px 13px!important;}
+  body.sms-page .sms-final-card .lesson-grid h2 {font-size:1.4rem!important;margin:4px 0 6px!important;}
+  body.sms-page .sms-final-card .lesson-grid p {font-size:.95rem!important;line-height:1.32!important;}
+  body.sms-page .sms-final-card .result-actions {margin-top:6px!important;}
+
+  body.call-page #screen[data-call-mode="result"] {padding:8px 0!important;}
+  body.call-page #screen[data-call-mode="result"] .result-card {padding:16px 25px!important;gap:8px!important;}
+  body.call-page #screen[data-call-mode="result"] .result-card h1 {margin:3px 0!important;}
+  body.call-page #screen[data-call-mode="result"] .result-card > p {font-size:.97rem!important;line-height:1.3!important;margin:3px 0!important;}
+  body.call-page #screen[data-call-mode="result"] .score-panel {margin:5px 0!important;padding:7px 12px!important;}
+  body.call-page #screen[data-call-mode="result"] .red-flags {margin:5px 0!important;padding:9px 13px!important;}
+  body.call-page #screen[data-call-mode="result"] .red-flags h2 {font-size:1.15rem!important;margin:0 0 5px!important;}
+  body.call-page #screen[data-call-mode="result"] .red-flags li {font-size:.89rem!important;line-height:1.22!important;margin:2px 0!important;}
+  body.call-page #screen[data-call-mode="result"] .lesson-grid {grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;margin:7px 0!important;}
+  body.call-page #screen[data-call-mode="result"] .lesson {padding:10px 12px!important;}
+  body.call-page #screen[data-call-mode="result"] .lesson h2 {font-size:1rem!important;margin:0 0 5px!important;}
+  body.call-page #screen[data-call-mode="result"] .lesson p {font-size:.89rem!important;line-height:1.25!important;}
+  body.call-page #screen[data-call-mode="result"] .result-actions {margin:8px 0 0!important;}
+}
+
+/* On small/portrait devices do not suppress legitimate scrolling. */
+
+/* Short laptop/window feedback: never silently clip a lesson or action button.
+   Large kiosk screens fit without a scrollbar; shorter ones may scroll. */
+@media (min-width:1100px) and (max-height:800px) {
+  body.qr-page .qr-screen.feedback-screen {overflow-y:auto!important;}
+  body.qr-page .qr-screen.feedback-screen .qr-feedback-card {
+    overflow:visible!important;max-height:none!important;
+  }
+}
+
+
+/* SOURCE 9/9: static/css/exhibition-ui-v4.css — unchanged declarations */
+/* FRAUD LAB — Exhibition readability polish v4.
+   Scope: Home cards, QR/E-mail visual layout and Viber results only.
+   This is loaded after v3. Never alter data, interactions or scoring. */
+
+/* Home: visually anchor 02–04 at the top center, then use the full card width
+   for larger, centered educational copy. Keep the footer at the bottom. */
+@media (min-width:1100px) and (min-height:680px) {
+  body.home-page.station04-enabled .station-card:not(.featured) {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    text-align:center;
+    padding:clamp(12px,1.45vh,22px) clamp(16px,1.7vw,30px);
+  }
+  body.home-page.station04-enabled .station-card:not(.featured) .station-number {
+    display:block;
+    margin:0 0 clamp(7px,1vh,13px)!important;
+    font-size:clamp(2.6rem,3.7vw,4.25rem)!important;
+    line-height:.85;
+    flex:0 0 auto;
+  }
+  body.home-page.station04-enabled .station-card:not(.featured) .station-content {
+    width:100%;min-width:0;display:flex;flex-direction:column;
+    align-items:center;flex:1;
+  }
+  body.home-page.station04-enabled .station-card:not(.featured) .station-type {
+    font-size:clamp(.89rem,1.02vw,1.15rem)!important;
+    line-height:1.15;
+    letter-spacing:.045em;
+  }
+  body.home-page.station04-enabled .station-card:not(.featured) h2 {
+    font-size:clamp(1.7rem,2.22vw,2.6rem)!important;
+    line-height:1.08!important;
+    margin:clamp(5px,.9vh,12px) 0!important;
+  }
+  body.home-page.station04-enabled .station-card:not(.featured) p {
+    font-size:clamp(1.02rem,1.22vw,1.33rem)!important;
+    line-height:1.33!important;
+    max-width:95%;
+    margin:clamp(4px,.6vh,8px) auto!important;
+    text-wrap:pretty;
+  }
+  body.home-page.station04-enabled .station-card:not(.featured) .station-footer {
+    width:100%;margin-top:auto;align-self:stretch;
+    padding-top:clamp(7px,1.2vh,16px)!important;
+    font-size:clamp(.9rem,1vw,1.1rem)!important;
+    text-align:left;
+  }
+}
+/* 720p kiosk: preserve the one-screen layout and do not crop large text. */
+@media (min-width:1100px) and (min-height:680px) and (max-height:790px) {
+  body.home-page.station04-enabled .station-card:not(.featured) .station-number {
+    font-size:clamp(2.25rem,4.7vh,3.2rem)!important;margin-bottom:5px!important;
+  }
+  body.home-page.station04-enabled .station-card:not(.featured) h2 {
+    font-size:clamp(1.55rem,1.95vw,2.05rem)!important;margin:4px 0!important;
+  }
+  body.home-page.station04-enabled .station-card:not(.featured) p {
+    font-size:clamp(.91rem,1.06vw,1.05rem)!important;line-height:1.22!important;
+  }
+  body.home-page.station04-enabled .station-card:not(.featured) .station-type {
+    font-size:clamp(.76rem,.85vw,.96rem)!important;
+  }
+}
+
+/* QR — intentionally release v3's aggressive font reductions ONLY where the
+   view has enough height. At shorter sizes leave existing scroll fallback. */
+@media (min-width:1100px) and (min-height:840px) {
+  body.qr-page .qr-screen:has(.challenge-layout--mail) {padding:10px 0!important;}
+  body.qr-page .challenge-layout--mail .left-panel--mail {gap:11px 18px!important;}
+  body.qr-page .challenge-layout--mail .mail-preview-body {padding:15px 19px 16px!important;}
+  body.qr-page .challenge-layout--mail .mail-preview-address {padding:9px 13px!important;font-size:.97rem!important;}
+  body.qr-page .challenge-layout--mail .mail-preview-meta {margin-bottom:9px!important;}
+  body.qr-page .challenge-layout--mail .mail-message-header {margin-bottom:10px!important;}
+  body.qr-page .challenge-layout--mail .mail-message-subject {
+    font-size:clamp(1.65rem,1.85vw,2.25rem)!important;
+    margin:6px 0 10px!important;line-height:1.13!important;
+  }
+  body.qr-page .challenge-layout--mail .mail-message-body p {
+    font-size:clamp(1.01rem,1.1vw,1.19rem)!important;
+    line-height:1.42!important;margin:0 0 10px!important;
+  }
+  body.qr-page .challenge-layout--mail .mail-preview-content-row {gap:14px!important;margin-top:10px!important;}
+  body.qr-page .challenge-layout--mail .mail-preview-visual {width:118px!important;min-width:118px!important;padding:7px!important;}
+  body.qr-page .challenge-layout--mail .mail-preview-visual .scenario-qr-image {
+    width:100px!important;height:100px!important;max-width:100px!important;max-height:100px!important;
+  }
+  body.qr-page .challenge-layout--mail .qr-sim-trigger {
+    min-height:47px!important;padding:10px 13px!important;font-size:1.05rem!important;
+  }
+  body.qr-page .challenge-layout--mail .qr-sim-helper {font-size:.87rem!important;line-height:1.35!important;}
+  body.qr-page .challenge-layout--mail .choice-area--mail {padding:19px!important;}
+  body.qr-page .challenge-layout--mail .choice-area--mail h1 {
+    font-size:clamp(2rem,2.4vw,2.7rem)!important;margin:0 0 17px!important;
+  }
+  body.qr-page .challenge-layout--mail .choice-grid {gap:11px!important;}
+  body.qr-page .challenge-layout--mail .choice-btn {
+    min-height:62px!important;padding:13px 15px!important;
+    font-size:clamp(1.06rem,1.12vw,1.18rem)!important;line-height:1.33!important;
+  }
+  body.qr-page .challenge-layout--mail .choice-btn span {
+    flex:0 0 33px!important;width:33px!important;min-width:33px!important;height:33px!important;
+  }
+
+  body.qr-page #screen .result-card {
+    width:min(1370px,100%)!important;
+    padding:clamp(19px,2vh,30px) clamp(22px,2.1vw,36px)!important;
+  }
+  body.qr-page #screen .result-card .result-badge {padding:8px 16px!important;margin:0 auto 10px!important;font-size:1.08rem!important;}
+  body.qr-page #screen .result-card .eyebrow {font-size:.88rem!important;}
+  body.qr-page #screen .result-card h1 {
+    font-size:clamp(2.35rem,3vw,3.5rem)!important;margin:8px auto 11px!important;
+  }
+  body.qr-page #screen .result-card .final-status-shield {
+    width:clamp(56px,6.2vh,76px)!important;height:clamp(66px,7vh,85px)!important;
+  }
+  body.qr-page #screen .result-card .result-lead {
+    font-size:clamp(1.06rem,1.17vw,1.24rem)!important;
+    line-height:1.43!important;margin:8px auto 14px!important;
+  }
+  body.qr-page #screen .result-card .lesson-grid {
+    gap:13px!important;margin:15px 0!important;
+  }
+  body.qr-page #screen .result-card .lesson-grid section {padding:18px 19px!important;}
+  body.qr-page #screen .result-card .lesson-grid h2 {
+    font-size:clamp(1.33rem,1.56vw,1.65rem)!important;margin-bottom:10px!important;
+  }
+  body.qr-page #screen .result-card .lesson-grid p {
+    font-size:clamp(1.01rem,1.1vw,1.18rem)!important;line-height:1.44!important;
+  }
+  body.qr-page #screen .result-card .result-actions {margin:15px 0 0!important;}
+  body.qr-page #screen .result-card .result-actions button {min-height:52px!important;padding:12px 21px!important;font-size:1.03rem!important;}
+}
+
+/* Viber — match the established fully filled FraudLab safety shields.
+   The SVG check/exclamation remains visually contrasting and unobstructed. */
+.viber-page .viber-result-shield svg {fill:none;}
+.viber-page .viber-result-shield .viber-shield-shape {
+  fill:#39c68f;stroke:#2ba776;stroke-width:2;
+}
+.viber-page .viber-result-shield--danger .viber-shield-shape {
+  fill:#f26969;stroke:#e15353;stroke-width:2;
+}
+.viber-page .viber-result-shield--best_safe .viber-shield-shape {
+  fill:#48d9a0;stroke:#25b987;stroke-width:2;
+}
+.viber-page .viber-result-shield svg > path:not(.viber-shield-shape) {
+  fill:#082033;
+}
+
+/* Viber kiosk result: one-screen exhibition card with THREE readable lessons
+   instead of a very long vertical result. Tablet/mobile stay stacked. */
+@media (min-width:1100px) and (min-height:680px) {
+  .viber-page .viber-screen:has(.viber-result) {
+    display:flex;align-items:center;justify-content:center;
+    overflow-y:auto;overflow-x:hidden;
+  }
+  .viber-page .viber-result {
+    width:min(1280px,100%);max-width:none;margin:auto;
+    padding:7px 4px 3px;
+  }
+  .viber-page .viber-result-header {padding:10px 20px 13px;}
+  .viber-page .viber-result-shield {width:60px;height:70px;margin:0 auto 2px;}
+  .viber-page .viber-result-header h1 {
+    font-size:clamp(1.85rem,2.4vw,2.55rem);line-height:1.08;margin:4px 0;
+  }
+  .viber-page .viber-result-header p {font-size:clamp(1.02rem,1.15vw,1.18rem);margin:5px 0;}
+  .viber-page .viber-result-sections {
+    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:12px;padding:13px 15px;align-items:stretch;
+  }
+  .viber-page .viber-result-section {
+    min-width:0;padding:15px 16px;border:1px solid rgba(255,255,255,.11);
+    border-radius:15px;background:rgba(255,255,255,.025);
+  }
+  .viber-page .viber-result-section h2 {
+    font-size:clamp(1.07rem,1.3vw,1.37rem);line-height:1.2;
+    margin:0 0 9px;
+  }
+  .viber-page .viber-result-section p {
+    font-size:clamp(.97rem,1.08vw,1.13rem);line-height:1.4;
+  }
+  .viber-page .viber-result-motto {
+    padding:12px 16px;font-size:clamp(.94rem,1.04vw,1.12rem);
+    line-height:1.25;
+  }
+  .viber-page .viber-result-actions {margin:12px 0 9px;gap:10px;}
+  .viber-page .viber-result-actions button {min-height:46px;padding:10px 14px;font-size:.92rem;}
+  .viber-page .viber-result-footnote {font-size:.79rem;line-height:1.3;margin:0;}
+}
+/* Compact desktop kiosks: retain readability without pushing actions below. */
+@media (min-width:1100px) and (min-height:680px) and (max-height:800px) {
+  .viber-page .viber-result-header {padding:6px 14px 9px;}
+  .viber-page .viber-result-shield {width:49px;height:57px;}
+  .viber-page .viber-result-header h1 {font-size:1.75rem;}
+  .viber-page .viber-result-sections {gap:9px;padding:9px 10px;}
+  .viber-page .viber-result-section {padding:10px 11px;}
+  .viber-page .viber-result-section h2 {font-size:1.02rem;margin:0 0 6px;}
+  .viber-page .viber-result-section p {font-size:.93rem;line-height:1.27;}
+  .viber-page .viber-result-motto {padding:9px 12px;}
+  .viber-page .viber-result-actions {margin:7px 0;}
+  .viber-page .viber-result-actions button {min-height:40px;padding:8px 11px;font-size:.83rem;}
+  .viber-page .viber-result-footnote {font-size:.72rem;}
+}
+/* When height/width is constrained, keep the existing natural scroll fallback. */
+
