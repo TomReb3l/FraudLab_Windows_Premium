@@ -4187,6 +4187,25 @@ body.qr-page .result-card .final-status--safe .final-status-shield-mark {
 
 /* Exhibition Fit v5: kiosk full-view typography + adaptive content; layered over v4. */
 @media (min-width:1450px) and (min-height:900px) {
+  /* QR v2: Full HD final result card controls. Keep fallback media rules untouched. */
+  body.qr-page {
+    --qr-result-card-width: min(1600px,100%);
+    --qr-result-card-padding: clamp(24px,2.7vh,35px) clamp(34px,3vw,58px);
+    --qr-result-badge-font-size: 1.35rem;
+    --qr-result-badge-padding: 12px 22px;
+    --qr-result-heading-size: clamp(3.1rem,3.5vw,4.2rem);
+    --qr-result-heading-margin: 13px auto 16px;
+    --qr-result-shield-width: clamp(82px,8vh,104px);
+    --qr-result-shield-height: clamp(92px,9vh,120px);
+    --qr-result-lead-font-size: clamp(1.23rem,1.29vw,1.47rem);
+    --qr-result-lesson-gap: 20px;
+    --qr-result-lesson-padding: 24px 25px;
+    --qr-result-lesson-heading-size: clamp(1.62rem,1.85vw,2rem);
+    --qr-result-lesson-body-size: clamp(1.15rem,1.19vw,1.36rem);
+    --qr-result-actions-gap: 15px;
+    --qr-result-button-height: 65px;
+    --qr-result-button-padding: 16px 28px;
+  }
   body.qr-page #screen:has(.challenge-layout--mail) {
     width:min(1760px,96vw)!important;
     padding:8px 0!important;
@@ -4216,18 +4235,18 @@ body.qr-page .result-card .final-status--safe .final-status-shield-mark {
   body.qr-page .challenge-layout--mail .choice-btn span {height:40px!important;width:40px!important;min-width:40px!important;flex:0 0 40px!important;}
 
   body.qr-page #screen:has(.result-card) {width:min(1720px,95vw)!important;padding:9px 0!important;overflow-y:auto!important;}
-  body.qr-page #screen .result-card {width:min(1600px,100%)!important;padding:clamp(24px,2.7vh,35px) clamp(34px,3vw,58px)!important;}
-  body.qr-page #screen .result-card .result-badge {font-size:1.35rem!important;padding:12px 22px!important;margin:0 auto 14px!important;}
+  body.qr-page #screen .result-card {width:var(--qr-result-card-width)!important;padding:var(--qr-result-card-padding)!important;}
+  body.qr-page #screen .result-card .result-badge {font-size:var(--qr-result-badge-font-size)!important;padding:var(--qr-result-badge-padding)!important;margin:0 auto 14px!important;}
   body.qr-page #screen .result-card .eyebrow {font-size:1.1rem!important;}
-  body.qr-page #screen .result-card h1 {font-size:clamp(3.1rem,3.5vw,4.2rem)!important;margin:13px auto 16px!important;line-height:1.1!important;}
-  body.qr-page #screen .result-card .final-status-shield {width:clamp(82px,8vh,104px)!important;height:clamp(92px,9vh,120px)!important;}
-  body.qr-page #screen .result-card .result-lead {font-size:clamp(1.23rem,1.29vw,1.47rem)!important;line-height:1.52!important;margin:16px auto 21px!important;max-width:1400px!important;}
-  body.qr-page #screen .result-card .lesson-grid {gap:20px!important;margin:20px 0!important;}
-  body.qr-page #screen .result-card .lesson-grid section {padding:24px 25px!important;}
-  body.qr-page #screen .result-card .lesson-grid h2 {font-size:clamp(1.62rem,1.85vw,2rem)!important;margin-bottom:12px!important;line-height:1.16!important;}
-  body.qr-page #screen .result-card .lesson-grid p {font-size:clamp(1.15rem,1.19vw,1.36rem)!important;line-height:1.5!important;}
-  body.qr-page #screen .result-card .result-actions {margin:24px 0 0!important;gap:15px!important;}
-  body.qr-page #screen .result-card .result-actions button {min-height:65px!important;font-size:1.18rem!important;padding:16px 28px!important;}
+  body.qr-page #screen .result-card h1 {font-size:var(--qr-result-heading-size)!important;margin:var(--qr-result-heading-margin)!important;line-height:1.1!important;}
+  body.qr-page #screen .result-card .final-status-shield {width:var(--qr-result-shield-width)!important;height:var(--qr-result-shield-height)!important;}
+  body.qr-page #screen .result-card .result-lead {font-size:var(--qr-result-lead-font-size)!important;line-height:1.52!important;margin:16px auto 21px!important;max-width:1400px!important;}
+  body.qr-page #screen .result-card .lesson-grid {gap:var(--qr-result-lesson-gap)!important;margin:20px 0!important;}
+  body.qr-page #screen .result-card .lesson-grid section {padding:var(--qr-result-lesson-padding)!important;}
+  body.qr-page #screen .result-card .lesson-grid h2 {font-size:var(--qr-result-lesson-heading-size)!important;margin-bottom:12px!important;line-height:1.16!important;}
+  body.qr-page #screen .result-card .lesson-grid p {font-size:var(--qr-result-lesson-body-size)!important;line-height:1.5!important;}
+  body.qr-page #screen .result-card .result-actions {margin:24px 0 0!important;gap:var(--qr-result-actions-gap)!important;}
+  body.qr-page #screen .result-card .result-actions button {min-height:var(--qr-result-button-height)!important;font-size:1.18rem!important;padding:var(--qr-result-button-padding)!important;}
 
 }
 /* Narrower/shorter screens: retain original native scroll; never hide lesson text. */
