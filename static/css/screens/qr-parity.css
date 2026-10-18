@@ -3972,25 +3972,6 @@ body.qr-page .result-card .final-status--safe .final-status-shield-mark {
 
 /* HOME — larger card copy without enlarging the existing oversized hero. */
 @media (min-width:1100px) and (min-height:680px) {
-  body.home-page.station04-enabled .station-card .station-type {
-    font-size: clamp(.82rem, .95vw, 1.04rem);letter-spacing:.055em;
-  }
-  body.home-page.station04-enabled .station-card h2 {
-    font-size: clamp(1.6rem, 2vw, 2.45rem);line-height:1.12;
-  }
-  body.home-page.station04-enabled .station-card.featured h2 {
-    font-size: clamp(1.95rem, 2.4vw, 2.85rem);
-  }
-  body.home-page.station04-enabled .station-card p {
-    font-size: clamp(.98rem, 1.12vw, 1.27rem);line-height:1.32;
-  }
-  body.home-page.station04-enabled .station-footer,
-  body.home-page.station04-enabled .station-card.featured .station-footer {
-    font-size: clamp(.92rem, 1vw, 1.16rem);
-  }
-  body.home-page.station04-enabled .station-card:not(.featured) .station-number {
-    font-size: clamp(2.8rem, 4.25vw, 5.1rem);
-  }
 }
 
 /* QR / E-MAIL — tighten overly large mail preview and choices in wide kiosk.
@@ -4097,28 +4078,7 @@ body.qr-page .result-card .final-status--safe .final-status-shield-mark {
 
 /* SMS and CALL final results — only spacing/height adjustments, no logic. */
 @media (min-width:1100px) and (min-height:680px) {
-  body.sms-page #screen:has(.sms-final-card) {padding:5px 0!important;}
-  body.sms-page .sms-final-card {padding:13px 22px!important;gap:8px!important;}
-  body.sms-page .sms-final-card .result-copy {font-size:.99rem!important;line-height:1.33!important;}
-  body.sms-page .sms-final-card .lesson-grid {display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important;}
-  body.sms-page .sms-final-card .lesson-grid section {padding:10px 13px!important;}
-  body.sms-page .sms-final-card .lesson-grid h2 {font-size:1.4rem!important;margin:4px 0 6px!important;}
-  body.sms-page .sms-final-card .lesson-grid p {font-size:.95rem!important;line-height:1.32!important;}
-  body.sms-page .sms-final-card .result-actions {margin-top:6px!important;}
 
-  body.call-page #screen[data-call-mode="result"] {padding:8px 0!important;}
-  body.call-page #screen[data-call-mode="result"] .result-card {padding:16px 25px!important;gap:8px!important;}
-  body.call-page #screen[data-call-mode="result"] .result-card h1 {margin:3px 0!important;}
-  body.call-page #screen[data-call-mode="result"] .result-card > p {font-size:.97rem!important;line-height:1.3!important;margin:3px 0!important;}
-  body.call-page #screen[data-call-mode="result"] .score-panel {margin:5px 0!important;padding:7px 12px!important;}
-  body.call-page #screen[data-call-mode="result"] .red-flags {margin:5px 0!important;padding:9px 13px!important;}
-  body.call-page #screen[data-call-mode="result"] .red-flags h2 {font-size:1.15rem!important;margin:0 0 5px!important;}
-  body.call-page #screen[data-call-mode="result"] .red-flags li {font-size:.89rem!important;line-height:1.22!important;margin:2px 0!important;}
-  body.call-page #screen[data-call-mode="result"] .lesson-grid {grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;margin:7px 0!important;}
-  body.call-page #screen[data-call-mode="result"] .lesson {padding:10px 12px!important;}
-  body.call-page #screen[data-call-mode="result"] .lesson h2 {font-size:1rem!important;margin:0 0 5px!important;}
-  body.call-page #screen[data-call-mode="result"] .lesson p {font-size:.89rem!important;line-height:1.25!important;}
-  body.call-page #screen[data-call-mode="result"] .result-actions {margin:8px 0 0!important;}
 }
 
 /* On small/portrait devices do not suppress legitimate scrolling. */
@@ -4139,63 +4099,9 @@ body.qr-page .result-card .final-status--safe .final-status-shield-mark {
 /* Home: visually anchor 02–04 at the top center, then use the full card width
    for larger, centered educational copy. Keep the footer at the bottom. */
 @media (min-width:1100px) and (min-height:680px) {
-  body.home-page.station04-enabled .station-card:not(.featured) {
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:flex-start;
-    text-align:center;
-    padding:clamp(12px,1.45vh,22px) clamp(16px,1.7vw,30px);
-  }
-  body.home-page.station04-enabled .station-card:not(.featured) .station-number {
-    display:block;
-    margin:0 0 clamp(7px,1vh,13px)!important;
-    font-size:clamp(2.6rem,3.7vw,4.25rem)!important;
-    line-height:.85;
-    flex:0 0 auto;
-  }
-  body.home-page.station04-enabled .station-card:not(.featured) .station-content {
-    width:100%;min-width:0;display:flex;flex-direction:column;
-    align-items:center;flex:1;
-  }
-  body.home-page.station04-enabled .station-card:not(.featured) .station-type {
-    font-size:clamp(.89rem,1.02vw,1.15rem)!important;
-    line-height:1.15;
-    letter-spacing:.045em;
-  }
-  body.home-page.station04-enabled .station-card:not(.featured) h2 {
-    font-size:clamp(1.7rem,2.22vw,2.6rem)!important;
-    line-height:1.08!important;
-    margin:clamp(5px,.9vh,12px) 0!important;
-  }
-  body.home-page.station04-enabled .station-card:not(.featured) p {
-    font-size:clamp(1.02rem,1.22vw,1.33rem)!important;
-    line-height:1.33!important;
-    max-width:95%;
-    margin:clamp(4px,.6vh,8px) auto!important;
-    text-wrap:pretty;
-  }
-  body.home-page.station04-enabled .station-card:not(.featured) .station-footer {
-    width:100%;margin-top:auto;align-self:stretch;
-    padding-top:clamp(7px,1.2vh,16px)!important;
-    font-size:clamp(.9rem,1vw,1.1rem)!important;
-    text-align:left;
-  }
 }
 /* 720p kiosk: preserve the one-screen layout and do not crop large text. */
 @media (min-width:1100px) and (min-height:680px) and (max-height:790px) {
-  body.home-page.station04-enabled .station-card:not(.featured) .station-number {
-    font-size:clamp(2.25rem,4.7vh,3.2rem)!important;margin-bottom:5px!important;
-  }
-  body.home-page.station04-enabled .station-card:not(.featured) h2 {
-    font-size:clamp(1.55rem,1.95vw,2.05rem)!important;margin:4px 0!important;
-  }
-  body.home-page.station04-enabled .station-card:not(.featured) p {
-    font-size:clamp(.91rem,1.06vw,1.05rem)!important;line-height:1.22!important;
-  }
-  body.home-page.station04-enabled .station-card:not(.featured) .station-type {
-    font-size:clamp(.76rem,.85vw,.96rem)!important;
-  }
 }
 
 /* QR — intentionally release v3's aggressive font reductions ONLY where the
@@ -4269,73 +4175,13 @@ body.qr-page .result-card .final-status--safe .final-status-shield-mark {
 
 /* Viber — match the established fully filled FraudLab safety shields.
    The SVG check/exclamation remains visually contrasting and unobstructed. */
-.viber-page .viber-result-shield svg {fill:none;}
-.viber-page .viber-result-shield .viber-shield-shape {
-  fill:#39c68f;stroke:#2ba776;stroke-width:2;
-}
-.viber-page .viber-result-shield--danger .viber-shield-shape {
-  fill:#f26969;stroke:#e15353;stroke-width:2;
-}
-.viber-page .viber-result-shield--best_safe .viber-shield-shape {
-  fill:#48d9a0;stroke:#25b987;stroke-width:2;
-}
-.viber-page .viber-result-shield svg > path:not(.viber-shield-shape) {
-  fill:#082033;
-}
 
 /* Viber kiosk result: one-screen exhibition card with THREE readable lessons
    instead of a very long vertical result. Tablet/mobile stay stacked. */
 @media (min-width:1100px) and (min-height:680px) {
-  .viber-page .viber-screen:has(.viber-result) {
-    display:flex;align-items:center;justify-content:center;
-    overflow-y:auto;overflow-x:hidden;
-  }
-  .viber-page .viber-result {
-    width:min(1280px,100%);max-width:none;margin:auto;
-    padding:7px 4px 3px;
-  }
-  .viber-page .viber-result-header {padding:10px 20px 13px;}
-  .viber-page .viber-result-shield {width:60px;height:70px;margin:0 auto 2px;}
-  .viber-page .viber-result-header h1 {
-    font-size:clamp(1.85rem,2.4vw,2.55rem);line-height:1.08;margin:4px 0;
-  }
-  .viber-page .viber-result-header p {font-size:clamp(1.02rem,1.15vw,1.18rem);margin:5px 0;}
-  .viber-page .viber-result-sections {
-    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
-    gap:12px;padding:13px 15px;align-items:stretch;
-  }
-  .viber-page .viber-result-section {
-    min-width:0;padding:15px 16px;border:1px solid rgba(255,255,255,.11);
-    border-radius:15px;background:rgba(255,255,255,.025);
-  }
-  .viber-page .viber-result-section h2 {
-    font-size:clamp(1.07rem,1.3vw,1.37rem);line-height:1.2;
-    margin:0 0 9px;
-  }
-  .viber-page .viber-result-section p {
-    font-size:clamp(.97rem,1.08vw,1.13rem);line-height:1.4;
-  }
-  .viber-page .viber-result-motto {
-    padding:12px 16px;font-size:clamp(.94rem,1.04vw,1.12rem);
-    line-height:1.25;
-  }
-  .viber-page .viber-result-actions {margin:12px 0 9px;gap:10px;}
-  .viber-page .viber-result-actions button {min-height:46px;padding:10px 14px;font-size:.92rem;}
-  .viber-page .viber-result-footnote {font-size:.79rem;line-height:1.3;margin:0;}
 }
 /* Compact desktop kiosks: retain readability without pushing actions below. */
 @media (min-width:1100px) and (min-height:680px) and (max-height:800px) {
-  .viber-page .viber-result-header {padding:6px 14px 9px;}
-  .viber-page .viber-result-shield {width:49px;height:57px;}
-  .viber-page .viber-result-header h1 {font-size:1.75rem;}
-  .viber-page .viber-result-sections {gap:9px;padding:9px 10px;}
-  .viber-page .viber-result-section {padding:10px 11px;}
-  .viber-page .viber-result-section h2 {font-size:1.02rem;margin:0 0 6px;}
-  .viber-page .viber-result-section p {font-size:.93rem;line-height:1.27;}
-  .viber-page .viber-result-motto {padding:9px 12px;}
-  .viber-page .viber-result-actions {margin:7px 0;}
-  .viber-page .viber-result-actions button {min-height:40px;padding:8px 11px;font-size:.83rem;}
-  .viber-page .viber-result-footnote {font-size:.72rem;}
 }
 /* When height/width is constrained, keep the existing natural scroll fallback. */
 
@@ -4383,19 +4229,6 @@ body.qr-page .result-card .final-status--safe .final-status-shield-mark {
   body.qr-page #screen .result-card .result-actions {margin:24px 0 0!important;gap:15px!important;}
   body.qr-page #screen .result-card .result-actions button {min-height:65px!important;font-size:1.18rem!important;padding:16px 28px!important;}
 
-  .viber-page .viber-result {width:min(1640px,100%)!important;max-width:none!important;padding:12px 5px 6px!important;}
-  .viber-page .viber-result-header {padding:29px 36px 32px!important;}
-  .viber-page .viber-result-shield {width:88px!important;height:102px!important;margin-bottom:8px!important;}
-  .viber-page .viber-result-header h1 {font-size:clamp(2.8rem,3.05vw,3.65rem)!important;line-height:1.12!important;margin:10px 0!important;}
-  .viber-page .viber-result-header p {font-size:clamp(1.21rem,1.27vw,1.5rem)!important;line-height:1.34!important;}
-  .viber-page .viber-result-sections {gap:20px!important;padding:25px 28px!important;}
-  .viber-page .viber-result-section {padding:24px 25px!important;}
-  .viber-page .viber-result-section h2 {font-size:clamp(1.42rem,1.57vw,1.85rem)!important;margin:0 0 16px!important;}
-  .viber-page .viber-result-section p {font-size:clamp(1.13rem,1.21vw,1.44rem)!important;line-height:1.5!important;}
-  .viber-page .viber-result-motto {font-size:clamp(1.17rem,1.25vw,1.49rem)!important;padding:18px 24px!important;line-height:1.38!important;}
-  .viber-page .viber-result-actions {margin:22px 0 18px!important;gap:16px!important;}
-  .viber-page .viber-result-actions button {min-height:60px!important;padding:14px 22px!important;font-size:1.1rem!important;}
-  .viber-page .viber-result-footnote {font-size:.93rem!important;line-height:1.38!important;}
 }
 /* Narrower/shorter screens: retain original native scroll; never hide lesson text. */
 @media (max-width:1449px), (max-height:899px) {
@@ -4445,16 +4278,12 @@ body.qr-page .result-card .final-status--safe .final-status-shield-mark {
   body.qr-page .qr-app,.viber-page .viber-app {height:auto!important;min-height:100dvh!important;overflow:visible!important;}
   body.qr-page #screen.qr-screen {height:auto!important;max-height:none!important;min-height:0!important;overflow:visible!important;flex:1 0 auto!important;}
   body.qr-page #screen:has(.challenge-layout--mail),body.qr-page #screen:has(.result-card),body.qr-page #screen.feedback-screen {overflow:visible!important;}
-  .viber-page .viber-screen {height:auto!important;min-height:0!important;overflow:visible!important;flex:1 0 auto!important;}
 }
 @media (min-width:1450px) and (min-height:900px) {
  body.qr-page .challenge-layout--mail .left-panel--mail {grid-template-columns:minmax(0,1.5fr) minmax(430px,.85fr)!important;}
  body.qr-page .challenge-layout--mail .mail-preview-body:has(.mail-message-body p:nth-child(4)) {grid-template-columns:minmax(0,1fr) 210px!important;column-gap:14px!important;}
 }
 @media (min-width:1450px) and (min-height:900px) {
- .viber-page .viber-result-header {padding:22px 36px 25px!important;}
- .viber-page .viber-result-sections {padding:20px 28px!important;}
- .viber-page .viber-result-actions {margin:16px 0 14px!important;}
 }
 
 /* FraudLab Station 03: restore the dedicated Android/touch scroller.
