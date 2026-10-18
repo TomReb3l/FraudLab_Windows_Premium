@@ -239,132 +239,15 @@ button:focus-visible { outline: 4px solid var(--focus); outline-offset: 4px; }
 /* Home: visually anchor 02–04 at the top center, then use the full card width
    for larger, centered educational copy. Keep the footer at the bottom. */
 @media (min-width:1100px) and (min-height:680px) {
-  body.home-page.station04-enabled .station-card:not(.featured) {
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:flex-start;
-    text-align:center;
-    padding:clamp(12px,1.45vh,22px) clamp(16px,1.7vw,30px);
-  }
-  body.home-page.station04-enabled .station-card:not(.featured) .station-number {
-    display:block;
-    margin:0 0 clamp(7px,1vh,13px)!important;
-    font-size:clamp(2.6rem,3.7vw,4.25rem)!important;
-    line-height:.85;
-    flex:0 0 auto;
-  }
-  body.home-page.station04-enabled .station-card:not(.featured) .station-content {
-    width:100%;min-width:0;display:flex;flex-direction:column;
-    align-items:center;flex:1;
-  }
-  body.home-page.station04-enabled .station-card:not(.featured) .station-type {
-    font-size:clamp(.89rem,1.02vw,1.15rem)!important;
-    line-height:1.15;
-    letter-spacing:.045em;
-  }
-  body.home-page.station04-enabled .station-card:not(.featured) h2 {
-    font-size:clamp(1.7rem,2.22vw,2.6rem)!important;
-    line-height:1.08!important;
-    margin:clamp(5px,.9vh,12px) 0!important;
-  }
-  body.home-page.station04-enabled .station-card:not(.featured) p {
-    font-size:clamp(1.02rem,1.22vw,1.33rem)!important;
-    line-height:1.33!important;
-    max-width:95%;
-    margin:clamp(4px,.6vh,8px) auto!important;
-    text-wrap:pretty;
-  }
-  body.home-page.station04-enabled .station-card:not(.featured) .station-footer {
-    width:100%;margin-top:auto;align-self:stretch;
-    padding-top:clamp(7px,1.2vh,16px)!important;
-    font-size:clamp(.9rem,1vw,1.1rem)!important;
-    text-align:left;
-  }
 }
 /* 720p kiosk: preserve the one-screen layout and do not crop large text. */
 @media (min-width:1100px) and (min-height:680px) and (max-height:790px) {
-  body.home-page.station04-enabled .station-card:not(.featured) .station-number {
-    font-size:clamp(2.25rem,4.7vh,3.2rem)!important;margin-bottom:5px!important;
-  }
-  body.home-page.station04-enabled .station-card:not(.featured) h2 {
-    font-size:clamp(1.55rem,1.95vw,2.05rem)!important;margin:4px 0!important;
-  }
-  body.home-page.station04-enabled .station-card:not(.featured) p {
-    font-size:clamp(.91rem,1.06vw,1.05rem)!important;line-height:1.22!important;
-  }
-  body.home-page.station04-enabled .station-card:not(.featured) .station-type {
-    font-size:clamp(.76rem,.85vw,.96rem)!important;
-  }
 }
 
 /* QR — intentionally release v3's aggressive font reductions ONLY where the
    view has enough height. At shorter sizes leave existing scroll fallback. */
 @media (min-width:1100px) and (min-height:840px) {
-  body.qr-page .qr-screen:has(.challenge-layout--mail) {padding:10px 0!important;}
-  body.qr-page .challenge-layout--mail .left-panel--mail {gap:11px 18px!important;}
-  body.qr-page .challenge-layout--mail .mail-preview-body {padding:15px 19px 16px!important;}
-  body.qr-page .challenge-layout--mail .mail-preview-address {padding:9px 13px!important;font-size:.97rem!important;}
-  body.qr-page .challenge-layout--mail .mail-preview-meta {margin-bottom:9px!important;}
-  body.qr-page .challenge-layout--mail .mail-message-header {margin-bottom:10px!important;}
-  body.qr-page .challenge-layout--mail .mail-message-subject {
-    font-size:clamp(1.65rem,1.85vw,2.25rem)!important;
-    margin:6px 0 10px!important;line-height:1.13!important;
-  }
-  body.qr-page .challenge-layout--mail .mail-message-body p {
-    font-size:clamp(1.01rem,1.1vw,1.19rem)!important;
-    line-height:1.42!important;margin:0 0 10px!important;
-  }
-  body.qr-page .challenge-layout--mail .mail-preview-content-row {gap:14px!important;margin-top:10px!important;}
-  body.qr-page .challenge-layout--mail .mail-preview-visual {width:118px!important;min-width:118px!important;padding:7px!important;}
-  body.qr-page .challenge-layout--mail .mail-preview-visual .scenario-qr-image {
-    width:100px!important;height:100px!important;max-width:100px!important;max-height:100px!important;
-  }
-  body.qr-page .challenge-layout--mail .qr-sim-trigger {
-    min-height:47px!important;padding:10px 13px!important;font-size:1.05rem!important;
-  }
-  body.qr-page .challenge-layout--mail .qr-sim-helper {font-size:.87rem!important;line-height:1.35!important;}
-  body.qr-page .challenge-layout--mail .choice-area--mail {padding:19px!important;}
-  body.qr-page .challenge-layout--mail .choice-area--mail h1 {
-    font-size:clamp(2rem,2.4vw,2.7rem)!important;margin:0 0 17px!important;
-  }
-  body.qr-page .challenge-layout--mail .choice-grid {gap:11px!important;}
-  body.qr-page .challenge-layout--mail .choice-btn {
-    min-height:62px!important;padding:13px 15px!important;
-    font-size:clamp(1.06rem,1.12vw,1.18rem)!important;line-height:1.33!important;
-  }
-  body.qr-page .challenge-layout--mail .choice-btn span {
-    flex:0 0 33px!important;width:33px!important;min-width:33px!important;height:33px!important;
-  }
 
-  body.qr-page #screen .result-card {
-    width:min(1370px,100%)!important;
-    padding:clamp(19px,2vh,30px) clamp(22px,2.1vw,36px)!important;
-  }
-  body.qr-page #screen .result-card .result-badge {padding:8px 16px!important;margin:0 auto 10px!important;font-size:1.08rem!important;}
-  body.qr-page #screen .result-card .eyebrow {font-size:.88rem!important;}
-  body.qr-page #screen .result-card h1 {
-    font-size:clamp(2.35rem,3vw,3.5rem)!important;margin:8px auto 11px!important;
-  }
-  body.qr-page #screen .result-card .final-status-shield {
-    width:clamp(56px,6.2vh,76px)!important;height:clamp(66px,7vh,85px)!important;
-  }
-  body.qr-page #screen .result-card .result-lead {
-    font-size:clamp(1.06rem,1.17vw,1.24rem)!important;
-    line-height:1.43!important;margin:8px auto 14px!important;
-  }
-  body.qr-page #screen .result-card .lesson-grid {
-    gap:13px!important;margin:15px 0!important;
-  }
-  body.qr-page #screen .result-card .lesson-grid section {padding:18px 19px!important;}
-  body.qr-page #screen .result-card .lesson-grid h2 {
-    font-size:clamp(1.33rem,1.56vw,1.65rem)!important;margin-bottom:10px!important;
-  }
-  body.qr-page #screen .result-card .lesson-grid p {
-    font-size:clamp(1.01rem,1.1vw,1.18rem)!important;line-height:1.44!important;
-  }
-  body.qr-page #screen .result-card .result-actions {margin:15px 0 0!important;}
-  body.qr-page #screen .result-card .result-actions button {min-height:52px!important;padding:12px 21px!important;font-size:1.03rem!important;}
 }
 
 /* Viber — match the established fully filled FraudLab safety shields.
@@ -442,48 +325,6 @@ button:focus-visible { outline: 4px solid var(--focus); outline-offset: 4px; }
 
 /* Exhibition Fit v5: kiosk full-view typography + adaptive content; layered over v4. */
 @media (min-width:1450px) and (min-height:900px) {
-  body.qr-page #screen:has(.challenge-layout--mail) {
-    width:min(1760px,96vw)!important;
-    padding:8px 0!important;
-    overflow-x:hidden!important;overflow-y:auto!important;
-  }
-  body.qr-page .challenge-layout--mail .left-panel--mail {
-    grid-template-columns:minmax(0,1.42fr) minmax(450px,.88fr)!important;
-    gap:10px 22px!important;
-  }
-  body.qr-page .challenge-layout--mail .progress {padding-bottom:10px!important;font-size:1rem!important;}
-  body.qr-page .challenge-layout--mail .poster-card--mail {margin-top:8px!important;}
-  body.qr-page .challenge-layout--mail .mail-preview-toolbar {padding:12px 15px!important;}
-  body.qr-page .challenge-layout--mail .mail-preview-address {font-size:1.04rem!important;padding:11px 13px!important;}
-  body.qr-page .challenge-layout--mail .mail-preview-body {padding:17px 21px 18px!important;}
-  body.qr-page .challenge-layout--mail .mail-message-header {margin-bottom:9px!important;}
-  body.qr-page .challenge-layout--mail .mail-message-subject {font-size:clamp(2rem,2.05vw,2.55rem)!important;line-height:1.13!important;margin:8px 0 10px!important;}
-  body.qr-page .challenge-layout--mail .mail-message-body p {font-size:clamp(1.15rem,1.18vw,1.38rem)!important;line-height:1.4!important;margin:0 0 9px!important;}
-  body.qr-page .challenge-layout--mail .mail-preview-content-row {gap:17px!important;margin-top:13px!important;}
-  body.qr-page .challenge-layout--mail .mail-preview-visual {width:132px!important;min-width:132px!important;}
-  body.qr-page .challenge-layout--mail .mail-preview-visual .scenario-qr-image {width:112px!important;height:112px!important;max-width:112px!important;max-height:112px!important;}
-  body.qr-page .challenge-layout--mail .qr-sim-trigger {min-height:57px!important;font-size:1.18rem!important;}
-  body.qr-page .challenge-layout--mail .qr-sim-helper {font-size:.98rem!important;}
-  body.qr-page .challenge-layout--mail .choice-area--mail {padding:20px 20px 24px!important;}
-  body.qr-page .challenge-layout--mail .choice-area--mail h1 {font-size:clamp(2.3rem,2.6vw,3.05rem)!important;margin:0 0 18px!important;}
-  body.qr-page .challenge-layout--mail .choice-grid {gap:14px!important;}
-  body.qr-page .challenge-layout--mail .choice-btn {font-size:clamp(1.17rem,1.23vw,1.36rem)!important;line-height:1.32!important;min-height:74px!important;padding:15px 17px!important;}
-  body.qr-page .challenge-layout--mail .choice-btn span {height:40px!important;width:40px!important;min-width:40px!important;flex:0 0 40px!important;}
-
-  body.qr-page #screen:has(.result-card) {width:min(1720px,95vw)!important;padding:9px 0!important;overflow-y:auto!important;}
-  body.qr-page #screen .result-card {width:min(1600px,100%)!important;padding:clamp(24px,2.7vh,35px) clamp(34px,3vw,58px)!important;}
-  body.qr-page #screen .result-card .result-badge {font-size:1.35rem!important;padding:12px 22px!important;margin:0 auto 14px!important;}
-  body.qr-page #screen .result-card .eyebrow {font-size:1.1rem!important;}
-  body.qr-page #screen .result-card h1 {font-size:clamp(3.1rem,3.5vw,4.2rem)!important;margin:13px auto 16px!important;line-height:1.1!important;}
-  body.qr-page #screen .result-card .final-status-shield {width:clamp(82px,8vh,104px)!important;height:clamp(92px,9vh,120px)!important;}
-  body.qr-page #screen .result-card .result-lead {font-size:clamp(1.23rem,1.29vw,1.47rem)!important;line-height:1.52!important;margin:16px auto 21px!important;max-width:1400px!important;}
-  body.qr-page #screen .result-card .lesson-grid {gap:20px!important;margin:20px 0!important;}
-  body.qr-page #screen .result-card .lesson-grid section {padding:24px 25px!important;}
-  body.qr-page #screen .result-card .lesson-grid h2 {font-size:clamp(1.62rem,1.85vw,2rem)!important;margin-bottom:12px!important;line-height:1.16!important;}
-  body.qr-page #screen .result-card .lesson-grid p {font-size:clamp(1.15rem,1.19vw,1.36rem)!important;line-height:1.5!important;}
-  body.qr-page #screen .result-card .result-actions {margin:24px 0 0!important;gap:15px!important;}
-  body.qr-page #screen .result-card .result-actions button {min-height:65px!important;font-size:1.18rem!important;padding:16px 28px!important;}
-
   .viber-page .viber-result {width:min(1640px,100%)!important;max-width:none!important;padding:12px 5px 6px!important;}
   .viber-page .viber-result-header {padding:29px 36px 32px!important;}
   .viber-page .viber-result-shield {width:88px!important;height:102px!important;margin-bottom:8px!important;}
@@ -500,57 +341,21 @@ button:focus-visible { outline: 4px solid var(--focus); outline-offset: 4px; }
 }
 /* Narrower/shorter screens: retain original native scroll; never hide lesson text. */
 @media (max-width:1449px), (max-height:899px) {
-  body.qr-page #screen:has(.challenge-layout--mail),
-  body.qr-page #screen:has(.result-card) {overflow-y:auto!important;overflow-x:hidden!important;}
 }
 @media (min-width:1450px) and (min-height:900px) {
   /* Long-form official-look mail: bring QR/action alongside the text. All copy remains visible. */
-  body.qr-page .challenge-layout--mail .mail-preview-body:has(.mail-message-body p:nth-child(4)) {
-    display:grid!important;grid-template-columns:minmax(0,1fr) minmax(200px,245px);column-gap:22px;align-items:start;
-  }
-  body.qr-page .challenge-layout--mail .mail-preview-body:has(.mail-message-body p:nth-child(4)) > .mail-message-header,
-  body.qr-page .challenge-layout--mail .mail-preview-body:has(.mail-message-body p:nth-child(4)) > .mail-subject-label,
-  body.qr-page .challenge-layout--mail .mail-preview-body:has(.mail-message-body p:nth-child(4)) > .mail-message-subject {
-    grid-column:1/-1;
-  }
-  body.qr-page .challenge-layout--mail .mail-preview-body:has(.mail-message-body p:nth-child(4)) > .mail-message-body {
-    grid-column:1;grid-row:4;min-width:0;
-  }
-  body.qr-page .challenge-layout--mail .mail-preview-body:has(.mail-message-body p:nth-child(4)) > .mail-preview-content-row {
-    grid-column:2;grid-row:4;grid-template-columns:minmax(0,1fr)!important;
-    gap:10px!important;margin:0!important;align-self:stretch;align-content:center;
-  }
-  body.qr-page .challenge-layout--mail .mail-preview-body:has(.mail-message-body p:nth-child(4)) .mail-preview-visual {
-    margin:0 auto;max-width:100%;
-  }
 }
 @media (min-width:1450px) and (min-height:900px) {
-  body.qr-page .challenge-layout--mail .mail-preview-body:has(.mail-message-body p:nth-child(4)) {
-    padding:13px 19px 12px!important;
-  }
-  body.qr-page .challenge-layout--mail .mail-preview-body:has(.mail-message-body p:nth-child(4)) .mail-message-body p {
-    line-height:1.34!important;margin-bottom:6px!important;
-  }
-  body.qr-page .challenge-layout--mail .mail-preview-body:has(.mail-message-body p:nth-child(4)) .mail-message-subject {
-    margin:5px 0 8px!important;
-  }
 }
 @media (min-width:1450px) and (min-height:900px) {
-  body.qr-page #screen:has(.challenge-layout--mail) {padding:3px 0!important;}
-  body.qr-page .challenge-layout--mail .left-panel--mail {gap:6px 22px!important;}
-  body.qr-page .challenge-layout--mail .progress {padding-bottom:6px!important;}
 }
 /* Windowed laptops, tablets, and phones: document scroll rather than clipped panels. */
 @media (max-width:1449px), (max-height:899px) {
   html.qr-page,body.qr-page,body.viber-page {height:auto!important;min-height:100%!important;overflow-x:hidden!important;overflow-y:auto!important;}
   body.qr-page .qr-app,.viber-page .viber-app {height:auto!important;min-height:100dvh!important;overflow:visible!important;}
-  body.qr-page #screen.qr-screen {height:auto!important;max-height:none!important;min-height:0!important;overflow:visible!important;flex:1 0 auto!important;}
-  body.qr-page #screen:has(.challenge-layout--mail),body.qr-page #screen:has(.result-card),body.qr-page #screen.feedback-screen {overflow:visible!important;}
   .viber-page .viber-screen {height:auto!important;min-height:0!important;overflow:visible!important;flex:1 0 auto!important;}
 }
 @media (min-width:1450px) and (min-height:900px) {
- body.qr-page .challenge-layout--mail .left-panel--mail {grid-template-columns:minmax(0,1.5fr) minmax(430px,.85fr)!important;}
- body.qr-page .challenge-layout--mail .mail-preview-body:has(.mail-message-body p:nth-child(4)) {grid-template-columns:minmax(0,1fr) 210px!important;column-gap:14px!important;}
 }
 @media (min-width:1450px) and (min-height:900px) {
  .viber-page .viber-result-header {padding:22px 36px 25px!important;}
