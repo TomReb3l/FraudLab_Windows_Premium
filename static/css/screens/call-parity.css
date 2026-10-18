@@ -22,6 +22,30 @@ body.call-page {
 }
 /* ===== END TELEPHONE CARD CONTROL PANEL ===== */
 
+/* FULL HD EXHIBITION CARD TUNING — APPROVED READABILITY PREVIEW B (196px).
+   Only the three final educational lesson cards; other stations and screens unaffected.
+   The existing fallback values are unchanged at smaller resolutions. */
+@media (min-width:1600px) and (min-height:900px) {
+  body.call-page {
+    --call-result-lessons-gap-kiosk: 16px;
+    --call-result-lessons-margin-kiosk: 10px 0;
+    --call-result-lesson-pad-kiosk: 24px 26px;
+    --call-result-lesson-min-height-kiosk: 196px;
+    --call-result-lesson-title-size-kiosk: 1.28125rem;
+    --call-result-lesson-body-size-kiosk: 1.1875rem;
+    --call-result-lesson-body-line-kiosk: 1.4;
+    --call-result-safe-card-pad-block-kiosk: 39px;
+  }
+
+  /* Safe result only: 16px -> 39px vertical padding (+46px total).
+     Uses the existing JS status class; caution/danger cards are untouched. */
+  body.call-page #screen[data-call-mode="result"] .result-card:has(> h1 .final-status--safe) {
+    padding-top: var(--call-result-safe-card-pad-block-kiosk) !important;
+    padding-bottom: var(--call-result-safe-card-pad-block-kiosk) !important;
+  }
+}
+
+
 
 /* ===== BEGIN: static/css/base.css ===== */
 :root {
@@ -940,7 +964,7 @@ body.call-page.assisted .lesson p {
 }
 
 .call-page #screen[data-call-mode="result"] .lesson {
-  min-height: 112px;
+  min-height: var(--call-result-lesson-min-height-kiosk, 112px);
   padding: 14px;
 }
 
@@ -1511,8 +1535,8 @@ label[for="scenarioSelect"] {
   body.call-page #screen[data-call-mode="result"] .red-flags li {font-size:.89rem!important;line-height:1.22!important;margin:2px 0!important;}
   body.call-page #screen[data-call-mode="result"] .lesson-grid {grid-template-columns:var(--call-result-lessons-cols-kiosk)!important;gap:var(--call-result-lessons-gap-kiosk)!important;margin:var(--call-result-lessons-margin-kiosk)!important;}
   body.call-page #screen[data-call-mode="result"] .lesson {padding:var(--call-result-lesson-pad-kiosk)!important;}
-  body.call-page #screen[data-call-mode="result"] .lesson h2 {font-size:1rem!important;margin:0 0 5px!important;}
-  body.call-page #screen[data-call-mode="result"] .lesson p {font-size:.89rem!important;line-height:1.25!important;}
+  body.call-page #screen[data-call-mode="result"] .lesson h2 {font-size:var(--call-result-lesson-title-size-kiosk,1rem)!important;margin:0 0 5px!important;}
+  body.call-page #screen[data-call-mode="result"] .lesson p {font-size:var(--call-result-lesson-body-size-kiosk,.89rem)!important;line-height:var(--call-result-lesson-body-line-kiosk,1.25)!important;}
   body.call-page #screen[data-call-mode="result"] .result-actions {margin:var(--call-result-action-margin-kiosk)!important;}
 }
 
