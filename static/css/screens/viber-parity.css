@@ -325,19 +325,41 @@ button:focus-visible { outline: 4px solid var(--focus); outline-offset: 4px; }
 
 /* Exhibition Fit v5: kiosk full-view typography + adaptive content; layered over v4. */
 @media (min-width:1450px) and (min-height:900px) {
-  .viber-page .viber-result {width:min(1640px,100%)!important;max-width:none!important;padding:12px 5px 6px!important;}
+  /* Viber v2: single-source active Full HD card controls; retain responsive fallbacks. */
+  body.viber-page {
+    --viber-result-kiosk-width: min(1640px,100%);
+    --viber-result-kiosk-padding: 12px 5px 6px;
+    --viber-result-kiosk-header-padding: 22px 36px 25px;
+    --viber-result-kiosk-shield-width: 88px;
+    --viber-result-kiosk-shield-height: 102px;
+    --viber-result-kiosk-heading-size: clamp(2.8rem,3.05vw,3.65rem);
+    --viber-result-kiosk-lead-size: clamp(1.21rem,1.27vw,1.5rem);
+    --viber-result-kiosk-cards-gap: 20px;
+    --viber-result-kiosk-cards-padding: 20px 28px;
+    --viber-result-kiosk-card-padding: 24px 25px;
+    --viber-result-kiosk-card-heading-size: clamp(1.42rem,1.57vw,1.85rem);
+    --viber-result-kiosk-card-body-size: clamp(1.13rem,1.21vw,1.44rem);
+    --viber-result-kiosk-motto-size: clamp(1.17rem,1.25vw,1.49rem);
+    --viber-result-kiosk-actions-margin: 16px 0 14px;
+    --viber-result-kiosk-actions-gap: 16px;
+    --viber-result-kiosk-button-height: 60px;
+    --viber-result-kiosk-button-padding: 14px 22px;
+    --viber-result-kiosk-button-size: 1.1rem;
+    --viber-result-kiosk-footnote-size: .93rem;
+  }
+  .viber-page .viber-result {width:var(--viber-result-kiosk-width)!important;max-width:none!important;padding:var(--viber-result-kiosk-padding)!important;}
   .viber-page .viber-result-header {padding:29px 36px 32px!important;}
-  .viber-page .viber-result-shield {width:88px!important;height:102px!important;margin-bottom:8px!important;}
-  .viber-page .viber-result-header h1 {font-size:clamp(2.8rem,3.05vw,3.65rem)!important;line-height:1.12!important;margin:10px 0!important;}
-  .viber-page .viber-result-header p {font-size:clamp(1.21rem,1.27vw,1.5rem)!important;line-height:1.34!important;}
-  .viber-page .viber-result-sections {gap:20px!important;padding:25px 28px!important;}
-  .viber-page .viber-result-section {padding:24px 25px!important;}
-  .viber-page .viber-result-section h2 {font-size:clamp(1.42rem,1.57vw,1.85rem)!important;margin:0 0 16px!important;}
-  .viber-page .viber-result-section p {font-size:clamp(1.13rem,1.21vw,1.44rem)!important;line-height:1.5!important;}
-  .viber-page .viber-result-motto {font-size:clamp(1.17rem,1.25vw,1.49rem)!important;padding:18px 24px!important;line-height:1.38!important;}
-  .viber-page .viber-result-actions {margin:22px 0 18px!important;gap:16px!important;}
-  .viber-page .viber-result-actions button {min-height:60px!important;padding:14px 22px!important;font-size:1.1rem!important;}
-  .viber-page .viber-result-footnote {font-size:.93rem!important;line-height:1.38!important;}
+  .viber-page .viber-result-shield {width:var(--viber-result-kiosk-shield-width)!important;height:var(--viber-result-kiosk-shield-height)!important;margin-bottom:8px!important;}
+  .viber-page .viber-result-header h1 {font-size:var(--viber-result-kiosk-heading-size)!important;line-height:1.12!important;margin:10px 0!important;}
+  .viber-page .viber-result-header p {font-size:var(--viber-result-kiosk-lead-size)!important;line-height:1.34!important;}
+  .viber-page .viber-result-sections {gap:var(--viber-result-kiosk-cards-gap)!important;padding:25px 28px!important;}
+  .viber-page .viber-result-section {padding:var(--viber-result-kiosk-card-padding)!important;}
+  .viber-page .viber-result-section h2 {font-size:var(--viber-result-kiosk-card-heading-size)!important;margin:0 0 16px!important;}
+  .viber-page .viber-result-section p {font-size:var(--viber-result-kiosk-card-body-size)!important;line-height:1.5!important;}
+  .viber-page .viber-result-motto {font-size:var(--viber-result-kiosk-motto-size)!important;padding:18px 24px!important;line-height:1.38!important;}
+  .viber-page .viber-result-actions {margin:22px 0 18px!important;gap:var(--viber-result-kiosk-actions-gap)!important;}
+  .viber-page .viber-result-actions button {min-height:var(--viber-result-kiosk-button-height)!important;padding:var(--viber-result-kiosk-button-padding)!important;font-size:var(--viber-result-kiosk-button-size)!important;}
+  .viber-page .viber-result-footnote {font-size:var(--viber-result-kiosk-footnote-size)!important;line-height:1.38!important;}
 }
 /* Narrower/shorter screens: retain original native scroll; never hide lesson text. */
 @media (max-width:1449px), (max-height:899px) {
@@ -358,7 +380,7 @@ button:focus-visible { outline: 4px solid var(--focus); outline-offset: 4px; }
 @media (min-width:1450px) and (min-height:900px) {
 }
 @media (min-width:1450px) and (min-height:900px) {
- .viber-page .viber-result-header {padding:22px 36px 25px!important;}
- .viber-page .viber-result-sections {padding:20px 28px!important;}
- .viber-page .viber-result-actions {margin:16px 0 14px!important;}
+ .viber-page .viber-result-header {padding:var(--viber-result-kiosk-header-padding)!important;}
+ .viber-page .viber-result-sections {padding:var(--viber-result-kiosk-cards-padding)!important;}
+ .viber-page .viber-result-actions {margin:var(--viber-result-kiosk-actions-margin)!important;}
 }
