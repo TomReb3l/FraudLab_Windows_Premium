@@ -218,11 +218,10 @@ button {
 
   padding: 16px 20px;
 
-  border:
-    1px solid var(--sms-border);
-
+  border: 1px solid rgba(133, 192, 224, .33);
   border-radius: 14px;
-
+  background: #0f293b;
+  box-shadow: inset 0 1px 0 rgba(222, 244, 255, .055);
   color: var(--sms-muted);
 }
 
@@ -277,7 +276,11 @@ button {
 }
 
 .challenge-info {
-  padding: 12px 0;
+  padding: 12px 14px 16px;
+  border: 1px solid rgba(124, 185, 223, .55);
+  border-radius: 22px;
+  background: linear-gradient(145deg, #123149 0%, #092135 100%);
+  box-shadow: 0 16px 36px rgba(0, 6, 17, .34), inset 0 1px 0 rgba(225, 244, 255, .08);
 }
 
 .progress-row {
@@ -292,9 +295,6 @@ button {
   letter-spacing: .08em;
 
   padding-bottom: 18px;
-
-  border-bottom:
-    1px solid var(--sms-border);
 }
 
 .category {
@@ -318,15 +318,24 @@ button {
 }
 
 .question-copy {
-  color: var(--sms-muted);
+  color: #e4eff8;
   line-height: 1.55;
   font-size: 1.08rem;
+  padding: 10px 16px;
+  border-radius: 14px;
+  border: 1px solid #31536c;
+  background: #14334b;
 }
 
 .choice-grid {
   display: grid;
   gap: 14px;
   margin-top: 28px;
+  padding: 14px;
+  border: 1px solid #47718d;
+  border-radius: 22px;
+  background: #0b2337;
+  box-shadow: 0 12px 32px rgba(1, 10, 22, .38);
 }
 
 .choice-btn {
@@ -407,9 +416,8 @@ button {
 
   border-radius: 50%;
 
-  background:
-    rgba(255,255,255,.08);
-
+  background: linear-gradient(150deg, #3a4145 0%, #0c2e47 100%);
+  box-shadow: inset 0 0 0 1px rgba(250, 201, 109, .26);
   color: var(--sms-accent);
 }
 
@@ -427,14 +435,9 @@ button {
 
   background: #05090d;
 
-  border:
-    5px solid #26313a;
-
+  border: 5px solid rgba(95, 165, 210, .45);
   border-radius: 42px;
-
-  box-shadow:
-    0 28px 80px
-    rgba(0,0,0,.42);
+  box-shadow: 0 24px 56px rgba(0, 5, 15, .52), 0 0 28px rgba(66, 146, 193, .085);
 
   overflow: hidden;
 }
@@ -678,8 +681,8 @@ button {
 
   border-radius: 16px;
 
-  background:
-    rgba(255,255,255,.035);
+  background: linear-gradient(145deg, #19394e 0%, #0c2338 100%);
+  box-shadow: inset 0 1px 0 rgba(231, 247, 255, .075), 0 7px 19px rgba(0, 8, 22, .17);
 }
 
 .lesson-grid section > div {
@@ -864,9 +867,10 @@ body {
   width: 100%;
   height: 100%;
   padding: clamp(24px, 2.4vw, 34px);
-  background: linear-gradient(145deg, var(--sms-panel-light), var(--sms-panel));
-  border: 1px solid var(--sms-border);
+  background: linear-gradient(144deg, #123048 0%, #0b263d 52%, #071b2e 100%);
+  border: 1px solid rgba(150, 207, 239, .32);
   border-radius: 30px;
+  box-shadow: inset 0 1px 0 rgba(245, 253, 255, .10), 0 23px 66px rgba(0, 6, 19, .43);
   display: grid;
   grid-template-rows: auto auto 1fr auto;
   gap: 18px;
@@ -898,10 +902,10 @@ body {
 }
 
 .premium-card {
-  border: 1px solid var(--sms-border);
+  border: 1px solid rgba(135, 198, 231, .27);
   border-radius: 24px;
-  background: rgba(255,255,255,.035);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
+  background: linear-gradient(135deg, #16364d 0%, #0d253a 100%);
+  box-shadow: inset 0 1px 0 rgba(239, 251, 255, .075), 0 8px 24px rgba(1, 11, 26, .16);
 }
 
 .feedback-summary-card {
@@ -923,7 +927,8 @@ body {
   gap: 12px;
   padding: 12px 18px;
   border-radius: 999px;
-  background: rgba(255,255,255,.05);
+  background: #193a50;
+  box-shadow: inset 0 0 0 1px rgba(138, 197, 231, .22);
   color: var(--sms-muted);
   font-size: .9rem;
   font-weight: 800;
@@ -947,14 +952,14 @@ body {
 
 .feedback-result.safe {
   color: #9ff0c4;
-  background: rgba(69,199,138,.16);
-  border: 1px solid rgba(69,199,138,.34);
+  background: #174b3b;
+  border: 1px solid rgba(69,199,138,.50);
 }
 
 .feedback-result.risk {
   color: #ffb2b2;
-  background: rgba(239,106,106,.16);
-  border: 1px solid rgba(239,106,106,.34);
+  background: #51232a;
+  border: 1px solid rgba(239,106,106,.50);
 }
 
 .summary-copy,
@@ -1539,13 +1544,13 @@ html {
 body {
   margin: 0;
 
+  /* Background C lives on the page canvas only. Panels use opaque surfaces. */
   background:
-    radial-gradient(
-      circle at 10% 0%,
-      #153b59 0%,
-      var(--bg-1) 34%,
-      var(--bg-0) 100%
-    ) !important;
+    url("/static/images/backgrounds/background-c-tech.svg") center / cover no-repeat fixed,
+    radial-gradient(ellipse at 11% 18%, rgba(36, 120, 175, .24), transparent 43%) center / cover no-repeat fixed,
+    radial-gradient(ellipse at 92% 78%, rgba(15, 82, 131, .24), transparent 42%) center / cover no-repeat fixed,
+    linear-gradient(132deg, #061522 0%, #071e31 49%, #04111f 100%) center / cover no-repeat fixed !important;
+  background-color: #061522 !important;
 
   color: var(--text) !important;
 
@@ -2015,11 +2020,12 @@ a:focus-visible {
 .sms-topbar,
 .qr-topbar,
 .safety-strip {
-  background: rgba(4, 16, 26, .97) !important;
+  background: linear-gradient(90deg, #04111f 0%, #061b2b 100%) !important;
 
   color: var(--text) !important;
 
-  border-color: var(--border) !important;
+  border-color: rgba(123, 191, 232, .20) !important;
+  box-shadow: 0 2px 16px rgba(0, 5, 14, .15);
 }
 
 
@@ -2108,8 +2114,8 @@ body.assisted .choice-btn {
    ============================================================ */
 
 :root {
-  --fl-premium-bg-1: #0d2538;
-  --fl-premium-bg-2: #14324a;
+  --fl-premium-bg-1: #071b2e;
+  --fl-premium-bg-2: #123048;
   --fl-premium-bg-3: #0a1d2c;
 
   --fl-premium-text: #f8fbfd;
@@ -2205,9 +2211,12 @@ body.assisted .choice-btn {
 
   color: var(--fl-premium-text) !important;
 
-  border: 1px solid var(--fl-premium-border) !important;
+  border: 1px solid rgba(150, 207, 239, .32) !important;
   border-radius: 24px !important;
-  box-shadow: var(--fl-premium-shadow) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(245, 253, 255, .10),
+    0 23px 66px rgba(0, 6, 19, .43),
+    0 0 44px rgba(47, 130, 181, .055) !important;
 }
 
 /* ------------------------------------------------------------
@@ -2360,9 +2369,10 @@ body.assisted .choice-btn {
   min-height: 78px !important;
   padding: 18px 22px !important;
   border-radius: 16px !important;
-  background: #14324a !important;
+  background: linear-gradient(114deg, #183c53 0%, #0c273d 100%) !important;
   color: var(--fl-premium-text) !important;
-  border: 1px solid var(--fl-premium-border) !important;
+  border: 1px solid rgba(127, 190, 231, .30) !important;
+  box-shadow: inset 0 1px 0 rgba(236, 250, 255, .095), 0 7px 22px rgba(1, 11, 25, .17) !important;
   font-size: clamp(1.04rem, 1.18vw, 1.18rem) !important;
   font-weight: 800 !important;
   line-height: 1.34 !important;
@@ -2371,8 +2381,8 @@ body.assisted .choice-btn {
 }
 
 .choice-btn:hover:not(:disabled) {
-  background: #1a3b56 !important;
-  border-color: var(--fl-premium-border-strong) !important;
+  background: linear-gradient(110deg, #2e4551 0%, #1b3044 100%) !important;
+  border-color: rgba(250, 197, 103, .76) !important;
 }
 
 .primary-btn {
@@ -2574,7 +2584,7 @@ body.assisted #screen li {
 
   body.sms-page .challenge-info {
     min-width: 0;
-    padding: 0;
+    padding: 14px 12px 16px;
   }
 
   body.sms-page .phone-preview {

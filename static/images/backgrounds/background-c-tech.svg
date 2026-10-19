@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <pattern id="tech-dots" width="30" height="30" patternUnits="userSpaceOnUse">
+      <circle cx="3" cy="3" r="1.5" fill="#2f789d" fill-opacity="0.30"/>
+    </pattern>
+    <linearGradient id="edge-fade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0a2235" stop-opacity="0.10"/>
+      <stop offset="0.22" stop-color="#0a2235" stop-opacity="0.02"/>
+      <stop offset="0.50" stop-color="#0a2235" stop-opacity="0"/>
+      <stop offset="0.78" stop-color="#0a2235" stop-opacity="0.02"/>
+      <stop offset="1" stop-color="#0a2235" stop-opacity="0.10"/>
+    </linearGradient>
+    <linearGradient id="network-line" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4e91b4" stop-opacity="0.08"/>
+      <stop offset="0.5" stop-color="#4e91b4" stop-opacity="0.26"/>
+      <stop offset="1" stop-color="#4e91b4" stop-opacity="0.08"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#tech-dots)"/>
+  <rect width="1920" height="1080" fill="url(#edge-fade)"/>
+
+  <g fill="none" stroke="url(#network-line)" stroke-width="1.5">
+    <path d="M38 600 L115 550 L170 615 L275 540"/>
+    <path d="M1575 180 L1674 230 L1750 190 L1836 260 L1910 210"/>
+    <path d="M1505 700 C1608 615 1730 620 1825 535 S1900 500 1940 475"/>
+    <path d="M1640 820 C1745 760 1840 780 1935 705"/>
+  </g>
+
+  <g fill="#071b2b" stroke="#397da1" stroke-width="1.6" stroke-opacity="0.55">
+    <circle cx="38" cy="600" r="4"/>
+    <circle cx="115" cy="550" r="4"/>
+    <circle cx="170" cy="615" r="4"/>
+    <circle cx="275" cy="540" r="4"/>
+    <circle cx="1575" cy="180" r="4"/>
+    <circle cx="1674" cy="230" r="4"/>
+    <circle cx="1750" cy="190" r="4"/>
+    <circle cx="1836" cy="260" r="4"/>
+    <circle cx="1910" cy="210" r="4"/>
+  </g>
+</svg>
