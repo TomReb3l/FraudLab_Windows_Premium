@@ -192,8 +192,11 @@ button { font: inherit; }
 .progress {
   display: flex;
   justify-content: space-between;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--line);
+  padding: 6px 14px;
+  border: 1px solid rgba(143, 194, 224, .36);
+  border-radius: 14px;
+  background: #102c42;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .14);
   color: var(--muted);
   font-weight: 800;
 }
@@ -464,8 +467,8 @@ button { font: inherit; }
 
 .lesson-grid section {
   padding: 20px;
-  border: 1px solid rgba(255,255,255,.22);
-  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(143, 194, 224, .42);
+  background: linear-gradient(145deg, #15354c, #0a263a);
   border-radius: 15px;
 }
 
@@ -595,9 +598,10 @@ body .qr-timeout-modal .timeout-card p {
   width: min(1250px, 92vw);
   margin: auto;
   padding: 42px;
-  background: linear-gradient(145deg,var(--panel2),var(--panel));
-  border: 1px solid var(--line);
+  background: linear-gradient(145deg,#15374f,#0b263a);
+  border: 1px solid rgba(143, 194, 224, .42);
   border-radius: 26px;
+  box-shadow: 0 26px 70px rgba(0, 0, 0, .32);
 }
 
 .qr-feedback-card h1 {
@@ -607,8 +611,8 @@ body .qr-timeout-modal .timeout-card p {
 
 .feedback-panel,
 .feedback-grid section {
-  background: rgba(255,255,255,.04);
-  border: 1px solid var(--line);
+  background: linear-gradient(145deg, #15354c, #0b263a);
+  border: 1px solid rgba(143, 194, 224, .40);
   border-radius: 18px;
   padding: 24px;
 }
@@ -927,6 +931,7 @@ body {
   margin: 0;
 
   background:
+    url("/static/images/backgrounds/background-c-tech.svg") center center / cover no-repeat fixed,
     radial-gradient(
       circle at 10% 0%,
       #153b59 0%,
@@ -1502,11 +1507,11 @@ body.assisted .choice-btn {
   --fl-premium-soft: #d9e4ec;
   --fl-premium-muted: #b7c7d4;
 
-  --fl-premium-border: rgba(214, 228, 237, .18);
-  --fl-premium-border-strong: rgba(214, 228, 237, .30);
+  --fl-premium-border: rgba(143, 194, 224, .36);
+  --fl-premium-border-strong: rgba(174, 213, 234, .50);
 
   --fl-premium-shadow:
-    0 22px 50px rgba(0, 0, 0, .24);
+    0 24px 62px rgba(0, 0, 0, .34);
 }
 
 *,
@@ -2485,10 +2490,10 @@ body.qr-page .challenge-layout--mail .poster-card--mail {
 
 body.qr-page .mail-preview-shell {
   overflow: hidden;
-  border: 1px solid rgba(79, 111, 140, .75);
+  border: 1px solid rgba(143, 194, 224, .50);
   border-radius: 22px;
-  background: linear-gradient(180deg, rgba(17, 45, 72, .98), rgba(10, 28, 44, .98));
-  box-shadow: 0 26px 70px rgba(0, 0, 0, .24);
+  background: linear-gradient(180deg, #12344e, #0b263b);
+  box-shadow: 0 26px 70px rgba(0, 0, 0, .32);
 }
 
 body.qr-page .mail-preview-toolbar {
@@ -2709,10 +2714,10 @@ body.qr-page .challenge-layout--mail .browser-card {
     margin: 0 !important;
     min-width: 0 !important;
     padding: 24px !important;
-    border: 1px solid rgba(92, 132, 166, .42) !important;
+    border: 1px solid rgba(143, 194, 224, .48) !important;
     border-radius: 22px !important;
-    background: linear-gradient(180deg, rgba(18, 51, 78, .96), rgba(10, 31, 49, .98)) !important;
-    box-shadow: 0 22px 60px rgba(0, 0, 0, .26) !important;
+    background: linear-gradient(180deg, #14364f, #0b293e) !important;
+    box-shadow: 0 24px 62px rgba(0, 0, 0, .34) !important;
   }
 
   body.qr-page .challenge-layout--mail .choice-area--mail::before {
