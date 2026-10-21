@@ -1,386 +1,1019 @@
-:root {
-  --navy-950: #081726;
-  --navy-900: #0f2742;
-  --navy-800: #173b61;
-  --paper: #ffffff;
-  --mist: #eef3f7;
-  --ink: #102235;
-  --muted: #5c6b79;
-  --amber: #f1b84b;
-  --danger: #b42318;
-  --success: #1f6f4a;
-  --focus: #ffd166;
-  --radius: 24px;
-  --shadow: 0 18px 45px rgba(5, 24, 41, .16);
+/* FraudLab Station 04 — Viber Premium C Final Clean v1.
+   Single-source stylesheet. Background C stays behind opaque foreground panels.
+   No changes to scenario data, JavaScript, navigation, scoring, or audio. */
+
+.viber-page {
+  --viber-bg: #071624;
+  --viber-panel: #102a42;
+  --viber-panel-raised: #173750;
+  --viber-panel-deep: #0c2237;
+  --viber-accent: #f4b942;
+  --viber-muted: #a9b8c6;
+  --viber-text: #f4f7fb;
+  --viber-purple: #6750a4;
+  --viber-border: rgba(111, 174, 207, .34);
+  --viber-shadow: 0 20px 48px rgba(0, 5, 15, .32);
+  margin: 0;
+  min-height: 100vh;
+  color: var(--viber-text);
+  background-color: var(--viber-bg);
+  background-image: url('/static/images/backgrounds/background-c-tech.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
 }
 
-* { box-sizing: border-box; }
-html, body { margin: 0; min-height: 100%; background: var(--mist); color: var(--ink); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-body { min-height: 100vh; }
-button, input { font: inherit; }
-button { cursor: pointer; }
-button:focus-visible { outline: 4px solid var(--focus); outline-offset: 4px; }
-
-.app-shell { min-height: 100vh; display: grid; grid-template-rows: auto 1fr auto; }
-.topbar { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 20px 28px; background: var(--navy-950); color: white; }
-.brand-kicker { font-size: 1rem; font-weight: 800; letter-spacing: .18em; opacity: .78; }
-.brand-title { margin-top: 4px; font-size: clamp(1.15rem, 2vw, 1.6rem); font-weight: 760; }
-.top-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: flex-end; }
-.ghost-button { min-height: 50px; padding: 0 18px; border: 2px solid rgba(255,255,255,.48); border-radius: 14px; background: transparent; color: white; font-weight: 760; }
-.ghost-button[aria-pressed="true"] { background: white; color: var(--navy-950); }
-.screen { width: min(1200px, calc(100% - 36px)); margin: 0 auto; padding: 34px 0 40px; display: flex; align-items: center; justify-content: center; }
-.footer-strip { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 14px; padding: 18px 24px; background: white; border-top: 1px solid #d9e2ea; font-size: clamp(1rem, 2.3vw, 1.4rem); font-weight: 850; letter-spacing: .05em; }
-.footer-strip .arrow { color: var(--amber); font-size: 1.25em; }
-.primary-button, .choice-button { border: 0; border-radius: 18px; background: var(--navy-900); color: white; font-weight: 820; min-height: 68px; padding: 16px 24px; box-shadow: 0 8px 20px rgba(15,39,66,.18); }
-.primary-button:hover, .choice-button:hover { background: var(--navy-800); }
-.timeout-modal { position: fixed; inset: 0; display: grid; place-items: center; background: rgba(8, 23, 38, .78); z-index: 50; padding: 24px; }
-.timeout-modal[hidden] { display: none; }
-.timeout-card { width: min(560px, 100%); background: white; border-radius: var(--radius); padding: 30px; box-shadow: var(--shadow); }
-.timeout-card h2 { margin-top: 0; font-size: 2rem; }
-.timeout-card p { font-size: 1.25rem; line-height: 1.5; }
-.assisted .helper-text, .assisted .transcript { display: block; }
-
-@media (max-width: 760px) {
-  .topbar { align-items: flex-start; padding: 16px; }
-  .top-actions { flex-direction: column; align-items: stretch; }
-  .ghost-button { min-height: 46px; font-size: .84rem; }
-  .screen { width: min(100% - 22px, 1200px); padding-top: 20px; }
+.viber-page,
+.viber-page * {
+  box-sizing: border-box;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+.viber-page button {
+  font: inherit;
+  cursor: pointer;
 }
 
-.assisted .dialogue-text { font-size: clamp(1.85rem, 3.7vw, 2.75rem); }
-.assisted .choice-button { min-height: 84px; font-size: clamp(1.2rem, 2.4vw, 1.45rem); }
-.assisted .transcript { font-size: 1.2rem; }
+.viber-page :focus-visible {
+  outline: 3px solid var(--viber-accent);
+  outline-offset: 3px;
+}
 
+.viber-app {
+  width: 100%;
+  min-height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: clamp(12px, 1.9vh, 25px) clamp(16px, 3vw, 48px);
+  overflow: hidden;
+}
 
-/* FraudLab victim failure banner */
-.victim-alert {
-  margin: 12px auto;
-  padding: 14px 22px;
-  border-left: 6px solid #ff7b7b;
-  border-radius: 14px;
-  background: rgba(140,32,32,.25);
-  color: white;
+.viber-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex: 0 0 auto;
+  padding: 0 0 4px;
+}
+
+.viber-brand {
+  color: var(--viber-accent);
+  font-size: .86rem;
   font-weight: 900;
-  font-size: 1.6rem;
+  letter-spacing: .2em;
+}
+
+.viber-station {
+  margin-top: 4px;
+  font-size: clamp(.82rem, 1vw, 1.07rem);
+  font-weight: 800;
+  letter-spacing: .06em;
+}
+
+.viber-actions,
+.viber-result-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.viber-ghost,
+.viber-secondary {
+  min-height: 48px;
+  padding: 11px 16px;
+  border: 1px solid rgba(191, 216, 232, .56);
+  border-radius: 12px;
+  background: #102a40;
+  color: var(--viber-text);
+  font-size: .88rem;
+  font-weight: 800;
+  transition: border-color .16s ease, background-color .16s ease, transform .16s ease;
+}
+
+.viber-ghost:hover,
+.viber-secondary:hover,
+.viber-ghost:focus-visible,
+.viber-secondary:focus-visible {
+  border-color: var(--viber-accent);
+  background: #173750;
+}
+
+.viber-screen {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-color: #49617b transparent;
+}
+
+.viber-loading,
+.viber-error {
+  width: min(100%, 900px);
+  margin: auto;
+  padding: 40px 24px;
   text-align: center;
+}
+
+/* Intro card */
+.viber-intro {
+  width: min(100%, 1180px);
+  min-height: 100%;
+  margin: auto;
+  padding: clamp(28px, 4.2vw, 62px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  text-align: center;
+  background: linear-gradient(145deg, #173b57 0%, #0c2439 100%);
+  border: 1px solid var(--viber-border);
+  border-radius: 28px;
+  box-shadow: var(--viber-shadow);
+}
+
+.viber-intro-kicker,
+.viber-decision-kicker {
+  color: var(--viber-accent);
+  font-size: .88rem;
+  font-weight: 850;
+  letter-spacing: .12em;
+}
+
+.viber-intro h1 {
+  margin: 0;
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  line-height: 1;
+  letter-spacing: -.04em;
+}
+
+.viber-intro h2 {
+  margin: 0;
+  font-size: clamp(1.35rem, 2.6vw, 2.25rem);
   line-height: 1.2;
 }
 
-
-
-/* Station 04 — isolated FraudLab exhibition chat; no changes to legacy stations. */
-.viber-page{--vbg:#071624;--vpanel:#0d2237;--vacc:#f4b942;--vmuted:#a9b8c6;--vviber:#6750a4;margin:0;min-height:100vh;background:radial-gradient(circle at 10% 0%,#173653 0%,transparent 44%),var(--vbg);color:#f4f7fb;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
-.viber-page *{box-sizing:border-box}
-.viber-page button{font:inherit;cursor:pointer}
-.viber-app{width:100%;min-height:100vh;height:100dvh;display:flex;flex-direction:column;gap:14px;padding:clamp(12px,1.9vh,25px) clamp(16px,3vw,48px);overflow:hidden}
-.viber-topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex:0 0 auto;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.12)}
-.viber-brand{font-weight:900;letter-spacing:.2em;font-size:.86rem;color:var(--vacc)}
-.viber-station{margin-top:4px;font-size:clamp(.82rem,1vw,1.07rem);font-weight:800;letter-spacing:.06em}
-.viber-actions,.viber-result-actions{display:flex;gap:10px;flex-wrap:wrap}
-.viber-ghost,.viber-secondary{border:1px solid rgba(255,255,255,.25);color:#f3f7fb;background:rgba(255,255,255,.065);padding:12px 16px;border-radius:11px;font-weight:800;font-size:.88rem}
-.viber-ghost:hover,.viber-secondary:hover,.viber-ghost:focus-visible,.viber-secondary:focus-visible{border-color:var(--vacc)}
-.viber-screen{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;scrollbar-color:#49617b transparent}
-.viber-loading,.viber-error{text-align:center;margin:auto;padding:50px 20px}
-.viber-intro{margin:auto;max-width:870px;min-height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:16px;padding:20px}
-.viber-intro-kicker,.viber-decision-kicker{font-size:.88rem;font-weight:850;color:var(--vacc);letter-spacing:.12em}
-.viber-intro h1{font-size:clamp(2.8rem,6vw,5rem);line-height:1;letter-spacing:-.04em;margin:0}
-.viber-intro h2{font-size:clamp(1.35rem,2.6vw,2.25rem);margin:0}
-.viber-intro p{max-width:670px;color:var(--vmuted);font-size:clamp(1rem,1.4vw,1.18rem);line-height:1.6;margin:0}
-.viber-intro-mode{border:1px solid rgba(255,255,255,.17);border-radius:14px;padding:14px 24px}
-.viber-primary{border:0;border-radius:12px;background:var(--vacc);color:#112133;font-weight:900;padding:15px 22px;min-height:52px;box-shadow:0 8px 30px rgba(0,0,0,.16)}
-.viber-primary:hover,.viber-primary:focus-visible{background:#ffd375;transform:translateY(-1px)}
-.viber-intro .viber-intro-disclaimer{font-size:.85rem}
-.viber-experience{display:grid;grid-template-columns:minmax(0,1.22fr) minmax(320px,.85fr);gap:clamp(14px,2vw,30px);height:100%;min-height:0}
-.viber-chat{border:1px solid rgba(255,255,255,.18);border-radius:22px;overflow:hidden;background:#f4f1f8;display:flex;flex-direction:column;min-height:0;box-shadow:0 10px 35px rgba(0,0,0,.20)}
-.viber-chat-header{background:var(--vviber);color:#fff;display:flex;align-items:center;gap:14px;padding:14px 18px;flex:0 0 auto}
-.viber-avatar{width:44px;height:44px;border-radius:50%;background:#8974c0;display:grid;place-items:center;font-size:1.28rem;font-weight:800}
-.viber-chat-header strong{font-size:1.15rem;display:block}
-.viber-chat-header small{display:block;font-size:.77rem;color:#e5ddf8;margin-top:3px}
-.viber-chat-header-icons{margin-left:auto;font-size:1.35rem;color:#eee}
-.viber-transcript{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:16px;display:flex;flex-direction:column;gap:12px;scrollbar-color:#c4bad2 transparent}
-.viber-bubble-row{display:flex;justify-content:flex-start;animation:viber-appear .18s ease-out}
-.viber-bubble-row--self{justify-content:flex-end}
-.viber-bubble{background:#fff;color:#24212a;padding:12px 15px;max-width:86%;border-radius:15px 15px 15px 5px;font-size:clamp(.95rem,1.17vw,1.14rem);line-height:1.47;box-shadow:0 2px 7px rgba(20,10,40,.06);overflow-wrap:anywhere}
-.viber-bubble--self{background:#ded5f4;border-radius:15px 15px 5px 15px}
-.viber-chat-footer{flex:0 0 auto;text-align:center;border-top:1px solid #ded7e8;padding:9px 10px;color:#766e83;font-size:.75rem}
-.viber-event-row{display:flex;justify-content:center;animation:viber-appear .2s ease-out}
-.viber-event{width:min(94%,370px);border:1px solid #d9d2e5;background:#fff;border-radius:17px;padding:15px;text-align:center;box-shadow:0 5px 20px rgba(20,10,40,.08);color:#332742}
-.viber-event-label{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;font-weight:800;color:#6750a4}
-.viber-event-title{margin:12px 0 7px;font-weight:700}
-.viber-event-value{font-size:clamp(1.35rem,2.1vw,1.9rem);font-weight:900;letter-spacing:.06em;color:#6750a4;overflow-wrap:anywhere}
-.viber-event-hint{font-size:.82rem;margin-top:12px;color:#6c6574}
-.viber-event--call{background:#292637;color:white}
-.viber-event--call .viber-event-label,.viber-event--call .viber-event-value{color:#e1d2ff}
-.viber-event--call .viber-event-hint{color:#d4cee0}
-.viber-decision{border:1px solid rgba(255,255,255,.15);background:linear-gradient(145deg,#132d47,#0b2035);border-radius:22px;padding:clamp(18px,2.1vw,32px);min-height:0;display:flex;flex-direction:column;overflow-y:auto}
-.viber-decision h1{font-size:clamp(1.45rem,2.2vw,2.3rem);line-height:1.18;margin:13px 0 24px}
-.viber-choices{display:flex;flex-direction:column;gap:12px}
-.viber-choice{border:1px solid rgba(255,255,255,.23);border-radius:14px;background:rgba(255,255,255,.065);display:flex;text-align:left;gap:14px;color:#f4f7fb;padding:15px 18px;min-height:64px;font-size:clamp(.94rem,1.2vw,1.09rem);line-height:1.45;transition:background .16s,border-color .16s,transform .16s}
-.viber-choice b{color:var(--vacc);font-size:1.11em;min-width:1.4em}
-.viber-choice:hover,.viber-choice:focus-visible{border-color:var(--vacc);background:rgba(244,185,66,.13);transform:translateY(-1px)}
-.viber-decision-footnote{font-size:.83rem;color:var(--vmuted);line-height:1.5;margin:auto 0 0;padding-top:22px}
-.viber-safety{display:flex;justify-content:center;align-items:center;gap:15px;color:#dce7f2;font-weight:900;letter-spacing:.09em;padding:5px 0 0;font-size:.87rem;flex:0 0 auto}
-.viber-arrow{color:var(--vacc)}
-.viber-result{max-width:950px;margin:0 auto;padding:8px 0 24px}
-.viber-result-header{text-align:center;border-radius:22px 22px 0 0;background:#112a43;padding:20px 22px}
-.viber-result-shield{display:block;width:66px;height:76px;margin:0 auto 4px}
-.viber-result-shield svg{width:100%;height:100%;fill:#fff}
-.viber-result-shield .viber-shield-shape{fill:#122e47;stroke:#39bb8b;stroke-width:3}
-.viber-result-shield--danger .viber-shield-shape{stroke:#f26969}
-.viber-result-shield--danger svg{fill:#f26969}
-.viber-result-shield--best_safe .viber-shield-shape{stroke:#48d9a0;stroke-width:4}
-.viber-result-header h1{margin:7px 0;color:#48d9a0;font-size:clamp(1.55rem,3.3vw,2.6rem)}
-.viber-result--danger .viber-result-header h1{color:#ff8585}
-.viber-result-header p{font-size:1.1rem;margin:7px 0}
-.viber-result-sections{background:#10253b;padding:5px clamp(18px,3vw,36px)}
-.viber-result-section{border-bottom:1px solid rgba(255,255,255,.1);padding:15px 0}
-.viber-result-section:last-child{border:0}
-.viber-result-section h2{font-size:1.1rem;margin:0 0 8px;color:#f4b942}
-.viber-result-section p{margin:0;color:#dce5ef;line-height:1.52;font-size:clamp(.96rem,1.15vw,1.06rem)}
-.viber-result-motto{background:#18344f;text-align:center;padding:17px 22px;margin:0;font-size:1.02rem;font-weight:850;border-radius:0 0 14px 14px}
-.viber-result-actions{justify-content:center;margin:20px 0 13px}
-.viber-result-footnote{text-align:center;color:var(--vmuted);font-size:.81rem}
-.viber-timeout[hidden]{display:none}
-.viber-timeout{position:fixed;inset:0;background:rgba(4,13,25,.82);display:grid;place-items:center;z-index:80;padding:24px}
-.viber-timeout-card{width:min(490px,95vw);background:#132d47;color:white;border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:28px;text-align:center}
-.viber-timeout-card p{color:var(--vmuted);line-height:1.5}
-.viber-page.assisted .viber-choice{min-height:88px;font-size:1.28rem}
-.viber-page.assisted .viber-bubble{font-size:1.32rem}
-.viber-page.assisted .viber-result-section p{font-size:1.2rem}
-.viber-page :focus-visible{outline:3px solid var(--vacc);outline-offset:3px}
-@keyframes viber-appear{from{opacity:.4;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-@media (max-width:1000px){.viber-experience{grid-template-columns:minmax(0,1fr) minmax(285px,.92fr)}.viber-app{padding:13px}}
-@media (max-width:760px){.viber-app{height:auto;min-height:100dvh;overflow:visible}.viber-screen{overflow:visible}.viber-experience{display:flex;flex-direction:column;height:auto}.viber-chat{height:min(54dvh,530px);min-height:270px}.viber-decision{overflow:visible}.viber-decision-footnote{margin:10px 0 0}.viber-safety{flex-wrap:wrap}.viber-topbar{align-items:flex-start}.viber-actions{justify-content:flex-end}.viber-ghost{padding:10px 12px;font-size:.75rem}}
-@media (max-width:420px){.viber-topbar{flex-wrap:wrap}.viber-actions{width:100%;justify-content:space-between}.viber-bubble{max-width:93%}.viber-result-actions{flex-direction:column}.viber-result-actions button{width:100%}}
-@media (prefers-reduced-motion:reduce){.viber-page *{animation:none!important;transition:none!important}}
-
-
-/* VIBER FINAL SHIELD FIX v1 */
-/* Align Station 04 final-result shields with the validated visual language
-   already used by the other exhibition stations:
-   - colored shield body
-   - pulsing glow
-   - slightly raised safe checkmark for cleaner visual centering
-*/
-.viber-result--danger{--viber-shield-glow:rgba(255,77,90,.58)}
-.viber-result--safe,.viber-result--best_safe{--viber-shield-glow:rgba(74,222,128,.44)}
-
-.viber-result-shield{
-  display:inline-grid;
-  place-items:center;
-  transform-origin:50% 54%;
-  filter:drop-shadow(0 0 10px var(--viber-shield-glow, rgba(74,222,128,.42)));
-  animation:viberFinalShieldPulse 1.82s ease-in-out infinite;
+.viber-intro p {
+  max-width: 760px;
+  margin: 0;
+  color: #d4e1eb;
+  font-size: clamp(1rem, 1.4vw, 1.18rem);
+  line-height: 1.6;
 }
 
-.viber-result--danger .viber-result-shield{
-  animation-duration:1.30s;
+.viber-intro-mode {
+  max-width: 100%;
+  padding: 14px 24px;
+  border: 1px solid rgba(111, 174, 207, .3);
+  border-radius: 14px;
+  background: #102a42;
+  color: #dce7f0;
+}
+
+.viber-primary {
+  min-height: 54px;
+  padding: 15px 22px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--viber-accent);
+  color: #112133;
+  font-weight: 900;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .2);
+  transition: background-color .16s ease, transform .16s ease;
+}
+
+.viber-primary:hover,
+.viber-primary:focus-visible {
+  background: #ffd375;
+  transform: translateY(-1px);
+}
+
+.viber-intro .viber-intro-disclaimer {
+  font-size: .85rem;
+  color: var(--viber-muted);
+}
+
+/* Challenge: chat transcript and decision panel */
+.viber-experience {
+  height: 100%;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1.22fr) minmax(320px, .85fr);
+  align-items: stretch;
+  gap: clamp(14px, 2vw, 30px);
+}
+
+.viber-chat {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #f4f1f8;
+  border: 1px solid rgba(191, 216, 232, .5);
+  border-radius: 22px;
+  box-shadow: 0 12px 36px rgba(0, 5, 15, .28);
+}
+
+.viber-chat-header {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: var(--viber-purple);
+  color: #fff;
+}
+
+.viber-avatar {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #8974c0;
+  font-size: 1.28rem;
+  font-weight: 800;
+}
+
+.viber-chat-header strong {
+  display: block;
+  font-size: 1.15rem;
+}
+
+.viber-chat-header small {
+  display: block;
+  margin-top: 3px;
+  color: #e5ddf8;
+  font-size: .77rem;
+}
+
+.viber-chat-header-icons {
+  margin-left: auto;
+  color: #eee;
+  font-size: 1.35rem;
+}
+
+.viber-transcript {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 16px;
+  scrollbar-color: #c4bad2 transparent;
+}
+
+.viber-bubble-row {
+  display: flex;
+  justify-content: flex-start;
+  animation: viber-appear .18s ease-out;
+}
+
+.viber-bubble-row--self {
+  justify-content: flex-end;
+}
+
+.viber-bubble {
+  max-width: 86%;
+  padding: 12px 15px;
+  overflow-wrap: anywhere;
+  border-radius: 15px 15px 15px 5px;
+  background: #fff;
+  color: #24212a;
+  font-size: clamp(.95rem, 1.17vw, 1.14rem);
+  line-height: 1.47;
+  box-shadow: 0 2px 7px rgba(20, 10, 40, .06);
+}
+
+.viber-bubble--self {
+  border-radius: 15px 15px 5px 15px;
+  background: #ded5f4;
+}
+
+.viber-chat-footer {
+  flex: 0 0 auto;
+  padding: 9px 10px;
+  background: #e9e4f0;
+  color: #766e83;
+  font-size: .75rem;
+  text-align: center;
+}
+
+.viber-event-row {
+  display: flex;
+  justify-content: center;
+  animation: viber-appear .2s ease-out;
+}
+
+.viber-event {
+  width: min(94%, 370px);
+  padding: 15px;
+  border: 1px solid #d9d2e5;
+  border-radius: 17px;
+  background: #fff;
+  color: #332742;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(20, 10, 40, .08);
+}
+
+.viber-event-label {
+  color: var(--viber-purple);
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.viber-event-title {
+  margin: 12px 0 7px;
+  font-weight: 700;
+}
+
+.viber-event-value {
+  color: var(--viber-purple);
+  font-size: clamp(1.35rem, 2.1vw, 1.9rem);
+  font-weight: 900;
+  letter-spacing: .06em;
+  overflow-wrap: anywhere;
+}
+
+.viber-event-hint {
+  margin-top: 12px;
+  color: #6c6574;
+  font-size: .82rem;
+}
+
+.viber-event--call {
+  background: #292637;
+  color: #fff;
+}
+
+.viber-event--call .viber-event-label,
+.viber-event--call .viber-event-value {
+  color: #e1d2ff;
+}
+
+.viber-event--call .viber-event-hint {
+  color: #d4cee0;
+}
+
+.viber-decision {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: clamp(18px, 2.1vw, 32px);
+  border: 1px solid var(--viber-border);
+  border-radius: 22px;
+  background: linear-gradient(145deg, #173b57 0%, #0c2439 100%);
+  box-shadow: var(--viber-shadow);
+}
+
+.viber-decision h1 {
+  margin: 13px 0 24px;
+  font-size: clamp(1.45rem, 2.2vw, 2.3rem);
+  line-height: 1.18;
+}
+
+.viber-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.viber-choice {
+  min-height: 64px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 15px 18px;
+  border: 1px solid rgba(111, 174, 207, .42);
+  border-radius: 14px;
+  background: #102a42;
+  color: var(--viber-text);
+  font-size: clamp(.94rem, 1.2vw, 1.09rem);
+  line-height: 1.45;
+  text-align: left;
+  transition: background-color .16s ease, border-color .16s ease, transform .16s ease;
+}
+
+.viber-choice b {
+  min-width: 1.4em;
+  color: var(--viber-accent);
+  font-size: 1.11em;
+}
+
+.viber-choice:hover,
+.viber-choice:focus-visible {
+  border-color: var(--viber-accent);
+  background: #193b56;
+  transform: translateY(-1px);
+}
+
+.viber-decision-footnote {
+  margin: auto 0 0;
+  padding-top: 22px;
+  color: var(--viber-muted);
+  font-size: .83rem;
+  line-height: 1.5;
+}
+
+.viber-safety {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 5px 0 0;
+  color: #dce7f2;
+  font-size: .87rem;
+  font-weight: 900;
+  letter-spacing: .09em;
+}
+
+.viber-arrow {
+  color: var(--viber-accent);
+}
+
+/* Result card: solid foreground panels; no separator lines inside lesson cards. */
+.viber-result {
+  width: min(100%, 950px);
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid var(--viber-border);
+  border-radius: 24px;
+  background: #0c2237;
+  box-shadow: var(--viber-shadow);
+}
+
+.viber-result-header {
+  padding: 20px 22px;
+  background: linear-gradient(145deg, #173b57 0%, #102a42 100%);
+  text-align: center;
+}
+
+.viber-result-shield {
+  width: 66px;
+  height: 76px;
+  display: inline-grid;
+  place-items: center;
+  margin: 0 auto 4px;
+  transform-origin: 50% 54%;
+  filter: drop-shadow(0 0 10px var(--viber-shield-glow, rgba(74, 222, 128, .42)));
+  animation: viberFinalShieldPulse 1.82s ease-in-out infinite;
+}
+
+.viber-result-shield svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+}
+
+.viber-result-shield .viber-shield-shape {
+  fill: #39c68f;
+  stroke: #2ba776;
+  stroke-width: 2;
+}
+
+.viber-result--danger {
+  --viber-shield-glow: rgba(255, 77, 90, .58);
+}
+
+.viber-result--safe,
+.viber-result--best_safe {
+  --viber-shield-glow: rgba(74, 222, 128, .44);
+}
+
+.viber-result--danger .viber-result-shield {
+  animation-duration: 1.3s;
 }
 
 .viber-result--safe .viber-result-shield,
-.viber-result--best_safe .viber-result-shield{
-  animation-duration:1.96s;
+.viber-result--best_safe .viber-result-shield {
+  animation-duration: 1.96s;
 }
 
-.viber-result-shield svg{
-  overflow:visible;
+.viber-result--danger .viber-result-shield .viber-shield-shape {
+  fill: #f26969;
+  stroke: #e15353;
 }
 
-.viber-result-shield .viber-shield-shape{
-  fill:#4ade80;
-  stroke:#4ade80;
-  stroke-width:2.4;
+.viber-result--best_safe .viber-result-shield .viber-shield-shape {
+  fill: #48d9a0;
+  stroke: #25b987;
 }
 
-.viber-result--danger .viber-result-shield .viber-shield-shape{
-  fill:#ff4d5a;
-  stroke:#ff4d5a;
-}
-
-.viber-result-shield svg path:last-child{
-  fill:#07111b;
+.viber-result-shield svg > path:not(.viber-shield-shape) {
+  fill: #082033;
 }
 
 .viber-result--safe .viber-result-shield svg path:last-child,
-.viber-result--best_safe .viber-result-shield svg path:last-child{
-  transform:translateY(-3px);
-  transform-box:fill-box;
-  transform-origin:center;
+.viber-result--best_safe .viber-result-shield svg path:last-child {
+  transform: translateY(-3px);
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
-@keyframes viberFinalShieldPulse{
-  0%,100%{
-    transform:scale(1);
-    opacity:.90;
-  }
-  50%{
-    transform:scale(1.095);
-    opacity:1;
-  }
+.viber-result-header h1 {
+  margin: 7px 0;
+  color: #48d9a0;
+  font-size: clamp(1.55rem, 3.3vw, 2.6rem);
+  line-height: 1.12;
 }
 
-@media (prefers-reduced-motion: reduce){
-  .viber-result-shield{
-    animation:none !important;
-    transform:none !important;
-    opacity:1 !important;
-  }
+.viber-result--danger .viber-result-header h1 {
+  color: #ff8585;
 }
 
-
-/* FRAUD LAB — Exhibition readability polish v4.
-   Scope: Home cards, QR/E-mail visual layout and Viber results only.
-   This is loaded after v3. Never alter data, interactions or scoring. */
-
-/* Home: visually anchor 02–04 at the top center, then use the full card width
-   for larger, centered educational copy. Keep the footer at the bottom. */
-@media (min-width:1100px) and (min-height:680px) {
-}
-/* 720p kiosk: preserve the one-screen layout and do not crop large text. */
-@media (min-width:1100px) and (min-height:680px) and (max-height:790px) {
+.viber-result-header p {
+  margin: 7px 0;
+  color: #e0eaf2;
+  font-size: 1.1rem;
+  line-height: 1.4;
 }
 
-/* QR — intentionally release v3's aggressive font reductions ONLY where the
-   view has enough height. At shorter sizes leave existing scroll fallback. */
-@media (min-width:1100px) and (min-height:840px) {
-
+.viber-result-sections {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  padding: 16px;
+  background: #0c2237;
 }
 
-/* Viber — match the established fully filled FraudLab safety shields.
-   The SVG check/exclamation remains visually contrasting and unobstructed. */
-.viber-page .viber-result-shield svg {fill:none;}
-.viber-page .viber-result-shield .viber-shield-shape {
-  fill:#39c68f;stroke:#2ba776;stroke-width:2;
-}
-.viber-page .viber-result-shield--danger .viber-shield-shape {
-  fill:#f26969;stroke:#e15353;stroke-width:2;
-}
-.viber-page .viber-result-shield--best_safe .viber-shield-shape {
-  fill:#48d9a0;stroke:#25b987;stroke-width:2;
-}
-.viber-page .viber-result-shield svg > path:not(.viber-shield-shape) {
-  fill:#082033;
+.viber-result-section {
+  min-width: 0;
+  padding: 17px 18px;
+  border: 1px solid rgba(111, 174, 207, .34);
+  border-radius: 16px;
+  background: linear-gradient(145deg, #173750 0%, #112c43 100%);
 }
 
-/* Viber kiosk result: one-screen exhibition card with THREE readable lessons
-   instead of a very long vertical result. Tablet/mobile stay stacked. */
-@media (min-width:1100px) and (min-height:680px) {
+.viber-result-section h2 {
+  margin: 0 0 9px;
+  color: var(--viber-accent);
+  font-size: 1.1rem;
+  line-height: 1.25;
+}
+
+.viber-result-section p {
+  margin: 0;
+  color: #dce5ef;
+  font-size: clamp(.96rem, 1.15vw, 1.06rem);
+  line-height: 1.52;
+}
+
+.viber-result-motto {
+  margin: 0;
+  padding: 17px 22px;
+  border-radius: 0;
+  background: #173750;
+  color: #f4f7fb;
+  font-size: 1.02rem;
+  font-weight: 850;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.viber-result-actions {
+  justify-content: center;
+  margin: 20px 0 13px;
+}
+
+.viber-result-footnote {
+  margin: 0 12px 14px;
+  color: var(--viber-muted);
+  font-size: .81rem;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.viber-timeout {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(4, 13, 25, .82);
+}
+
+.viber-timeout[hidden] {
+  display: none;
+}
+
+.viber-timeout-card {
+  width: min(490px, 95vw);
+  padding: 28px;
+  border: 1px solid var(--viber-border);
+  border-radius: 20px;
+  background: #132d47;
+  color: #fff;
+  text-align: center;
+  box-shadow: var(--viber-shadow);
+}
+
+.viber-timeout-card p {
+  color: var(--viber-muted);
+  line-height: 1.5;
+}
+
+.viber-page.assisted .viber-choice {
+  min-height: 88px;
+  font-size: 1.28rem;
+}
+
+.viber-page.assisted .viber-bubble {
+  font-size: 1.32rem;
+}
+
+.viber-page.assisted .viber-result-section p {
+  font-size: 1.2rem;
+}
+
+@keyframes viber-appear {
+  from { opacity: .4; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes viberFinalShieldPulse {
+  0%, 100% { transform: scale(1); opacity: .9; }
+  50% { transform: scale(1.095); opacity: 1; }
+}
+
+/* Kiosk result cards: three readable lesson cards on landscape screens. */
+@media (min-width: 1100px) and (min-height: 680px) {
   .viber-page .viber-screen:has(.viber-result) {
-    display:flex;align-items:center;justify-content:center;
-    overflow-y:auto;overflow-x:hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
-  .viber-page .viber-result {
-    width:min(1280px,100%);max-width:none;margin:auto;
-    padding:7px 4px 3px;
-  }
-  .viber-page .viber-result-header {padding:10px 20px 13px;}
-  .viber-page .viber-result-shield {width:60px;height:70px;margin:0 auto 2px;}
-  .viber-page .viber-result-header h1 {
-    font-size:clamp(1.85rem,2.4vw,2.55rem);line-height:1.08;margin:4px 0;
-  }
-  .viber-page .viber-result-header p {font-size:clamp(1.02rem,1.15vw,1.18rem);margin:5px 0;}
-  .viber-page .viber-result-sections {
-    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
-    gap:12px;padding:13px 15px;align-items:stretch;
-  }
-  .viber-page .viber-result-section {
-    min-width:0;padding:15px 16px;border:1px solid rgba(255,255,255,.11);
-    border-radius:15px;background:rgba(255,255,255,.025);
-  }
-  .viber-page .viber-result-section h2 {
-    font-size:clamp(1.07rem,1.3vw,1.37rem);line-height:1.2;
-    margin:0 0 9px;
-  }
-  .viber-page .viber-result-section p {
-    font-size:clamp(.97rem,1.08vw,1.13rem);line-height:1.4;
-  }
-  .viber-page .viber-result-motto {
-    padding:12px 16px;font-size:clamp(.94rem,1.04vw,1.12rem);
-    line-height:1.25;
-  }
-  .viber-page .viber-result-actions {margin:12px 0 9px;gap:10px;}
-  .viber-page .viber-result-actions button {min-height:46px;padding:10px 14px;font-size:.92rem;}
-  .viber-page .viber-result-footnote {font-size:.79rem;line-height:1.3;margin:0;}
-}
-/* Compact desktop kiosks: retain readability without pushing actions below. */
-@media (min-width:1100px) and (min-height:680px) and (max-height:800px) {
-  .viber-page .viber-result-header {padding:6px 14px 9px;}
-  .viber-page .viber-result-shield {width:49px;height:57px;}
-  .viber-page .viber-result-header h1 {font-size:1.75rem;}
-  .viber-page .viber-result-sections {gap:9px;padding:9px 10px;}
-  .viber-page .viber-result-section {padding:10px 11px;}
-  .viber-page .viber-result-section h2 {font-size:1.02rem;margin:0 0 6px;}
-  .viber-page .viber-result-section p {font-size:.93rem;line-height:1.27;}
-  .viber-page .viber-result-motto {padding:9px 12px;}
-  .viber-page .viber-result-actions {margin:7px 0;}
-  .viber-page .viber-result-actions button {min-height:40px;padding:8px 11px;font-size:.83rem;}
-  .viber-page .viber-result-footnote {font-size:.72rem;}
-}
-/* When height/width is constrained, keep the existing natural scroll fallback. */
 
-
-/* Exhibition Fit v5: kiosk full-view typography + adaptive content; layered over v4. */
-@media (min-width:1450px) and (min-height:900px) {
-  /* Viber v2: single-source active Full HD card controls; retain responsive fallbacks. */
-  body.viber-page {
-    --viber-result-kiosk-width: min(1640px,100%);
-    --viber-result-kiosk-padding: 12px 5px 6px;
-    --viber-result-kiosk-header-padding: 22px 36px 25px;
-    --viber-result-kiosk-shield-width: 88px;
-    --viber-result-kiosk-shield-height: 102px;
-    --viber-result-kiosk-heading-size: clamp(2.8rem,3.05vw,3.65rem);
-    --viber-result-kiosk-lead-size: clamp(1.21rem,1.27vw,1.5rem);
-    --viber-result-kiosk-cards-gap: 20px;
-    --viber-result-kiosk-cards-padding: 20px 28px;
-    --viber-result-kiosk-card-padding: 24px 25px;
-    --viber-result-kiosk-card-heading-size: clamp(1.42rem,1.57vw,1.85rem);
-    --viber-result-kiosk-card-body-size: clamp(1.13rem,1.21vw,1.44rem);
-    --viber-result-kiosk-motto-size: clamp(1.17rem,1.25vw,1.49rem);
-    --viber-result-kiosk-actions-margin: 16px 0 14px;
-    --viber-result-kiosk-actions-gap: 16px;
-    --viber-result-kiosk-button-height: 60px;
-    --viber-result-kiosk-button-padding: 14px 22px;
-    --viber-result-kiosk-button-size: 1.1rem;
-    --viber-result-kiosk-footnote-size: .93rem;
+  .viber-result {
+    width: min(100%, 1280px);
+    max-width: none;
   }
-  .viber-page .viber-result {width:var(--viber-result-kiosk-width)!important;max-width:none!important;padding:var(--viber-result-kiosk-padding)!important;}
-  .viber-page .viber-result-header {padding:29px 36px 32px!important;}
-  .viber-page .viber-result-shield {width:var(--viber-result-kiosk-shield-width)!important;height:var(--viber-result-kiosk-shield-height)!important;margin-bottom:8px!important;}
-  .viber-page .viber-result-header h1 {font-size:var(--viber-result-kiosk-heading-size)!important;line-height:1.12!important;margin:10px 0!important;}
-  .viber-page .viber-result-header p {font-size:var(--viber-result-kiosk-lead-size)!important;line-height:1.34!important;}
-  .viber-page .viber-result-sections {gap:var(--viber-result-kiosk-cards-gap)!important;padding:25px 28px!important;}
-  .viber-page .viber-result-section {padding:var(--viber-result-kiosk-card-padding)!important;}
-  .viber-page .viber-result-section h2 {font-size:var(--viber-result-kiosk-card-heading-size)!important;margin:0 0 16px!important;}
-  .viber-page .viber-result-section p {font-size:var(--viber-result-kiosk-card-body-size)!important;line-height:1.5!important;}
-  .viber-page .viber-result-motto {font-size:var(--viber-result-kiosk-motto-size)!important;padding:18px 24px!important;line-height:1.38!important;}
-  .viber-page .viber-result-actions {margin:22px 0 18px!important;gap:var(--viber-result-kiosk-actions-gap)!important;}
-  .viber-page .viber-result-actions button {min-height:var(--viber-result-kiosk-button-height)!important;padding:var(--viber-result-kiosk-button-padding)!important;font-size:var(--viber-result-kiosk-button-size)!important;}
-  .viber-page .viber-result-footnote {font-size:var(--viber-result-kiosk-footnote-size)!important;line-height:1.38!important;}
+
+  .viber-result-header {
+    padding: 10px 20px 13px;
+  }
+
+  .viber-result-shield {
+    width: 60px;
+    height: 70px;
+    margin-bottom: 2px;
+  }
+
+  .viber-result-header h1 {
+    margin: 4px 0;
+    font-size: clamp(1.85rem, 2.4vw, 2.55rem);
+  }
+
+  .viber-result-header p {
+    margin: 5px 0;
+    font-size: clamp(1.02rem, 1.15vw, 1.18rem);
+  }
+
+  .viber-result-sections {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 12px;
+    padding: 13px 15px;
+  }
+
+  .viber-result-section {
+    padding: 15px 16px;
+  }
+
+  .viber-result-section h2 {
+    margin-bottom: 9px;
+    font-size: clamp(1.07rem, 1.3vw, 1.37rem);
+    line-height: 1.2;
+  }
+
+  .viber-result-section p {
+    font-size: clamp(.97rem, 1.08vw, 1.13rem);
+    line-height: 1.4;
+  }
+
+  .viber-result-motto {
+    padding: 12px 16px;
+    font-size: clamp(.94rem, 1.04vw, 1.12rem);
+    line-height: 1.25;
+  }
+
+  .viber-result-actions {
+    gap: 10px;
+    margin: 12px 0 9px;
+  }
+
+  .viber-result-actions button {
+    min-height: 46px;
+    padding: 10px 14px;
+    font-size: .92rem;
+  }
+
+  .viber-result-footnote {
+    margin-bottom: 12px;
+    font-size: .79rem;
+    line-height: 1.3;
+  }
 }
-/* Narrower/shorter screens: retain original native scroll; never hide lesson text. */
-@media (max-width:1449px), (max-height:899px) {
+
+/* Compact kiosk height: preserve the three-card layout and keep actions visible. */
+@media (min-width: 1100px) and (min-height: 680px) and (max-height: 800px) {
+  .viber-result-header {
+    padding: 8px 18px 10px;
+  }
+
+  .viber-result-shield {
+    width: 54px;
+    height: 63px;
+  }
+
+  .viber-result-header h1 {
+    font-size: 1.9rem;
+  }
+
+  .viber-result-header p {
+    font-size: 1rem;
+  }
+
+  .viber-result-sections {
+    gap: 9px;
+    padding: 9px 10px;
+  }
+
+  .viber-result-section {
+    padding: 12px 14px;
+  }
+
+  .viber-result-section h2 {
+    margin-bottom: 7px;
+    font-size: 1.08rem;
+  }
+
+  .viber-result-section p {
+    font-size: .98rem;
+    line-height: 1.34;
+  }
+
+  .viber-result-motto {
+    padding: 10px 14px;
+    font-size: .95rem;
+  }
+
+  .viber-result-actions {
+    margin: 8px 0;
+  }
+
+  .viber-result-actions button {
+    min-height: 42px;
+    padding: 8px 12px;
+    font-size: .85rem;
+  }
+
+  .viber-result-footnote {
+    margin-bottom: 8px;
+    font-size: .75rem;
+  }
 }
-@media (min-width:1450px) and (min-height:900px) {
-  /* Long-form official-look mail: bring QR/action alongside the text. All copy remains visible. */
+
+/* Full HD exhibition kiosk: generous result typography with a one-screen fit. */
+@media (min-width: 1450px) and (min-height: 900px) {
+  .viber-result {
+    width: min(100%, 1640px);
+  }
+
+  .viber-result-header {
+    padding: 29px 36px 32px;
+  }
+
+  .viber-result-shield {
+    width: 88px;
+    height: 102px;
+    margin-bottom: 8px;
+  }
+
+  .viber-result-header h1 {
+    margin: 10px 0;
+    font-size: clamp(2.8rem, 3.05vw, 3.65rem);
+    line-height: 1.12;
+  }
+
+  .viber-result-header p {
+    font-size: clamp(1.21rem, 1.27vw, 1.5rem);
+    line-height: 1.34;
+  }
+
+  .viber-result-sections {
+    gap: 20px;
+    padding: 20px 28px;
+  }
+
+  .viber-result-section {
+    padding: 24px 25px;
+  }
+
+  .viber-result-section h2 {
+    margin-bottom: 16px;
+    font-size: clamp(1.42rem, 1.57vw, 1.85rem);
+  }
+
+  .viber-result-section p {
+    font-size: clamp(1.13rem, 1.21vw, 1.44rem);
+    line-height: 1.5;
+  }
+
+  .viber-result-motto {
+    padding: 18px 24px;
+    font-size: clamp(1.17rem, 1.25vw, 1.49rem);
+    line-height: 1.38;
+  }
+
+  .viber-result-actions {
+    gap: 16px;
+    margin: 16px 0 14px;
+  }
+
+  .viber-result-actions button {
+    min-height: 60px;
+    padding: 14px 22px;
+    font-size: 1.1rem;
+  }
+
+  .viber-result-footnote {
+    margin-bottom: 14px;
+    font-size: .93rem;
+    line-height: 1.38;
+  }
 }
-@media (min-width:1450px) and (min-height:900px) {
+
+/* Windowed displays and mobile: natural page scrolling instead of clipping. */
+@media (max-width: 1449px), (max-height: 899px) {
+  .viber-app {
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
+  }
+
+  .viber-screen {
+    min-height: 0;
+    height: auto;
+    flex: 1 0 auto;
+    overflow: visible;
+  }
+
+  .viber-experience {
+    height: auto;
+    min-height: 0;
+  }
 }
-@media (min-width:1450px) and (min-height:900px) {
+
+@media (min-width: 761px) and (max-width: 1449px), (min-width: 761px) and (max-height: 899px) {
+  .viber-experience {
+    min-height: clamp(440px, 68vh, 620px);
+  }
 }
-/* Windowed laptops, tablets, and phones: document scroll rather than clipped panels. */
-@media (max-width:1449px), (max-height:899px) {
-  html.qr-page,body.qr-page,body.viber-page {height:auto!important;min-height:100%!important;overflow-x:hidden!important;overflow-y:auto!important;}
-  body.qr-page .qr-app,.viber-page .viber-app {height:auto!important;min-height:100dvh!important;overflow:visible!important;}
-  .viber-page .viber-screen {height:auto!important;min-height:0!important;overflow:visible!important;flex:1 0 auto!important;}
+
+@media (max-width: 1000px) {
+  .viber-app {
+    padding: 13px;
+  }
+
+  .viber-experience {
+    grid-template-columns: minmax(0, 1fr) minmax(285px, .92fr);
+  }
 }
-@media (min-width:1450px) and (min-height:900px) {
+
+@media (max-width: 760px) {
+  .viber-page {
+    background-attachment: scroll;
+  }
+
+  .viber-app {
+    padding: 12px;
+  }
+
+  .viber-topbar {
+    align-items: flex-start;
+  }
+
+  .viber-actions {
+    justify-content: flex-end;
+  }
+
+  .viber-ghost {
+    padding: 10px 12px;
+    font-size: .75rem;
+  }
+
+  .viber-intro {
+    min-height: 70vh;
+    padding: 28px 20px;
+    border-radius: 22px;
+  }
+
+  .viber-experience {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+
+  .viber-chat {
+    height: min(54dvh, 530px);
+    min-height: 270px;
+  }
+
+  .viber-decision {
+    overflow: visible;
+    padding: 22px 18px;
+  }
+
+  .viber-decision-footnote {
+    margin: 10px 0 0;
+    padding-top: 8px;
+  }
+
+  .viber-safety {
+    flex-wrap: wrap;
+    gap: 9px;
+    padding: 6px 0 0;
+  }
+
+  .viber-result {
+    border-radius: 20px;
+  }
+
+  .viber-result-header {
+    padding: 20px 16px;
+  }
+
+  .viber-result-sections {
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .viber-result-section {
+    padding: 15px;
+  }
+
+  .viber-result-actions {
+    margin: 14px 12px;
+  }
 }
-@media (min-width:1450px) and (min-height:900px) {
- .viber-page .viber-result-header {padding:var(--viber-result-kiosk-header-padding)!important;}
- .viber-page .viber-result-sections {padding:var(--viber-result-kiosk-cards-padding)!important;}
- .viber-page .viber-result-actions {margin:var(--viber-result-kiosk-actions-margin)!important;}
+
+@media (max-width: 420px) {
+  .viber-topbar {
+    flex-wrap: wrap;
+  }
+
+  .viber-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .viber-ghost {
+    flex: 1 1 auto;
+    padding: 10px 8px;
+    font-size: .72rem;
+  }
+
+  .viber-bubble {
+    max-width: 93%;
+  }
+
+  .viber-result-actions {
+    flex-direction: column;
+  }
+
+  .viber-result-actions button {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .viber-page *,
+  .viber-page *::before,
+  .viber-page *::after {
+    animation: none;
+    transition: none;
+    scroll-behavior: auto;
+  }
+
+  .viber-result-shield {
+    transform: none;
+    opacity: 1;
+  }
 }
