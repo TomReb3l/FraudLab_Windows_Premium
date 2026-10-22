@@ -1,34 +1,53 @@
 @echo off
-setlocal EnableExtensions
+setlocal EnableExtensions DisableDelayedExpansion
+cd /d "%~dp0" || exit /b 1
 
-cd /d "%~dp0"
-
-set LOG_DIR=%~dp0logs
+set "LOG_DIR=%~dp0logs"
 if not exist "%LOG_DIR%" mkdir "%LOG_DIR%"
+if not exist "%LOG_DIR%" (
+    echo ERROR: Cannot create logging directory.
+    exit /b 1
+)
+set "LOG_FILE=%LOG_DIR%\fraudlab_startup.log"
 
-set LOG_FILE=%LOG_DIR%\fraudlab_startup.log
-
-echo ========================================== >> "%LOG_FILE%"
-echo FraudLab Startup %date% %time% >> "%LOG_FILE%"
-echo ========================================== >> "%LOG_FILE%"
+>> "%LOG_FILE%" echo ==========================================
+>> "%LOG_FILE%" echo FraudLab LOGGING Startup %date% %time%
+>> "%LOG_FILE%" echo ==========================================
 
 if not exist ".venv\Scripts\python.exe" (
-    echo ERROR: Virtual environment missing >> "%LOG_FILE%"
-    echo ERROR: Virtual environment not found.
-    pause
+    >> "%LOG_FILE%" echo ERROR: Exhibition Python missing.
+    echo ERROR: Exhibition Python missing.
+    exit /b 1
+)
+if not exist "scripts\exhibition_launcher.py" (
+    >> "%LOG_FILE%" echo ERROR: Official launcher missing.
+    echo ERROR: Official launcher missing.
     exit /b 1
 )
 
-echo Starting FraudLab backend... >> "%LOG_FILE%"
+>> "%LOG_FILE%" echo Starting official launcher without Edge kiosk...
+".venv\Scripts\python.exe" -B "scripts\exhibition_launcher.py" start --no-browser >> "%LOG_FILE%" 2>&1
+if errorlevel 1 (
+    >> "%LOG_FILE%" echo ERROR: Official launcher startup failed. Browser not opened.
+    echo ERROR: Official launcher startup failed. See logs\fraudlab_startup.log.
+    exit /b 1
+)
 
-start "FraudLab Backend" /min cmd /c ".venv\Scripts\python.exe -m uvicorn backend.main:app --host 127.0.0.1 --port 8000 >> logs\backend.log 2>&1"
+>> "%LOG_FILE%" echo Verifying backend health and watchdog...
+".venv\Scripts\python.exe" -B "scripts\exhibition_launcher.py" status >> "%LOG_FILE%" 2>&1
+if errorlevel 1 (
+    >> "%LOG_FILE%" echo ERROR: Health or watchdog check failed. Browser not opened.
+    echo ERROR: Backend health or watchdog failed. See logs\fraudlab_startup.log.
+    exit /b 1
+)
 
-timeout /t 5 /nobreak >nul
-
-echo Opening exhibition interface... >> "%LOG_FILE%"
-
+>> "%LOG_FILE%" echo Opening local exhibition page in the default browser...
 start "" "http://127.0.0.1:8000/"
-
-echo FraudLab started successfully >> "%LOG_FILE%"
-
+if errorlevel 1 (
+    >> "%LOG_FILE%" echo ERROR: Browser open command failed.
+    echo ERROR: Could not open the browser.
+    exit /b 1
+)
+>> "%LOG_FILE%" echo LOGGING startup checks passed.
+echo FraudLab LOGGING mode: healthy backend and watchdog; local page requested.
 exit /b 0

@@ -24,6 +24,20 @@ def test_legacy_routes_survive_station04():
         assert client.get(path).status_code == 200, path
 
 
+def test_active_station_stylesheets_are_referenced_and_served():
+    home = client.get('/')
+    viber = client.get('/viber')
+    assert 'href="/static/css/screens/home-parity.css' in home.text
+    assert 'href="/static/css/screens/viber-parity.css' in viber.text
+
+    for path in (
+        '/static/css/screens/home-parity.css',
+        '/static/css/screens/viber-parity.css',
+    ):
+        response = client.get(path)
+        assert response.status_code == 200, path
+        assert response.content, path
+
 def test_new_static_assets():
     for path in ('/static/js/viber.js', '/static/css/viber.css', '/static/css/home-station04.css'):
         response = client.get(path)

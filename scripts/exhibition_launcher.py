@@ -12,6 +12,7 @@ import argparse
 import ctypes
 from ctypes import wintypes
 import json
+import ipaddress
 import logging
 from logging.handlers import RotatingFileHandler
 import os
@@ -29,6 +30,7 @@ HOST = "127.0.0.1"
 PORT = 8000
 BASE_URL = f"http://{HOST}:{PORT}/"
 HEALTH_URL = f"http://{HOST}:{PORT}/api/health"
+READINESS_URL = f"http://{HOST}:{PORT}/api/readiness"
 STARTUP_TIMEOUT_SECONDS = 30.0
 HEALTH_INTERVAL_SECONDS = 0.5
 MUTEX_NAME = r"Local\FraudLabExhibitionLauncherV6"
@@ -183,6 +185,136 @@ def health_check(timeout: float = 1.5) -> tuple[bool, dict[str, Any] | None, str
     if not (status_ok and mode_ok):
         return False, payload, "Health response does not match exhibition safety policy"
     return True, payload, None
+
+
+
+
+def readiness_check(timeout: float = 2.0) -> tuple[bool, dict[str, Any] | None, str | None]:
+    """Check station-data readiness, without affecting watchdog liveness/restarts."""
+    try:
+        request = Request(READINESS_URL, headers={"Cache-Control": "no-cache"})
+        with urlopen(request, timeout=timeout) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+            status = response.status
+    except Exception as exc:
+        from urllib.error import HTTPError
+        if isinstance(exc, HTTPError) and exc.code == 503:
+            try:
+                payload = json.loads(exc.read().decode("utf-8"))
+            except (OSError, UnicodeError, json.JSONDecodeError):
+                return False, None, "Station readiness returned invalid JSON"
+            status = 503
+        elif isinstance(exc, (URLError, TimeoutError, OSError, json.JSONDecodeError, UnicodeError)):
+            return False, None, "Station readiness could not be checked"
+        else:
+            raise
+    if not isinstance(payload, dict) or not isinstance(payload.get("stations"), dict):
+        return False, None, "Invalid station readiness response"
+    stations = payload["stations"]
+    if status == 200 and payload.get("status") == "ready" and stations and all(
+        value == "ready" for value in stations.values()
+    ):
+        return True, payload, None
+    unavailable = sorted(name for name, value in stations.items() if value != "ready")
+    return False, payload, "Station data not ready: " + (", ".join(unavailable) or "unknown")
+
+def discover_lan_endpoints() -> list[dict[str, str]]:
+    """Read IPv4 adapters and default gateways from Windows, without fixed subnets.
+
+    The cmdlet returns local configuration only. No network probes, DNS, or cloud.
+    Multiple candidates must be resolved explicitly by the operator.
+    """
+    if os.name != "nt":
+        raise RuntimeError("Universal LAN detection requires Windows")
+    ps = r"""
+$ErrorActionPreference = 'Stop'
+[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
+$results = @()
+foreach ($net in @(Get-NetIPConfiguration -ErrorAction Stop)) {
+    if ($null -eq $net.NetAdapter -or $net.NetAdapter.Status -ne 'Up') { continue }
+    $gateways = @($net.IPv4DefaultGateway | Where-Object { $_.NextHop })
+    $gateway = ''
+    if ($gateways.Count -gt 0) { $gateway = [string]$gateways[0].NextHop }
+    foreach ($address in @($net.IPv4Address)) {
+        if ($null -ne $address -and $address.IPAddress) {
+            $results += [pscustomobject]@{
+                adapter = [string]$net.InterfaceAlias
+                ip = [string]$address.IPAddress
+                gateway = $gateway
+            }
+        }
+    }
+}
+ConvertTo-Json -InputObject @($results) -Depth 4 -Compress
+"""
+    try:
+        result = subprocess.run(
+            ["powershell.exe", "-NoProfile", "-NonInteractive", "-Command", ps],
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+            encoding="utf-8-sig", errors="strict", timeout=20, check=False,
+            creationflags=_hidden_subprocess_flags(),
+        )
+    except (OSError, subprocess.TimeoutExpired, UnicodeError) as exc:
+        raise RuntimeError("Cannot read Windows network configuration") from exc
+    if result.returncode != 0:
+        raise RuntimeError("Windows network discovery failed; check network adapter status")
+    try:
+        items = json.loads(result.stdout.strip())
+    except (ValueError, TypeError) as exc:
+        raise RuntimeError("Windows network discovery returned invalid JSON") from exc
+    if not isinstance(items, list):
+        raise RuntimeError("Windows network discovery returned unexpected data")
+    candidates: list[dict[str, str]] = []
+    seen: set[tuple[str, str]] = set()
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        adapter, ip, gateway = (item.get(key) for key in ("adapter", "ip", "gateway"))
+        if not (isinstance(adapter, str) and adapter.strip() and isinstance(ip, str) and ip.strip()
+                and isinstance(gateway, str)):
+            continue
+        try:
+            address = ipaddress.IPv4Address(ip)
+            router = ipaddress.IPv4Address(gateway) if gateway else None
+        except ipaddress.AddressValueError:
+            continue
+        if not any(address in subnet for subnet in (
+            ipaddress.IPv4Network("10.0.0.0/8"),
+            ipaddress.IPv4Network("172.16.0.0/12"),
+            ipaddress.IPv4Network("192.168.0.0/16"),
+        )):
+            continue
+        if router is not None and (router.is_unspecified or router.is_loopback or router.is_multicast):
+            continue
+        key = (adapter, ip)
+        if key not in seen:
+            candidates.append({"adapter": adapter, "ip": ip, "gateway": gateway})
+            seen.add(key)
+    return sorted(candidates, key=lambda item: (item["adapter"].casefold(), item["ip"]))
+
+
+def select_lan_endpoint(interface: str | None = None) -> dict[str, str]:
+    """Select only unambiguous, private IPv4 interface with an active gateway."""
+    candidates = discover_lan_endpoints()
+    if interface:
+        candidates = [item for item in candidates if item["adapter"].casefold() == interface.casefold()]
+    # Even when only one adapter has a gateway, an additional private LAN may be
+    # the exhibition router. Never silently pick the internet-facing adapter.
+    if len(candidates) == 1:
+        return candidates[0]
+    options = "; ".join(f"{item['adapter']}: {item['ip']} (gateway {item['gateway']})" for item in candidates)
+    if not candidates:
+        raise RuntimeError("No suitable private IPv4 LAN adapter was found. Check router/DHCP and LAN connection.")
+    raise RuntimeError("Multiple LAN addresses detected: " + options + ". Re-run with --lan-interface \"ADAPTER NAME\".")
+
+
+def lan_binding_ready(ip: str, timeout: float = 1.5) -> bool:
+    """Verify the new LAN address is reachable locally on the backend port."""
+    try:
+        with socket.create_connection((ip, PORT), timeout=timeout):
+            return True
+    except OSError:
+        return False
 
 
 def port_open(timeout: float = 0.35) -> bool:
@@ -387,7 +519,7 @@ def prune_backend_logs(keep: int = 10) -> None:
             pass
 
 
-def launch_backend() -> tuple[subprocess.Popen[Any], dict[str, Any]]:
+def launch_backend(*, listen_host: str = HOST) -> tuple[subprocess.Popen[Any], dict[str, Any]]:
     py = python_executable()
     stamp = time.strftime("%Y%m%d_%H%M%S")
     backend_log = LOG_DIR / f"backend_{stamp}.log"
@@ -400,14 +532,14 @@ def launch_backend() -> tuple[subprocess.Popen[Any], dict[str, Any]]:
         "uvicorn",
         "backend.main:app",
         "--host",
-        HOST,
+        listen_host,
         "--port",
         str(PORT),
         "--no-access-log",
         "--log-level",
         "info",
     ]
-    LOG.info("Starting backend on %s:%s", HOST, PORT)
+    LOG.info("Starting backend on %s:%s", listen_host, PORT)
     log_handle = backend_log.open("ab", buffering=0)
     log_handle.write((f"\n===== FraudLab backend start {time.strftime('%Y-%m-%d %H:%M:%S')} =====\n").encode("utf-8"))
     try:
@@ -554,7 +686,8 @@ def watchdog_recover_backend() -> tuple[bool, bool]:
         process: subprocess.Popen[Any] | None = None
         backend_record: dict[str, Any] | None = None
         try:
-            process, backend_record = launch_backend()
+            listen_host = "0.0.0.0" if state.get("mode") == "lan" else HOST
+            process, backend_record = launch_backend(listen_host=listen_host)
             state = read_state()
             state["backend"] = backend_record
             write_state(state)
@@ -661,11 +794,17 @@ def watchdog() -> int:
         release_mutex(watchdog_mutex)
 
 
-def start(*, gui: bool, no_browser: bool) -> int:
+def start(*, gui: bool, no_browser: bool, lan: bool = False, lan_interface: str | None = None) -> int:
     if os.name != "nt":
         return fail("The exhibition launcher is supported on Windows only.", gui=gui)
+    if lan and not no_browser:
+        return fail("LAN mode requires --no-browser; it opens the default browser via the LAN batch", gui=gui)
+    if lan_interface and not lan:
+        return fail("--lan-interface requires --lan", gui=gui)
     mutex = acquire_mutex()
     if mutex is None:
+        if lan:
+            return fail("Another launcher action is active. Retry LAN start after it completes.", gui=gui)
         LOG.info("Another launcher action is already running; duplicate request ignored")
         return 0
     try:
@@ -678,7 +817,22 @@ def start(*, gui: bool, no_browser: bool) -> int:
             return fail("Microsoft Edge was not found. The backend was not started.", gui=gui)
 
         state = read_state()
+        endpoint = None
+        if lan:
+            try:
+                endpoint = select_lan_endpoint(lan_interface)
+            except RuntimeError as exc:
+                return fail(str(exc), gui=gui)
+        started_backend = False
         healthy, payload, health_error = health_check()
+        owned = process_matches(state.get("backend"))
+        if lan and healthy and not (owned and state.get("mode") == "lan"):
+            return fail("Port 8000 already has an active backend. Stop the existing mode before starting LAN; no process was terminated.", gui=gui)
+        watchdog_owned = process_matches(state.get("watchdog"))
+        if not lan and state.get("mode") == "lan" and (owned or watchdog_owned or healthy):
+            return fail("Owned LAN session is active. Use the official stop command before starting local kiosk mode.", gui=gui)
+        if lan and state.get("mode") != "lan" and (owned or watchdog_owned):
+            return fail("An owned local exhibition session must be stopped before LAN mode starts.", gui=gui)
         if healthy:
             LOG.info("Existing FraudLab backend is healthy: %s", payload)
             backend = state.get("backend")
@@ -701,8 +855,9 @@ def start(*, gui: bool, no_browser: bool) -> int:
 
             process: subprocess.Popen[Any] | None = None
             try:
-                process, backend_record = launch_backend()
-                state = {"schema": 1, "backend": backend_record}
+                process, backend_record = launch_backend(listen_host="0.0.0.0" if lan else HOST)
+                started_backend = True
+                state = {"schema": 1, "backend": backend_record, "mode": "lan" if lan else "local"}
                 write_state(state)
                 ready, detail = wait_for_health(process)
                 if not ready:
@@ -716,12 +871,55 @@ def start(*, gui: bool, no_browser: bool) -> int:
                 clear_state()
                 return fail(f"Backend startup failed: {exc}", gui=gui)
 
+        if lan:
+            assert endpoint is not None
+            if not lan_binding_ready(endpoint["ip"]):
+                if started_backend:
+                    backend = state.get("backend")
+                    if process_matches(backend) and terminate_owned_process(backend, "backend"):
+                        clear_state()
+                return fail("Backend is not reachable on the selected LAN IP; check network binding and port 8000.", gui=gui)
+            state["lan"] = endpoint
+        station_ready, _readiness_payload, readiness_error = readiness_check()
+        if not station_ready:
+            if started_backend:
+                owned_backend = state.get("backend")
+                if process_matches(owned_backend) and terminate_owned_process(owned_backend, "backend"):
+                    clear_state()
+            return fail(readiness_error or "Station data not ready", gui=gui)
+
         if no_browser:
             watchdog_ok, watchdog_error = ensure_watchdog(state)
             if not watchdog_ok:
+                if lan and started_backend:
+                    backend = state.get("backend")
+                    if process_matches(backend) and terminate_owned_process(backend, "backend"):
+                        clear_state()
                 return fail(f"Backend is healthy, but watchdog could not be started: {watchdog_error}", gui=gui)
             write_state(state)
-            if not gui:
+            if lan:
+                assert endpoint is not None
+                lan_url = f"http://{endpoint['ip']}:{PORT}/"
+                LOG.info("LAN READY: %s on %s via gateway %s", lan_url, endpoint["adapter"], endpoint["gateway"] or "none")
+                # Operator-facing address survives batch-window closure; does not alter sources.
+                try:
+                    (LOG_DIR / "lan_access.txt").write_text(
+                        "FraudLab Universal LAN\n" +
+                        f"Visitor URL: {lan_url}\n" +
+                        f"Network adapter: {endpoint['adapter']}\n" +
+                        f"Router gateway: {endpoint['gateway'] or 'not configured'}\n" +
+                        "Connect visitors to the same trusted router network.\n" +
+                        "If the LAN IP changes, run the LAN launcher again.\n",
+                        encoding="utf-8",
+                    )
+                except OSError as exc:
+                    LOG.warning("Could not write operator LAN URL guide: %s", exc)
+                if not gui:
+                    print("LAN READY")
+                    print(f"VISITOR URL: {lan_url}")
+                    print(f"ADAPTER: {endpoint['adapter']} | GATEWAY: {endpoint['gateway'] or 'not configured'}")
+                    print("ADDRESS FILE: logs\\lan_access.txt")
+            elif not gui:
                 print("BACKEND READY")
             return 0
 
@@ -802,10 +1000,12 @@ def validate() -> int:
             "os.environ['FRAUDLAB_MODE']='exhibition'; "
             "os.environ['OFFLINE_MODE']='true'; "
             "os.environ['DEBUG_MODE']='false'; "
-            "import uvicorn; from backend.main import health; "
+            "import uvicorn; from backend.main import health, station_readiness; "
             "h=health(); "
             "assert h.get('status')=='ok', h; "
-            "print('BACKEND IMPORT OK')"
+            "s=station_readiness(); "
+            "assert s and all(v=='ready' for v in s.values()), s; "
+            "print('BACKEND IMPORT AND STATION DATA OK')"
         )
         try:
             result = subprocess.run(
@@ -865,6 +1065,8 @@ def main() -> int:
     p_start = sub.add_parser("start")
     p_start.add_argument("--gui", action="store_true", help="Show Windows message box on fatal error")
     p_start.add_argument("--no-browser", action="store_true", help="Start/verify backend without opening Edge")
+    p_start.add_argument("--lan", action="store_true", help="Optional universal LAN exhibition mode")
+    p_start.add_argument("--lan-interface", metavar="NAME", help="Select an explicit Windows adapter when multiple LAN networks exist")
 
     p_stop = sub.add_parser("stop")
     p_stop.add_argument("--gui", action="store_true", help="Show Windows message box on fatal error")
@@ -875,7 +1077,7 @@ def main() -> int:
 
     args = parser.parse_args()
     if args.command == "start":
-        return start(gui=args.gui, no_browser=args.no_browser)
+        return start(gui=args.gui, no_browser=args.no_browser, lan=args.lan, lan_interface=args.lan_interface)
     if args.command == "stop":
         return stop(gui=args.gui)
     if args.command == "watchdog":

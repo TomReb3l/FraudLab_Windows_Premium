@@ -1,31 +1,49 @@
 @echo off
-setlocal EnableExtensions
+setlocal EnableExtensions DisableDelayedExpansion
+cd /d "%~dp0" || exit /b 1
 
-cd /d "%~dp0"
-
-set LOG_DIR=%~dp0logs
+set "LOG_DIR=%~dp0logs"
 if not exist "%LOG_DIR%" mkdir "%LOG_DIR%"
-
-echo ========================================== >> "%LOG_DIR%\fraudlab_lan_startup.log"
-echo FraudLab LAN Startup %date% %time% >> "%LOG_DIR%\fraudlab_lan_startup.log"
-echo ========================================== >> "%LOG_DIR%\fraudlab_lan_startup.log"
+if not exist "%LOG_DIR%" (
+    echo ERROR: Cannot create LAN log directory.
+    exit /b 1
+)
+set "LOG_FILE=%LOG_DIR%\fraudlab_lan_startup.log"
+>> "%LOG_FILE%" echo ==========================================
+>> "%LOG_FILE%" echo FraudLab Universal LAN Startup %date% %time%
+>> "%LOG_FILE%" echo ==========================================
 
 if not exist ".venv\Scripts\python.exe" (
-    echo ERROR: Virtual environment missing.
-    pause
+    echo ERROR: Exhibition Python missing.
+    >> "%LOG_FILE%" echo ERROR: Exhibition Python missing.
+    exit /b 1
+)
+if not exist "scripts\exhibition_launcher.py" (
+    echo ERROR: Official exhibition launcher missing.
+    >> "%LOG_FILE%" echo ERROR: Official launcher missing.
     exit /b 1
 )
 
-echo Starting FraudLab LAN backend...
+echo Detecting router network and starting official supervised LAN mode...
+".venv\Scripts\python.exe" -B "scripts\exhibition_launcher.py" start --no-browser --lan %*
+if errorlevel 1 (
+    echo ERROR: Universal LAN startup failed. Check logs\exhibition_launcher.log.
+    >> "%LOG_FILE%" echo ERROR: Universal LAN startup failed.
+    exit /b 1
+)
+".venv\Scripts\python.exe" -B "scripts\exhibition_launcher.py" status
+if errorlevel 1 (
+    echo ERROR: Backend health or watchdog failed. Browser was not opened.
+    >> "%LOG_FILE%" echo ERROR: Backend or watchdog failed.
+    exit /b 1
+)
 
-start "FraudLab Backend LAN" /min cmd /c ".venv\Scripts\python.exe -m uvicorn backend.main:app --host 0.0.0.0 --port 8000 >> logs\backend.log 2>&1"
-
-timeout /t 5 /nobreak >nul
-
-start "" "http://192.168.0.100:8000/"
-
-echo FraudLab LAN started successfully.
-echo Mobile access:
-echo http://192.168.0.100:8000/
-
+start "" "http://127.0.0.1:8000/"
+if errorlevel 1 (
+    echo ERROR: Default browser could not be opened.
+    >> "%LOG_FILE%" echo ERROR: Browser open failed.
+    exit /b 1
+)
+>> "%LOG_FILE%" echo Universal LAN startup passed. Local page requested.
+echo Universal LAN running. Share the VISITOR URL shown above with devices on the same trusted router network.
 exit /b 0

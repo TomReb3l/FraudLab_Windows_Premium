@@ -84,8 +84,9 @@ def load_playwright():
         return sync_playwright
     except ImportError:
         fail(
-            "Playwright is not installed in the project venv. Run: "
-            r".\.venv\Scripts\python.exe -m pip install playwright"
+            "Playwright is not installed in the project venv; "
+            "tablet browser validation is unavailable. "
+            "Playwright is not required for exhibition operation."
         )
 
 
@@ -364,6 +365,31 @@ def inspect_viewport(
         context.close()
 
 
+
+def stop_server_tree(server: subprocess.Popen) -> None:
+    """Stop this validator's private server, including its Windows child process."""
+    if sys.platform == "win32":
+        # A Windows venv Python launcher may spawn a separate python.exe process.
+        # Terminating only the parent leaves Uvicorn listening on port 8765.
+        result = subprocess.run(
+            ["taskkill", "/PID", str(server.pid), "/T", "/F"],
+            capture_output=True,
+            text=True,
+            check=False,
+            timeout=10,
+        )
+        if result.returncode and server.poll() is None:
+            server.terminate()
+    elif server.poll() is None:
+        server.terminate()
+
+    try:
+        server.wait(timeout=5)
+    except subprocess.TimeoutExpired:
+        server.kill()
+        server.wait(timeout=5)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description=(
@@ -386,57 +412,52 @@ def main() -> None:
             "static/css/qr-simulation.css"
         )
 
+    sync_playwright = load_playwright()  # Fail before launching Uvicorn.
     server = None
-
-    if args.base_url:
-        base_url = args.base_url.rstrip("/")
-        wait_for_health(base_url)
-    else:
-        port = free_port()
-        base_url = f"http://127.0.0.1:{port}"
-
-        server = subprocess.Popen(
-            [
-                sys.executable,
-                "-m",
-                "uvicorn",
-                "backend.main:app",
-                "--host",
-                "127.0.0.1",
-                "--port",
-                str(port),
-            ],
-            cwd=str(root),
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.STDOUT,
-        )
-
-        try:
-            wait_for_health(base_url)
-        except Exception:
-            server.terminate()
-            raise
-
-    sync_playwright = load_playwright()
-
-    evidence_root = (
-        root.parent
-        / f"{root.name}_test_artifacts"
-        / "tablet_layout_v2_2"
-    )
-    failure_dir = evidence_root / "failures"
-    evidence_root.mkdir(parents=True, exist_ok=True)
-
-    report = {
-        "validator_version": "2.2",
-        "created_at": datetime.now().isoformat(timespec="seconds"),
-        "base_url": base_url,
-        "viewports": [],
-        "browser_launch_warnings": [],
-        "all_passed": True,
-    }
-
     try:
+
+        if args.base_url:
+            base_url = args.base_url.rstrip("/")
+            wait_for_health(base_url)
+        else:
+            port = free_port()
+            base_url = f"http://127.0.0.1:{port}"
+
+            server = subprocess.Popen(
+                [
+                    sys.executable,
+                    "-m",
+                    "uvicorn",
+                    "backend.main:app",
+                    "--host",
+                    "127.0.0.1",
+                    "--port",
+                    str(port),
+                ],
+                cwd=str(root),
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.STDOUT,
+            )
+
+            wait_for_health(base_url)
+
+        evidence_root = (
+            root.parent
+            / f"{root.name}_test_artifacts"
+            / "tablet_layout_v2_2"
+        )
+        failure_dir = evidence_root / "failures"
+        evidence_root.mkdir(parents=True, exist_ok=True)
+
+        report = {
+            "validator_version": "2.2",
+            "created_at": datetime.now().isoformat(timespec="seconds"),
+            "base_url": base_url,
+            "viewports": [],
+            "browser_launch_warnings": [],
+            "all_passed": True,
+        }
+
         with sync_playwright() as p:
             browser_entries, launch_errors = launch_browsers(p)
             report["browser_launch_warnings"] = launch_errors
@@ -496,11 +517,7 @@ def main() -> None:
 
     finally:
         if server is not None:
-            server.terminate()
-            try:
-                server.wait(timeout=5)
-            except subprocess.TimeoutExpired:
-                server.kill()
+            stop_server_tree(server)
 
     report_path = evidence_root / "tablet_layout_report_v2_2.json"
     report_path.write_text(

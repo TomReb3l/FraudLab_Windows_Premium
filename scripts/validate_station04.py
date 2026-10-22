@@ -19,6 +19,7 @@ REQUIRED = (
     'frontend/home/index.html', 'frontend/viber/index.html',
     'backend/main.py', 'data/viber_takeover_scenario.json',
     'static/css/viber.css', 'static/css/home-station04.css',
+    'static/css/screens/home-parity.css', 'static/css/screens/viber-parity.css',
     'static/js/viber.js', 'tests/test_viber_station.py',
 )
 VARIANTS = ('sms', 'flash_call')
@@ -149,13 +150,15 @@ def check(root: Path, http_base: str | None = None) -> int:
     backend = (root / 'backend/main.py').read_text(encoding='utf-8')
     html = (root / 'frontend/viber/index.html').read_text(encoding='utf-8')
     require(home.count('href="/viber"') == 1, 'one home station 04 entry')
-    require('home-station04.css' in home, 'home layout stylesheet present')
+    require('href="/static/css/screens/home-parity.css' in home,
+            'active home parity stylesheet referenced')
     require('station04-enabled' in home, 'home 4-station layout activated')
     require('def get_viber_scenario()' in backend and '@app.get("/api/viber-scenario")' in backend,
             'isolated backend data endpoint')
     require('@app.get("/viber")' in backend, 'isolated backend page route')
-    require('/static/js/viber.js' in html and '/static/css/viber.css' in html,
-            'new UI loads only new station assets')
+    require('/static/js/viber.js' in html and
+            'href="/static/css/screens/viber-parity.css' in html,
+            'active Viber JavaScript and parity stylesheet referenced')
     try:
         ast.parse(backend)
         ok('backend Python syntax')
