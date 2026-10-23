@@ -537,12 +537,14 @@
 
     const victimBanner = hadUnsafeChoice
       ? '<div class="result-badge victim-alert">☹️ ΔΥΣΤΥΧΩΣ ΕΠΕΣΕΣ ΘΥΜΑ ΑΠΑΤΗΣ</div>'
-      : '<div class="result-kicker">ΟΛΟΚΛΗΡΩΣΗ CHALLENGE</div>';
+      : '';
 
     screen.innerHTML = `
       <article class="result-card sms-final-card">
 
         ${victimBanner}
+
+        <div class="result-kicker">ΟΛΟΚΛΗΡΩΣΗ STATION 2</div>
 
         ${renderReactionStatus(score, hadUnsafeChoice)}
 
@@ -558,19 +560,16 @@
         <div class="lesson-grid">
 
           <section>
-            <div>1</div>
             <h2>ΣΤΑΜΑΤΑ</h2>
             <p>${escapeHtml(lesson.stop)}</p>
           </section>
 
           <section>
-            <div>2</div>
             <h2>ΕΛΕΓΞΕ</h2>
             <p>${escapeHtml(lesson.check)}</p>
           </section>
 
           <section>
-            <div>3</div>
             <h2>ΕΠΙΒΕΒΑΙΩΣΕ</h2>
             <p>${escapeHtml(lesson.verify)}</p>
           </section>

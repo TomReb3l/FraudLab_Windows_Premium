@@ -3081,3 +3081,287 @@ body.sms-page.simulation-open {
 }
 
 /* On small/portrait devices do not suppress legitimate scrolling. */
+
+
+/* FRAUDLAB C7 SMS FINAL RESULTS — QR-inspired visual alignment only.
+   No scenario, scoring, event, timer, other-station or mobile flow changes.
+   Only the SMS screen while it contains the final result card.
+   Desktop kiosk: content-height, centered panel, spacious three lessons.
+   Small / short viewports retain the pre-existing layout and scroll fallback. */
+@media (min-width: 1100px) and (min-height: 680px) {
+  body.sms-page #screen:has(> .sms-final-card) {
+    width: min(1720px, 95vw) !important;
+    display: flex;
+    align-items: safe center !important;
+    justify-content: center !important;
+    padding: clamp(10px, 2vh, 26px) 0 !important;
+    overflow-x: hidden;
+    overflow-y: auto !important;
+  }
+  body.sms-page #screen > .sms-final-card {
+    box-sizing: border-box;
+    flex: 0 1 auto;
+    width: min(1370px, 100%) !important;
+    max-width: 1370px !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: auto !important;
+    padding: clamp(20px, 2.3vw, 34px) !important;
+    gap: clamp(12px, 1.5vh, 18px) !important;
+    overflow: visible !important;
+  }
+  body.sms-page #screen > .sms-final-card .victim-alert {
+    box-sizing: border-box;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    padding: 10px 16px !important;
+    font-size: clamp(1.03rem, 1.15vw, 1.26rem) !important;
+    line-height: 1.32 !important;
+  }
+  body.sms-page #screen > .sms-final-card .result-kicker {
+    width: 100%;
+    margin: 0 auto !important;
+    text-align: center;
+    font-size: clamp(.9rem, 1vw, 1.1rem) !important;
+    letter-spacing: .1em;
+  }
+  body.sms-page #screen > .sms-final-card h1.final-status {
+    margin: 0 auto !important;
+    font-size: clamp(2.7rem, 3.4vw, 4rem) !important;
+    line-height: 1.1 !important;
+    gap: clamp(14px, 1.4vw, 22px) !important;
+  }
+  body.sms-page #screen > .sms-final-card .final-status-shield {
+    width: clamp(70px, 5.9vw, 95px) !important;
+    height: clamp(80px, 6.9vw, 108px) !important;
+  }
+  body.sms-page #screen > .sms-final-card .result-copy {
+    width: 100%;
+    max-width: 1250px !important;
+    margin: 0 auto !important;
+    text-align: center;
+    color: var(--sms-text);
+    font-size: clamp(1.07rem, 1.2vw, 1.26rem) !important;
+    line-height: 1.48 !important;
+  }
+  body.sms-page #screen > .sms-final-card .lesson-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: clamp(12px, 1.3vw, 19px) !important;
+    margin: 0 !important;
+    align-items: stretch;
+  }
+  body.sms-page #screen > .sms-final-card .lesson-grid section {
+    min-width: 0;
+    min-height: 0 !important;
+    padding: clamp(16px, 1.5vw, 24px) !important;
+    text-align: center;
+  }
+  body.sms-page #screen > .sms-final-card .lesson-grid h2 {
+    margin: 0 0 10px !important;
+    font-size: clamp(1.4rem, 1.75vw, 1.85rem) !important;
+    line-height: 1.16 !important;
+  }
+  body.sms-page #screen > .sms-final-card .lesson-grid p {
+    margin: 0 !important;
+    color: var(--sms-text);
+    font-size: clamp(1.02rem, 1.1vw, 1.2rem) !important;
+    line-height: 1.48 !important;
+  }
+  body.sms-page #screen > .sms-final-card .result-actions {
+    margin: 3px 0 0 !important;
+    display: flex;
+    flex-direction: row;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 14px !important;
+  }
+  body.sms-page #screen > .sms-final-card .result-actions button {
+    min-height: 55px;
+    padding: 12px 23px;
+    font-size: clamp(.98rem, 1.05vw, 1.13rem);
+  }
+}
+/* Laptop / tablet landscape: readable three cards and legitimate scrolling. */
+@media (min-width: 1100px) and (min-height: 680px) and (max-height: 820px) {
+  body.sms-page #screen > .sms-final-card {
+    padding: 18px 24px !important;
+    gap: 10px !important;
+  }
+  body.sms-page #screen > .sms-final-card h1.final-status {
+    font-size: clamp(2.3rem, 3vw, 3.15rem) !important;
+  }
+  body.sms-page #screen > .sms-final-card .final-status-shield {
+    width: 64px !important;
+    height: 73px !important;
+  }
+  body.sms-page #screen > .sms-final-card .lesson-grid section {
+    padding: 14px 16px !important;
+  }
+  body.sms-page #screen > .sms-final-card .lesson-grid h2 {
+    font-size: clamp(1.25rem, 1.4vw, 1.52rem) !important;
+    margin-bottom: 7px !important;
+  }
+  body.sms-page #screen > .sms-final-card .lesson-grid p {
+    font-size: clamp(.97rem, 1vw, 1.08rem) !important;
+    line-height: 1.38 !important;
+  }
+}
+/* On touch tablets and mobile screens, keep the existing stacked layout.
+   No fixed heights, no hidden lessons, no overwritten reset/UI controls. */
+/* END FRAUDLAB C7 SMS FINAL RESULTS */
+
+
+/* FRAUDLAB C8 SMS INTERMEDIATE FEEDBACK READABILITY
+   CSS ONLY. Scope: SMS intermediate answer analysis screen, NOT final cards.
+   Preserves choices, scoring, next-button handlers, timeout, navigation and QR.
+   Desktop 1101px+ / 680px+; existing mobile styles remain authoritative. */
+@media (min-width: 1101px) and (min-height: 680px) {
+  body.sms-page #screen:has(> .feedback-view) {
+    display: flex !important;
+    align-items: safe center !important;
+    justify-content: center !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    padding: clamp(10px, 1.6vh, 20px) 0 !important;
+  }
+  body.sms-page #screen > .feedback-view {
+    box-sizing: border-box;
+    flex: 0 0 auto !important;
+    width: min(1370px, 100%) !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: auto !important;
+  }
+  body.sms-page #screen > .feedback-view .feedback-shell {
+    box-sizing: border-box;
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100%;
+    height: auto !important;
+    min-height: 0 !important;
+    gap: clamp(12px, 1.5vh, 19px) !important;
+    padding: clamp(20px, 2.2vw, 32px) !important;
+    overflow: visible !important;
+  }
+  body.sms-page #screen > .feedback-view .premium-headline-row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 10px 18px !important;
+  }
+  body.sms-page #screen > .feedback-view .premium-headline-row .victim-alert {
+    box-sizing: border-box;
+    flex: 0 0 100%;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 11px 16px !important;
+    font-size: clamp(1rem, 1.08vw, 1.22rem) !important;
+    line-height: 1.3 !important;
+  }
+  body.sms-page #screen > .feedback-view .section-kicker {
+    font-size: clamp(.96rem, 1vw, 1.08rem) !important;
+    line-height: 1.3 !important;
+  }
+  body.sms-page #screen > .feedback-view .section-title-small {
+    margin-left: auto;
+    font-size: clamp(1.45rem, 1.8vw, 2rem) !important;
+    line-height: 1.18 !important;
+    text-align: right;
+  }
+  body.sms-page #screen > .feedback-view .feedback-summary-card {
+    min-height: 0 !important;
+    padding: clamp(19px, 1.8vw, 26px) !important;
+    gap: 14px !important;
+  }
+  body.sms-page #screen > .feedback-view .feedback-summary-top {
+    align-items: center !important;
+    gap: 16px !important;
+  }
+  body.sms-page #screen > .feedback-view .panel-label {
+    font-size: clamp(1rem, 1.03vw, 1.17rem) !important;
+    letter-spacing: .045em !important;
+    line-height: 1.3 !important;
+  }
+  body.sms-page #screen > .feedback-view .feedback-result {
+    max-width: 100%;
+    margin-top: 10px !important;
+    padding: 9px 14px !important;
+    font-size: clamp(.93rem, .97vw, 1.08rem) !important;
+    line-height: 1.32 !important;
+    white-space: normal;
+  }
+  body.sms-page #screen > .feedback-view .score-chip {
+    flex-shrink: 0;
+    padding: 10px 15px !important;
+    font-size: clamp(.84rem, .88vw, .97rem) !important;
+  }
+  body.sms-page #screen > .feedback-view .feedback-copy.summary-copy {
+    width: 100%;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    color: var(--sms-text) !important;
+    font-size: clamp(1.1rem, 1.17vw, 1.27rem) !important;
+    line-height: 1.55 !important;
+    overflow-wrap: break-word;
+  }
+  body.sms-page #screen > .feedback-view .feedback-card-grid {
+    flex: 0 0 auto !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: clamp(14px, 1.4vw, 20px) !important;
+    align-items: stretch !important;
+  }
+  body.sms-page #screen > .feedback-view .detail-card {
+    min-height: 0 !important;
+    padding: clamp(19px, 1.8vw, 26px) !important;
+    gap: 14px !important;
+  }
+  body.sms-page #screen > .feedback-view .feedback-flags-list {
+    padding-left: 23px !important;
+    color: var(--sms-text) !important;
+    font-size: clamp(1.09rem, 1.13vw, 1.24rem) !important;
+    line-height: 1.5 !important;
+    gap: 9px !important;
+  }
+  body.sms-page #screen > .feedback-view .safe-card {
+    border-color: rgba(112, 204, 185, .42) !important;
+  }
+  body.sms-page #screen > .feedback-view .safe-card .safe-copy {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    color: var(--sms-text) !important;
+    font-size: clamp(1.1rem, 1.17vw, 1.27rem) !important;
+    line-height: 1.55 !important;
+    overflow-wrap: break-word;
+  }
+  body.sms-page #screen > .feedback-view .feedback-actions-row {
+    margin: 0 !important;
+    padding: 0 !important;
+    justify-content: flex-end !important;
+  }
+  body.sms-page #screen > .feedback-view .feedback-actions-row .primary-btn {
+    min-height: 56px;
+    padding: 12px 22px;
+    font-size: clamp(1rem, 1.05vw, 1.16rem);
+  }
+}
+/* Keep enough vertical breathing room without clipping short desktop windows. */
+@media (min-width: 1101px) and (min-height: 680px) and (max-height: 760px) {
+  body.sms-page #screen > .feedback-view .feedback-shell {
+    padding: 17px 21px !important;
+    gap: 10px !important;
+  }
+  body.sms-page #screen > .feedback-view .feedback-summary-card,
+  body.sms-page #screen > .feedback-view .detail-card {
+    padding: 16px 20px !important;
+  }
+  body.sms-page #screen > .feedback-view .feedback-flags-list {
+    gap: 5px !important;
+  }
+}
+/* END FRAUDLAB C8 SMS INTERMEDIATE FEEDBACK READABILITY */
