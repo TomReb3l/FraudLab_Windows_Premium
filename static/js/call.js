@@ -268,23 +268,6 @@ function playAmbientForNode(nodeId) {
     resetIdleTimers();
   }
 
-  function scoreLabel(value) {
-    if (value >= 90) return 'Ισχυρή Αντίσταση στην Απάτη';
-    if (value >= 70) return 'Καλή Αντίδραση — Μερικά σημεία χρειάζονται προσοχή';
-    if (value >= 50) return 'Ορισμένες τεχνικές πίεσης σε επηρέασαν';
-    return 'Δες ποια σημεία χρησιμοποίησε ο απατεώνας για να σε πιέσει';
-  }
-
-  function resultLabel(node, value) {
-    if (node.id === "accident_unsafe_final") {
-      return "ΔΥΣΤΥΧΩΣ ΠΙΘΑΝΟΝ ΕΠΕΣΕΣ ΘΥΜΑ ΑΠΑΤΗΣ";
-    }
-    if (node.id === "accident_safe_final") {
-      return "ΜΠΡΑΒΟ! ΑΝΑΓΝΩΡΙΣΕΣ ΤΗΝ ΑΠΑΤΗ";
-    }
-    return scoreLabel(value);
-  }
-
   function escapeHtml(value) {
     return String(value ?? '')
       .replaceAll('&', '&amp;')
@@ -300,6 +283,10 @@ function playAmbientForNode(nodeId) {
     clearSession();
     currentNodeId = null;
     score = INITIAL_SCORE;
+    policeVerifyAttempts = 0;
+    threatStarted = false;
+    threatVerifyAttempts = 0;
+    accidentVictim = false;
     screen.innerHTML = `
       <article class="experience-card">
         <div class="hero-panel">
@@ -482,12 +469,6 @@ function playAmbientForNode(nodeId) {
     saveSession();
 
     const flags = (node.red_flags || []).map(flag => `<li>${escapeHtml(flag)}</li>`).join('');
-    const unsafeHelpLayout = [
-      "unsafe_help_reaction",
-      "fake_police_analysis_result"
-    ].includes(node.id);
-
-
     const unsafeResultNode = [
       "unsafe_code_end",
       "accident_unsafe_final"
@@ -496,13 +477,10 @@ function playAmbientForNode(nodeId) {
 
     const lesson = scenario.educational_message;
     const finalStatus = reactionStatus(node, score, accidentVictim, threatStarted);
-    const isUnsafeHelpReaction = unsafeHelpLayout;
 
     const victimBanner = (
       accidentVictim ||
-      isUnsafeHelpReaction ||
-      unsafeResultNode ||
-      node.id === "fake_police_analysis_result"
+      unsafeResultNode
     )
       ? '<div class="result-badge victim-alert">☹️ ΜΗ ΑΣΦΑΛΗΣ ΑΝΤΙΔΡΑΣΗ</div>'
       : '<div class="result-badge safe-result">✅ ΣΩΣΤΗ ΑΝΤΙΔΡΑΣΗ - ΑΝΑΓΝΩΡΙΣΕΣ ΤΑ ΣΗΜΑΔΙΑ ΑΠΑΤΗΣ</div>';
@@ -513,27 +491,13 @@ function playAmbientForNode(nodeId) {
         ${victimBanner}
         
 
-        ${unsafeHelpLayout
-          ? `<div class="unsafe-help-hero">
-              
-<div class="unsafe-help-message">
-  <div class="unsafe-help-line1">
-    ΔΥΣΤΥΧΩΣ Ο ΑΠΑΤΕΩΝΑΣ ΚΑΤΑΦΕΡΕ ΝΑ ΣΕ ΧΕΙΡΑΓΩΓΗΣΕΙ
-  </div>
-  <div class="unsafe-help-line2">
-    ΜΕ ΜΕΓΑΛΗ ΠΙΘΑΝΟΤΗΤΑ ΝΑ ΠΕΣΕΙΣ ΘΥΜΑ ΑΠΑΤΗΣ
-  </div>
-</div>
-            </div>`
-          : `<h1>${renderReactionStatus(finalStatus)}</h1>`}
+        <h1>${renderReactionStatus(finalStatus)}</h1>
 
-        ${unsafeHelpLayout ? "" : `<p>${escapeHtml(node.text)}</p>`}
+        <p>${escapeHtml(node.text)}</p>
 
         <div class="score-panel" aria-label="Βαθμολογία αντίδρασης">
           <div class="score-label">
-            ${unsafeHelpLayout
-              ? renderReactionStatus(finalStatus, true)
-              : finalStatus.label}
+            ${finalStatus.label}
           </div>
         </div>
 
@@ -558,6 +522,8 @@ function playAmbientForNode(nodeId) {
     document.getElementById('retryBtn').addEventListener('click', () => {
       score = INITIAL_SCORE;
       policeVerifyAttempts = 0;
+      threatStarted = false;
+      threatVerifyAttempts = 0;
       accidentVictim = false;
       currentNodeId = scenario.start_node;
       saveSession();
@@ -581,11 +547,6 @@ function playAmbientForNode(nodeId) {
         <button class="primary-button" id="fatalHome" type="button">ΑΡΧΙΚΗ</button>
       </section>`;
     document.getElementById('fatalHome').addEventListener('click', showAttract);
-  }
-
-  function restartExperience() {
-    timeoutModal.hidden = true;
-    showAttract();
   }
 
   function toggleAssist() {

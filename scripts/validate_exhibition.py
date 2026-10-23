@@ -35,6 +35,9 @@ CRITICAL_ROUTES = (
     "/call",
     "/sms",
     "/qr",
+    "/viber",
+    "/api/readiness",
+    "/api/viber-scenario",
     "/api/scenarios",
     "/api/sms-challenge",
     "/api/qr-challenge",
@@ -44,10 +47,13 @@ CRITICAL_ROUTES = (
 REQUIRED_V6_FILES = (
     "START_FRAUDLAB_EXHIBITION.bat",
     "STOP_FRAUDLAB_EXHIBITION.bat",
+    "START_FRAUDLAB_EXHIBITION_LAN.bat",
+    "START_FRAUDLAB_EXHIBITION_LOGGING.bat",
     "scripts/exhibition_launcher.py",
     "static/js/call.js",
     "static/js/sms.js",
     "static/js/qr.js",
+    "static/js/viber.js",
     "static/sms_sites/index.html",
     "static/qr_sites/common/bridge.js",
 )
@@ -57,15 +63,26 @@ REQUIRED_FRONTEND_FILES = (
     "frontend/call/index.html",
     "frontend/sms/index.html",
     "frontend/qr/index.html",
-    "static/css/base.css",
-    "static/css/home.css",
-    "static/css/call.css",
-    "static/css/sms.css",
-    "static/css/qr.css",
+    "frontend/viber/index.html",
+    "static/css/screens/home-parity.css",
+    "static/css/screens/call-parity.css",
+    "static/css/screens/sms-parity.css",
+    "static/css/screens/qr-parity.css",
+    "static/css/screens/viber-parity.css",
     "static/js/call.js",
     "static/js/sms.js",
     "static/js/qr.js",
+    "static/js/viber.js",
 )
+
+# Browser entry points for the current five-station exhibition release.
+MAIN_PAGE_CSS = {
+    "home": "/static/css/screens/home-parity.css",
+    "call": "/static/css/screens/call-parity.css",
+    "sms": "/static/css/screens/sms-parity.css",
+    "qr": "/static/css/screens/qr-parity.css",
+    "viber": "/static/css/screens/viber-parity.css",
+}
 
 REQUIRED_UI_AUDIO = (
     "static/audio/ui/incoming_call.mp3",
@@ -417,6 +434,20 @@ def check_fastapi_routes(report: Report) -> None:
             )
             if not good:
                 report.error(f"/api/health does not match exhibition policy: {payload}")
+                continue
+
+        if path == "/api/readiness":
+            try:
+                payload = json.loads(body.decode("utf-8"))
+            except (UnicodeError, json.JSONDecodeError) as exc:
+                report.error(f"/api/readiness: invalid UTF-8/JSON: {exc}")
+                continue
+            expected = {"telephone", "sms", "qr", "viber", "call_audio"}
+            stations = payload.get("stations") if isinstance(payload, dict) else None
+            if (not isinstance(payload, dict) or payload.get("status") != "ready"
+                    or not isinstance(stations, dict)
+                    or any(stations.get(name) != "ready" for name in expected)):
+                report.error("/api/readiness: station status is not fully ready")
                 continue
 
         report.ok(f"{path} -> 200")
@@ -831,6 +862,20 @@ def check_frontend_assets(report: Report) -> None:
     for rel in REQUIRED_FRONTEND_FILES:
         if not (ROOT / rel).is_file():
             report.error(f"Missing required frontend file: {rel}")
+    for station, expected_css in MAIN_PAGE_CSS.items():
+        page = ROOT / "frontend" / station / "index.html"
+        if not page.is_file():
+            continue  # Already reported by REQUIRED_FRONTEND_FILES.
+        try:
+            refs = html_asset_refs(read_utf8(page))
+        except (OSError, UnicodeError) as exc:
+            report.error(f"{station}: cannot inspect active CSS reference: {exc}")
+            continue
+        styles = {urlsplit(ref).path for ref in refs if urlsplit(ref).path.endswith(".css")}
+        if expected_css not in styles:
+            report.error(f"{station}: expected active stylesheet missing: {expected_css}")
+        else:
+            report.ok(f"{station}: active parity stylesheet linked")
     html_files = list((ROOT / "frontend").rglob("*.html"))
     html_files += list((ROOT / "static" / "qr_sites").rglob("*.html"))
     sms_html = ROOT / "static" / "sms_sites" / "index.html"

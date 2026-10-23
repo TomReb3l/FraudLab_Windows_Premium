@@ -77,3 +77,6 @@ data/scenario_dev/
 /FraudLab_Release_Audit_Collector.py
 /FraudLab_Release_Audit_*/
 /FraudLab_Release_Prep_RC3_v8/
+
+# Generated operator LAN address guide (do not track)
+/logs/lan_access.txt

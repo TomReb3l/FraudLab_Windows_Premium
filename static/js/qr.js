@@ -196,6 +196,7 @@
     screen.scrollTop = 0;
     currentIndex = 0;
     score = 0;
+    hadUnsafeChoice = false;
 
     screen.innerHTML = `
       <article class="intro-card">
@@ -215,115 +216,6 @@
     resetMobileViewport();
     resetIdleTimers();
   }
-
-
-  function renderFakeForm(fakeForm) {
-    if (fakeForm.mode === 'vehicle_lookup') {
-      return `
-        <div class="fake-form vehicle-lookup-form">
-          <label for="vehiclePlateInput">${escapeHtml(fakeForm.field_1_label)}</label>
-          <input
-            id="vehiclePlateInput"
-            class="fake-input fake-input-control"
-            type="text"
-            inputmode="text"
-            autocomplete="off"
-            autocapitalize="characters"
-            spellcheck="false"
-            maxlength="14"
-            placeholder="${escapeHtml(fakeForm.field_1_placeholder || '')}"
-          >
-
-          <button id="vehicleLookupBtn" type="button">
-            ${escapeHtml(fakeForm.lookup_button_text || 'ΑΝΑΖΗΤΗΣΗ')}
-          </button>
-
-          <p id="vehicleLookupError" class="fake-form-error" hidden>
-            Πληκτρολόγησε έναν αριθμό κυκλοφορίας για να συνεχίσεις.
-          </p>
-
-          <section id="vehicleLookupResult" class="vehicle-lookup-result" hidden aria-live="polite">
-            <div class="vehicle-lookup-status">
-              ${escapeHtml(fakeForm.lookup_status || 'Βρέθηκε ανεξόφλητη παράβαση')}
-            </div>
-
-            <div class="vehicle-lookup-row">
-              <span>${escapeHtml(fakeForm.plate_label || 'Αριθμός κυκλοφορίας')}</span>
-              <strong id="vehiclePlateResult"></strong>
-            </div>
-
-            <div class="vehicle-lookup-row">
-              <span>${escapeHtml(fakeForm.amount_label || 'Ποσό')}</span>
-              <strong>${escapeHtml(fakeForm.lookup_amount || '')}</strong>
-            </div>
-
-            <button class="vehicle-pay-button" type="button" disabled>
-              ${escapeHtml(fakeForm.button_text || 'ΕΞΟΦΛΗΣΗ ΠΑΡΑΒΑΣΗΣ')}
-            </button>
-          </section>
-        </div>
-      `;
-    }
-
-    return `
-      <div class="fake-form">
-        <label>${escapeHtml(fakeForm.field_1_label)}</label>
-        <div class="fake-input">${escapeHtml(fakeForm.field_1_value)}</div>
-
-        <label>${escapeHtml(fakeForm.field_2_label)}</label>
-        <div class="fake-input">${escapeHtml(fakeForm.field_2_value)}</div>
-
-        <button type="button" disabled>
-          ${escapeHtml(fakeForm.button_text)}
-        </button>
-      </div>
-    `;
-  }
-
-
-  function setupFakeFormInteraction(fakeForm) {
-    if (fakeForm.mode !== 'vehicle_lookup') return;
-
-    const input = document.getElementById('vehiclePlateInput');
-    const lookupBtn = document.getElementById('vehicleLookupBtn');
-    const result = document.getElementById('vehicleLookupResult');
-    const plateResult = document.getElementById('vehiclePlateResult');
-    const error = document.getElementById('vehicleLookupError');
-
-    if (!input || !lookupBtn || !result || !plateResult || !error) return;
-
-    const runLookup = () => {
-      const normalized = input.value
-        .trim()
-        .toLocaleUpperCase('el-GR')
-        .replace(/\s+/g, ' ')
-        .slice(0, 14);
-
-      if (!normalized) {
-        error.hidden = false;
-        result.hidden = true;
-        input.setAttribute('aria-invalid', 'true');
-        input.focus();
-        return;
-      }
-
-      error.hidden = true;
-      input.removeAttribute('aria-invalid');
-      plateResult.textContent = normalized;
-      result.hidden = false;
-    };
-
-    lookupBtn.addEventListener('click', runLookup);
-
-    input.addEventListener('keydown', event => {
-      if (event.key === 'Enter') {
-        event.preventDefault();
-        runLookup();
-      }
-    });
-  }
-
-
 
 
   function renderItem() {

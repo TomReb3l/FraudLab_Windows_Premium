@@ -414,20 +414,6 @@
           "display_name": "ΑΓΝΩΣΤΟΣ ΑΡΙΘΜΟΣ",
           "audio": "/static/audio/fraud_call/cards/fake_authority_intro.wav"
         },
-        "safe_verify_end": {
-          "id": "safe_verify_end",
-          "kind": "result",
-          "speaker": "system",
-          "text": "Διέκοψες την πίεση και επέλεξες ασφαλή επιβεβαίωση.",
-          "red_flags": [
-            "Ψεύτικη αυθεντία",
-            "Πίεση χρόνου",
-            "Αίτημα χρημάτων"
-          ],
-          "safe_action": "ΣΤΑΜΑΤΑ → ΕΛΕΓΞΕ → ΕΠΙΒΕΒΑΙΩΣΕ",
-          "terminal": true,
-          "choices": []
-        },
         "unknown_number_call": {
           "id": "unknown_number_call",
           "kind": "incoming_call",
@@ -449,19 +435,6 @@
             }
           ],
           "terminal": false
-        },
-        "safe_ignore_call": {
-          "id": "safe_ignore_call",
-          "kind": "result",
-          "speaker": "system",
-          "text": "Δεν απάντησες στην άγνωστη κλήση. Η αποφυγή απρόσμενων κλήσεων μειώνει τον κίνδυνο εξαπάτησης.",
-          "red_flags": [
-            "Άγνωστος αριθμός",
-            "Απρόσμενη επικοινωνία"
-          ],
-          "safe_action": "Αν υπάρχει πραγματικό περιστατικό, επιβεβαίωσε την πληροφορία από επίσημο κανάλι.",
-          "terminal": true,
-          "choices": []
         },
         "caller_pressure_phone_broken": {
           "id": "caller_pressure_phone_broken",
@@ -682,93 +655,6 @@
           "terminal": false,
           "audio": "/static/audio/fraud_call/cards/fake_security_officer.wav"
         },
-        "safe_ignore_security_call": {
-          "id": "safe_ignore_security_call",
-          "kind": "result",
-          "speaker": "system",
-          "display_name": "ΣΥΣΤΗΜΑ",
-          "text": "Δεν απάντησες στην εισερχόμενη κλήση. Η επιβεβαίωση μιας απρόσμενης επικοινωνίας από επίσημο κανάλι μειώνει τον κίνδυνο εξαπάτησης.",
-          "red_flags": [
-            "Απρόσμενη κλήση",
-            "Προσπάθεια δημιουργίας εμπιστοσύνης μέσω δήθεν αρχής"
-          ],
-          "safe_action": "Μην συνεχίζεις επικοινωνία με άγνωστους καλούντες. Επιβεβαίωσε πάντα την πληροφορία από επίσημο κανάλι.",
-          "choices": [],
-          "terminal": true
-        },
-        "incoming_unknown_again": {
-          "id": "incoming_unknown_again",
-          "kind": "dialogue",
-          "speaker": "system",
-          "display_name": "ΑΓΝΩΣΤΟΣ ΑΡΙΘΜΟΣ",
-          "text": "Εισερχόμενη κλήση από άγνωστο αριθμό.",
-          "choices": [
-            {
-              "label": "Απαντώ",
-              "next_node": "accident_unsafe_final",
-              "score_delta": -50,
-              "intent": "unsafe"
-            },
-            {
-              "label": "Δεν απαντώ",
-              "next_node": "accident_unsafe_final",
-              "score_delta": 50,
-              "intent": "verify"
-            }
-          ],
-          "terminal": false
-        },
-        "accident_analysis_result": {
-          "id": "accident_analysis_result",
-          "kind": "result",
-          "speaker": "system",
-          "display_name": "ΑΝΑΛΥΣΗ ΣΕΝΑΡΙΟΥ",
-          "text": "Η κλήση περιείχε χαρακτηριστικά τηλεφωνικής απάτης. Ο καλών προσπάθησε να δημιουργήσει φόβο, πίεση και εμπιστοσύνη μέσω δήθεν αρχών.",
-          "red_flags": [
-            "Άγνωστος αριθμός",
-            "Πίεση χρόνου",
-            "Απειλές",
-            "Δήθεν εμπλοκή αρχών",
-            "Προσπάθεια απομόνωσης"
-          ],
-          "safe_action": "Διακόπτεις την επικοινωνία και επιβεβαιώνεις πάντα την πληροφορία από επίσημο κανάλι.",
-          "choices": [],
-          "terminal": true
-        },
-        "unsafe_help_reaction": {
-          "id": "unsafe_help_reaction",
-          "kind": "result",
-          "speaker": "system",
-          "display_name": "ΜΗ ΑΣΦΑΛΗΣ ΑΝΤΙΔΡΑΣΗ",
-          "text": "☹️ ΔΥΣΤΥΧΩΣ Ο ΑΠΑΤΕΩΝΑΣ ΚΑΤΑΦΕΡΕ ΝΑ ΣΕ ΧΕΙΡΑΓΩΓΗΣΕΙ ΜΕ ΜΕΓΑΛΗ ΠΙΘΑΝΟΤΗΤΑ ΝΑ ΠΕΣΕΙΣ ΘΥΜΑ ΑΠΑΤΗΣ.\n\nΟ απατεώνας χρησιμοποίησε τον πανικό, την αγωνία και την ανθρώπινη διάθεση να βοηθήσεις ώστε να συνεχίσεις τη συζήτηση χωρίς πρώτα να επιβεβαιώσεις την πληροφορία.",
-          "red_flags": [
-            "Συναισθηματική πίεση",
-            "Δημιουργία πανικού",
-            "Αίσθηση επείγοντος",
-            "Εκμετάλλευση της ανθρώπινης ανάγκης βοήθειας"
-          ],
-          "safe_action": "ΣΤΑΜΑΤΑ → ΕΛΕΓΞΕ → ΕΠΙΒΕΒΑΙΩΣΕ από επίσημο κανάλι που επιλέγεις εσύ.",
-          "score_delta": -20,
-          "terminal": true,
-          "choices": []
-        },
-        "fake_police_analysis_result": {
-          "id": "fake_police_analysis_result",
-          "kind": "result",
-          "speaker": "system",
-          "display_name": "ΜΗ ΑΣΦΑΛΗΣ ΑΝΤΙΔΡΑΣΗ",
-          "text": "ΔΥΣΤΥΧΩΣ Ο ΑΠΑΤΕΩΝΑΣ ΚΑΤΑΦΕΡΕ ΝΑ ΣΕ ΧΕΙΡΑΓΩΓΗΣΕΙ ΜΕ ΤΗΝ ΠΑΡΟΥΣΙΑΣΗ ΨΕΥΤΙΚΗΣ ΑΡΧΗΣ.\n\nΟ απατεώνας χρησιμοποίησε την ψεύτικη ιδιότητα του αξιωματικού, την εμπιστοσύνη προς την Αρχή και την πίεση της στιγμής ώστε να σε οδηγήσει σε συνεργασία χωρίς πρώτα να επιβεβαιώσεις την πληροφορία.",
-          "red_flags": [
-            "Ψεύτικη αυθεντία / παρουσίαση ως αρχή",
-            "Πίεση για άμεση συνεργασία",
-            "Δημιουργία φόβου και επείγοντος",
-            "Αίτημα ενεργειών από άγνωστο καλούντα"
-          ],
-          "safe_action": "ΣΤΑΜΑΤΑ → ΕΛΕΓΞΕ → ΕΠΙΒΕΒΑΙΩΣΕ από επίσημο κανάλι που επιλέγεις εσύ.",
-          "score_delta": -20,
-          "terminal": true,
-          "choices": []
-        },
         "incoming_security_call": {
           "id": "incoming_security_call",
           "kind": "incoming_call",
@@ -790,23 +676,6 @@
           ],
           "terminal": false,
           "display_name": "ΤΜΗΜΑ ΑΣΦΑΛΕΙΑΣ"
-        },
-        "security_officer_unsafe_reaction": {
-          "id": "security_officer_unsafe_reaction",
-          "kind": "result",
-          "speaker": "system",
-          "display_name": "ΜΗ ΑΣΦΑΛΗΣ ΑΝΤΙΔΡΑΣΗ",
-          "text": "☹️ ΔΥΣΤΥΧΩΣ Ο ΑΠΑΤΩΝΑΣ ΚΑΤΑΦΕΡΕ ΝΑ ΣΕ ΧΕΙΡΑΓΩΓΗΣΕΙ.\n\nΟ απατώνας χρησιμοποίησε την επίκληση σε επίσημη αρχή και παρουσιάστηκε ως Αστυνομικός για να κερδίσει την εμπιστοσύνη σου.\n\nΗ ψεύτικη αυθεντία, η επίκληση μιας επίσημης υπηρεσίας και η πίεση στης στιγμής σε οδήγησαν σε λάθος αντίδραση.",
-          "red_flags": [
-            "Προσποίηση αστυνομικού / επίσημης αρχής",
-            "Χρήση ψεύτικης αυθεντίας",
-            "Δημιουργία φόβου και επείγοντος",
-            "Καθοδήγηση μέσω τηλεφώνου"
-          ],
-          "safe_action": "ΣΤΑΜΑΤΑ → ΕΛΕΓΞΕ → ΕΠΙΒΕΒΑΙΩΣΕ από επίσημο κανάλι.",
-          "score_delta": -20,
-          "terminal": true,
-          "choices": []
         },
         "fake_security_continues_call": {
           "id": "fake_security_continues_call",

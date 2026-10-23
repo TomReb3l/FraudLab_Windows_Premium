@@ -210,23 +210,6 @@
   }
 
 
-  function scoreLabel(value) {
-    if (value >= 90) {
-      return 'Ισχυρή Αντίσταση στο Phishing';
-    }
-
-    if (value >= 70) {
-      return 'Καλή Αντίδραση — Μερικά σημεία χρειάζονται προσοχή';
-    }
-
-    if (value >= 50) {
-      return 'Ορισμένα μηνύματα κατάφεραν να δημιουργήσουν πίεση';
-    }
-
-    return 'Δες ποια σημεία προσπάθησαν να επηρεάσουν την απόφασή σου';
-  }
-
-
   function showIntro() {
     currentIndex = 0;
     score = 0;
