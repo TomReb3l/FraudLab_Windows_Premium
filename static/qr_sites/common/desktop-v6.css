@@ -387,3 +387,64 @@
     line-height: 1.1 !important;
   }
 }
+
+
+/* FRAUDLAB C13 QR MOBILE FINAL INFO - BEGIN */
+/* Final fake-site educational screens only; desktop C11 layout is unchanged.
+   Paragraphs justify, short warning labels and bullet points do not. */
+@media screen and (max-width: 779px) {
+  .page :is(.final, .final-card) > h2,
+  .page .final-card .final-title,
+  #fraudOverlay .reveal-title {
+    text-align: center;
+    text-align-last: center;
+    text-wrap: balance;
+    hyphens: none;
+    overflow-wrap: break-word;
+  }
+
+  .page :is(.final, .final-card) .box > :is(h3, b),
+  #fraudOverlay .reveal-body .info-box > h3 {
+    display: block;
+    text-align: center;
+    text-align-last: center;
+    text-wrap: balance;
+    hyphens: none;
+    line-height: 1.3;
+  }
+
+  .page .final > p,
+  .page .final .box > p,
+  .page .final-card .final-text,
+  #fraudOverlay .reveal-body > p,
+  #fraudOverlay .reveal-body .info-box > p {
+    text-align: justify;
+    text-align-last: left;
+    text-justify: inter-word;
+    hyphens: none;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+  }
+
+  .page :is(.final, .final-card) .box :is(ul, li),
+  #fraudOverlay .reveal-body .info-box :is(ul, li) {
+    text-align: left;
+    text-align-last: left;
+    hyphens: none;
+    overflow-wrap: break-word;
+  }
+
+  .page .final > h2 .fraudlab-c13-beacon {
+    display: inline-block;
+    transform-origin: center;
+    animation: fraudlabC13BeaconPulse 2.4s ease-in-out infinite;
+  }
+}
+@keyframes fraudlabC13BeaconPulse {
+  0%, 100% { transform: scale(1); opacity: 1; filter: drop-shadow(0 0 0 transparent); }
+  45% { transform: scale(1.10); opacity: .72; filter: drop-shadow(0 0 5px rgba(240, 56, 48, .5)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .page .final > h2 .fraudlab-c13-beacon { animation: none !important; transform: none !important; }
+}
+/* FRAUDLAB C13 QR MOBILE FINAL INFO - END */

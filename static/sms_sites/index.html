@@ -21,6 +21,53 @@
     body[data-theme="bank"]{--accent:#173e76;--accent2:#0b284d;--soft:#e9f0f8}body[data-theme="traffic"]{--accent:#143f72;--accent2:#08294f;--soft:#eaf1f9}body[data-theme="market"]{--accent:#1769e0;--accent2:#0d4fad;--soft:#eaf2ff}body[data-theme="parcel"]{--accent:#745300;--accent2:#4f3900;--soft:#fff3bf}
     @media(max-width:380px){.hero h1{font-size:24px}.amount{font-size:30px}.content{padding-left:9px;padding-right:9px}.card{padding:14px 12px}.lookup-result .value{font-size:20px}}
       .final h2.sms-victim-heading{display:block;text-align:center!important;margin-left:auto;margin-right:auto}
+    /* FRAUDLAB SMS FAKE-SITE MOBILE INFO - CONSOLIDATED */
+    @media screen and (max-width: 759px) {
+      #finalCard > h2.sms-victim-heading,
+      #finalCard .box > h3 {
+        display: block;
+        width: 100%;
+        margin-inline: auto;
+        text-align: center;
+        text-align-last: center;
+        text-wrap: balance;
+        hyphens: none;
+        line-height: 1.3;
+      }
+      #finalCard > .victim-alert {
+        text-align: left;
+        text-align-last: left;
+        hyphens: none;
+        overflow-wrap: break-word;
+        line-height: 1.5;
+      }
+      #finalCard > p {
+        text-align: justify;
+        text-align-last: left;
+        text-justify: inter-word;
+        hyphens: none;
+        overflow-wrap: break-word;
+      }
+      #finalCard .box :is(ul, li) {
+        text-align: left;
+        text-align-last: left;
+        hyphens: none;
+        overflow-wrap: break-word;
+      }
+      #finalCard .fraudlab-c13-beacon {
+        display: inline-block;
+        transform-origin: center;
+        animation: fraudlabSmsBeacon 2.4s ease-in-out infinite;
+      }
+    }
+    @keyframes fraudlabSmsBeacon {
+      0%, 100% { transform: scale(1); opacity: 1; filter: drop-shadow(0 0 0 transparent); }
+      45% { transform: scale(1.10); opacity: .72; filter: drop-shadow(0 0 5px rgba(240, 56, 48, .5)); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #finalCard .fraudlab-c13-beacon { animation: none !important; transform: none !important; }
+    }
+    /* END FRAUDLAB SMS FAKE-SITE MOBILE INFO - CONSOLIDATED */
   </style>
   <link rel="stylesheet" href="/static/sms_sites/desktop-v7.css?v=sms-desktop-v7">
 </head>
@@ -101,7 +148,7 @@
       const demoInputs = getDemoInputs();
       demoInputs.forEach(input => { input.value = ''; input.classList.remove('invalid'); });
       clearErrors();
-      text('finalTitle','🚨 ΕΠΕΣΕΣ ΘΥΜΑ ΑΠΑΤΗΣ');
+      document.getElementById('finalTitle').innerHTML = '<span class="fraudlab-c13-beacon" aria-hidden="true">🚨</span> ΕΠΕΣΕΣ ΘΥΜΑ ΑΠΑΤΗΣ';
       mainCard.style.display = 'none';
       finalCard.classList.add('show');
       postParent('fraudlab:sms-sim-scroll-top');
