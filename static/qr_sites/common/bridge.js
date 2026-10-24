@@ -3,6 +3,7 @@
 
   let lastHeight = 0;
   let lastActivityPost = 0;
+  let lastFitState = null;
 
   const post = (type, extra = {}) => {
     if (window.parent !== window) {
@@ -27,6 +28,12 @@
         document.documentElement.offsetHeight,
         document.body ? document.body.offsetHeight : 0
       ));
+
+      const fitFinal = Boolean(document.querySelector('.final-card.show, .final[style*="display: block"], .overlay.show'));
+      if (fitFinal !== lastFitState) {
+        lastFitState = fitFinal;
+        post('fraudlab:qr-sim-fit-final', { enabled: fitFinal });
+      }
 
       if (height > 0 && height !== lastHeight) {
         lastHeight = height;

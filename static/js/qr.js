@@ -47,6 +47,7 @@
   let warningTimer = null;
   let resetTimer = null;
   let qrSimulationReturnFocus = null;
+  let qrSimulationFitFinal = false;
 
   const escapeHtml = value =>
     String(value ?? '')
@@ -142,6 +143,8 @@
 
     qrSimulationOverlay.hidden = true;
     document.body.classList.remove('qr-simulation-open');
+    qrSimulationFitFinal = false;
+    qrSimulationViewport.style.overflowY = 'auto';
     qrSimulationFrame.src = 'about:blank';
     qrSimulationFrame.style.height = '100%';
     qrSimulationViewport.scrollTop = 0;
@@ -170,6 +173,8 @@
     timeoutModal.hidden = true;
 
     qrSimulationReturnFocus = triggerButton;
+    qrSimulationFitFinal = false;
+    qrSimulationViewport.style.overflowY = 'auto';
     qrSimulationTitle.textContent = `ΠΡΟΣΟΜΟΙΩΣΗ · ${item.category}`;
     qrSimulationViewport.scrollTop = 0;
     qrSimulationFrame.style.height = '100%';
@@ -512,6 +517,17 @@
       return;
     }
 
+    if (message.type === 'fraudlab:qr-sim-fit-final') {
+      const desktopFit = window.matchMedia('(min-width: 901px) and (min-height: 700px) and (hover: hover) and (pointer: fine)').matches;
+      qrSimulationFitFinal = message.enabled === true && desktopFit;
+      qrSimulationViewport.style.overflowY = qrSimulationFitFinal ? 'hidden' : 'auto';
+      qrSimulationFrame.style.height = '100%';
+      if (qrSimulationFitFinal) {
+        qrSimulationViewport.scrollTop = 0;
+      }
+      return;
+    }
+
     if (message.type === 'fraudlab:qr-sim-height') {
       const reportedHeight = Number(message.height);
       if (!Number.isFinite(reportedHeight) || reportedHeight < 1) {
@@ -519,6 +535,11 @@
       }
 
       const viewportHeight = Math.max(1, qrSimulationViewport.clientHeight);
+      if (qrSimulationFitFinal) {
+        qrSimulationFrame.style.height = '100%';
+        qrSimulationViewport.scrollTop = 0;
+        return;
+      }
       const safeHeight = Math.min(6000, Math.ceil(reportedHeight));
       qrSimulationFrame.style.height = `${Math.max(viewportHeight, safeHeight)}px`;
       return;
