@@ -25,7 +25,7 @@
 >
 > Αν η σελίδα δεν ανοίξει αμέσως, **περιμένετε λίγο και κάντε μία ανανέωση**.
 >
-> 👉 **[https://fraudlab-responsive.onrender.com](https://fraudlab-responsive.onrender.com)**
+> 👉 **[https://fraudlab-exhibition-2v59-k07q.onrender.com](https://fraudlab-exhibition-2v59-k07q.onrender.com)**
 
 ---
 
