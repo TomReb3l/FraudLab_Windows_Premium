@@ -216,9 +216,9 @@
 
 <div align="center">
 
-### 👉 [Άνοιγμα FraudLab](https://fraudlab-responsive.onrender.com)
+### 👉 [Άνοιγμα FraudLab](https://fraudlab-exhibition-2v59-k07q.onrender.com)
 
-**fraudlab-responsive.onrender.com**
+**https://fraudlab-exhibition-2v59-k07q.onrender.com**
 
 <sub>Αν το demo έχει μείνει σε αδράνεια, η πρώτη φόρτωση ενδέχεται να καθυστερήσει μέχρι να ενεργοποιηθεί ξανά η υπηρεσία.</sub>
 
