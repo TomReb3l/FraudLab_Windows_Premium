@@ -250,6 +250,6 @@
 
 **Interactive Fraud Awareness & Social Engineering Simulation**
 
-[🌐 Live Demo](https://fraudlab-responsive.onrender.com)
+[🌐 Live Demo](https://fraudlab-exhibition-2v59-k07q.onrender.com)
 
 </div>
